@@ -1,0 +1,10 @@
+let rec T a b c N =
+   (N gr 1 -> T a c b (N-1) | '') @Conc
+   'Move ' @Conc
+   a @Conc
+   ' to ' @Conc
+   b @Conc
+   '\n' @Conc
+   (N gr 1 -> T c b a (N-1) | '')
+
+in Print (T 'A' 'B' 'C' 4)
