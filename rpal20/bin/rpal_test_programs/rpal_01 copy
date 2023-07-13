@@ -1,0 +1,1 @@
+Print((fn f. f 2) (fn x. x eq 1 -> 1 | x+2))

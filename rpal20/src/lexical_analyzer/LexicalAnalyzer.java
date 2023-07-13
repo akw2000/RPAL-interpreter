@@ -22,8 +22,9 @@ public class LexicalAnalyzer {
         String nextChr = null;
         while ((nextChr = nextChr()) != null) {
             Token token = new Token();
-            String value = null;
+            String value = "";
             if (nextChr.matches("[A-Za-z]")) { // Identifier(starts with a Letter -> ’A’..’Z’ | ’a’..’z’;)
+                value = nextChr;
                 while ((nextChr = nextChr()) != null) {
                     if (nextChr.matches("[A-Za-z0-9_]*")) { // Identifier -> Letter (Letter | Digit | ’_’)* => check the (Letter | Digit | ’_’)* part
                         value += nextChr;

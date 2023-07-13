@@ -32,7 +32,7 @@ Todo List
 - [ ] done
 
 ### Submission
-- [ ] makefile
+- [ ] makefile - replace with linux version(temp.txt in /other)
 - [ ] src code
 [Oshadi]
 - [ ] REPORT
