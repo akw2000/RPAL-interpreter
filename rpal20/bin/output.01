@@ -1,298 +1,100 @@
 first check ##'##
+second check ##C##
+second check ##I##
+second check ##S##
 second check ##'##
 buffer back the last character ##'##
-string: ''
+string: 'CIS'
 first check ##'##
-second check ##T##
+second check ##1##
+second check ##0##
+second check ##4##
+second check ##B##
 second check ##'##
 buffer back the last character ##'##
-string: 'T'
+string: '104B'
 first check ##'##
-second check ##\##
-second check ##n##
+second check ##C##
+second check ##I##
+second check ##S##
 second check ##'##
 buffer back the last character ##'##
-string: '\n'
-first check ##'##
-second check ##.##
-second check ## ##
-second check ## ##
-second check ## ##
-second check ##'##
-buffer back the last character ##'##
-string: '.   '
-first check ##'##
-second check ##.##
-second check ## ##
-second check ## ##
-second check ## ##
-second check ##'##
-buffer back the last character ##'##
-string: '.   '
-first check ##'##
-second check ##'##
-buffer back the last character ##'##
-string: ''
-first check ##'##
-second check ##\##
-second check ##n##
-second check ##'##
-buffer back the last character ##'##
-string: '\n'
-first check ##'##
-second check ##7##
-second check ##'##
-buffer back the last character ##'##
-string: '7'
+string: 'CIS'
 #######################Token List:
+<DELETE: // 4. Program to find factorial of a given number
+>
 <KEYWORD: let>
 <DELETE:  >
-<IDENTIFIER: TreePicture>
+<IDENTIFIER: Conc>
 <DELETE:  >
-<IDENTIFIER: T>
+<IDENTIFIER: x>
+<DELETE:  >
+<IDENTIFIER: y>
 <DELETE:  >
 <OPERATOR: =>
 <DELETE:  >
-<IDENTIFIER: Picture>
+<IDENTIFIER: Conc>
 <DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<STRING: ''>
-<R_PAREN: )>
+<IDENTIFIER: x>
 <DELETE:  >
-<KEYWORD: where>
+<IDENTIFIER: y>
+<DELETE:  >
+<KEYWORD: in>
 <DELETE: 
 >
-<KEYWORD: rec>
+<KEYWORD: let>
 <DELETE:  >
-<IDENTIFIER: Picture>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<IDENTIFIER: Spaces>
-<R_PAREN: )>
+<IDENTIFIER: S>
 <DELETE:  >
 <OPERATOR: =>
-<DELETE: 
-  >
-<KEYWORD: not>
 <DELETE:  >
-<IDENTIFIER: Istuple>
+<STRING: 'CIS'>
 <DELETE:  >
-<IDENTIFIER: T>
-<DELETE:  >
-<OPERATOR: ->>
-<OPERATOR: >>
-<DELETE:  >
-<STRING: 'T'>
-<DELETE: 
-   >
-<DELETE: | >
-<IDENTIFIER: ItoS>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: Order>
+<KEYWORD: and>
 <DELETE:  >
 <IDENTIFIER: T>
-<R_PAREN: )>
-<DELETE: 
-     >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<STRING: '\n'>
-<DELETE: 
-     >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<DELETE: 
-     >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<STRING: '.   '>
-<DELETE: 
-     >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: TPicture>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Order>
-<DELETE:  >
-<IDENTIFIER: T>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<DELETE:  >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<STRING: '.   '>
-<R_PAREN: )>
-<DELETE:  
-          >
-<KEYWORD: where>
-<DELETE:  >
-<KEYWORD: rec>
-<DELETE:  >
-<IDENTIFIER: TPicture>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<IDENTIFIER: N>
-<COMMA: ,>
-<IDENTIFIER: Spaces>
-<R_PAREN: )>
 <DELETE:  >
 <OPERATOR: =>
+<DELETE:  >
+<STRING: '104B'>
 <DELETE: 
-             >
-<IDENTIFIER: N>
+>
+<KEYWORD: and>
 <DELETE:  >
-<KEYWORD: eq>
+<IDENTIFIER: Mark>
 <DELETE:  >
-<INTEGER: 0>
+<OPERATOR: =>
 <DELETE:  >
-<OPERATOR: ->>
-<OPERATOR: >>
-<DELETE:  >
-<STRING: ''>
-<DELETE: 
-               >
-<DELETE: |  >
-<IDENTIFIER: N>
-<DELETE:  >
-<KEYWORD: eq>
-<DELETE:  >
-<INTEGER: 1>
-<DELETE:  >
-<OPERATOR: ->>
-<OPERATOR: >>
-<DELETE:  >
-<IDENTIFIER: Picture>
-<L_PAREN: (>
-<IDENTIFIER: T>
-<DELETE:  >
-<IDENTIFIER: N>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<R_PAREN: )>
-<DELETE: 
-                    >
-<DELETE: | >
-<IDENTIFIER: TPicture>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: N>
-<OPERATOR: ->
-<INTEGER: 1>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<R_PAREN: )>
-<DELETE: 
-                      >
-<OPERATOR: @>
 <IDENTIFIER: Conc>
 <DELETE:  >
-<STRING: '\n'>
+<STRING: 'CIS'>
 <DELETE: 
-                      >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<DELETE: 
-                      >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: Picture>
-<L_PAREN: (>
-<IDENTIFIER: T>
-<DELETE:  >
-<IDENTIFIER: N>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<R_PAREN: )>
-<DELETE:  
-
 >
 <KEYWORD: in>
-<DELETE:   >
+<DELETE: 
+>
 <IDENTIFIER: Print>
 <DELETE:  >
 <L_PAREN: (>
-<DELETE:   
-          
-           >
-<IDENTIFIER: TreePicture>
-<L_PAREN: (>
+<IDENTIFIER: Conc>
 <DELETE:  >
-<L_PAREN: (>
-<INTEGER: 1>
+<IDENTIFIER: S>
+<DELETE:  >
+<IDENTIFIER: T>
 <COMMA: ,>
 <DELETE:  >
-<L_PAREN: (>
-<INTEGER: 2>
-<COMMA: ,>
-<INTEGER: 3>
-<COMMA: ,>
-<INTEGER: 4>
-<R_PAREN: )>
+<IDENTIFIER: S>
+<DELETE:  >
+<OPERATOR: @>
+<IDENTIFIER: Conc>
+<DELETE:  >
+<IDENTIFIER: T>
 <COMMA: ,>
 <DELETE:  >
-<INTEGER: 5>
-<R_PAREN: )>
-<COMMA: ,>
-<DELETE: 
-                        >
-<L_PAREN: (>
-<INTEGER: 6>
-<COMMA: ,>
+<IDENTIFIER: Mark>
 <DELETE:  >
-<STRING: '7'>
-<R_PAREN: )>
-<COMMA: ,>
-<DELETE: 
-                        >
-<L_PAREN: (>
-<INTEGER: 8>
-<COMMA: ,>
-<DELETE:  >
-<INTEGER: 9>
-<COMMA: ,>
-<DELETE:  >
-<KEYWORD: nil>
-<R_PAREN: )>
-<COMMA: ,>
-<DELETE: 
-                        >
-<KEYWORD: nil>
-<DELETE:  >
-<KEYWORD: aug>
-<DELETE:  >
-<INTEGER: 10>
-<DELETE: 
-                      >
+<IDENTIFIER: T>
 <R_PAREN: )>
 <DELETE: 
-        >
-<R_PAREN: )>
-<DELETE: 
+
 >
