@@ -59,3 +59,22 @@ test:
 
 clean:
 	del /Q /S bin
+
+==============================
+unix it works
+    private String nextChr() {
+        String nextChr = null;
+        try {
+            int chr = reader.read(); // read the first character
+            System.out.println("read " + chr + "###"); //
+            if (chr != -1) {
+                nextChr = Character.toString((char) chr);
+                System.out.println("after change to char" +nextChr + "##"); //
+            } else {
+                reader.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return nextChr;
+    }
