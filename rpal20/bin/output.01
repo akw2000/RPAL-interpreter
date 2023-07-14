@@ -1,9 +1,10 @@
-P
-r
-i
-n
-t
-
-
-
-[<IDENTIFIER: Print>]
+first check ##l##
+buffer back the last character ## ##
+buffer back the last character ##r##
+buffer back the last character ## ##
+buffer back the last character ##f##
+buffer back the last character ## ##
+buffer back the last character ##(##
+first check ##a##
+buffer back the last character ##)##
+[<KEYWORD: let>, <DELETE: >, <KEYWORD: rec>, <DELETE:  >, <IDENTIFIER: f>, <DELETE:                                                      >, <IDENTIFIER: a>]
