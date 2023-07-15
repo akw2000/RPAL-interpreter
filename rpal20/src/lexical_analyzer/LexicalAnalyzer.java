@@ -88,18 +88,18 @@ public class LexicalAnalyzer {
         } else if (nextChr.matches("[\']")) { // String (starts with a -> ’''’)
             value = nextChr;
             String prevChr = nextChr;
-            System.out.println("first check ##" + nextChr + "##");
+            // System.out.println("first check ##" + nextChr + "##");
             while ((nextChr = nextChr()) != null) {
-                System.out.println("second check ##" + nextChr + "##");
+                // System.out.println("second check ##" + nextChr + "##");
                 if (!(prevChr.equals("\\")) && nextChr.matches("[\']")) { // last character is a -> '
                     value += nextChr;
-                    System.out.println("buffer back the last character ##" + nextChr + "##");
+                    // System.out.println("buffer back the last character ##" + nextChr + "##");
                     // buffer = nextChr;
                     // value = value.toString().replace("\\n", System.getProperty("line.separator"));
                     // value = value.toString().replaceAll("\\t", "\t");
                     token.setType("STRING");
                     token.setValue(value);
-                    System.out.println("string: " + value);
+                    // System.out.println("string: " + value);
                     tokenList.add(token);
                     break;
                 } else if (nextChr.matches("[\\t|\\n|\\\\|\\\'|'('|')'|';'|','|' '|" + letter + "|" + digit + "|"
