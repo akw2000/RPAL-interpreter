@@ -39,7 +39,11 @@ public class LexicalAnalyzer {
                 break;
             }
         }
-
+        // end of file token
+        Token EofToken = new Token();
+        EofToken.setType("EOF");
+        EofToken.setValue("EOF");
+        tokenList.add(EofToken);
     }
 
     public ArrayList<Token> getTokenList() {
