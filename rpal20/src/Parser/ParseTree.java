@@ -5,7 +5,7 @@ import lexical_analyzer.Token;
 public class ParseTree {
     private ArrayList <Token> token_list;
     private Stack<Node> stack;
-    private Token curr_token; //change type
+    private Token curr_token; 
 
     public ParseTree(ArrayList<Token> tokens){
         this.token_list = tokens;
@@ -20,7 +20,7 @@ public class ParseTree {
     private void parse(){
         readNext();
         procE(); 
-        if(curr_token!=null){
+        if(!curr_token.getType().equals("EOF")){
             throw new ParseException("Expected EOF.");
             
         }
@@ -29,8 +29,8 @@ public class ParseTree {
     private void readNext(){
         if (token_list.size()>0){
         curr_token = token_list.remove(0);
-        System.out.println(curr_token.getType());
-        System.out.println(curr_token.getValue());
+        //System.out.println(curr_token.getType());
+        //System.out.println(curr_token.getValue());
         }
         while (isType(curr_token, "DELETE")){
              if (token_list.size()>0){
@@ -44,14 +44,17 @@ public class ParseTree {
             if (isType(curr_token,"IDENTIFIER")){
                 LeafNode curr_leaf = new LeafNode("IDENTIFIER", curr_token.getValue());
                 stack.push(curr_leaf);
+                //System..out.println(stack);
             }
             else if (isType(curr_token, "INTEGER")){
                 LeafNode curr_leaf = new LeafNode("INTEGER", curr_token.getValue());
                 stack.push(curr_leaf);
+                //System..out.println(stack);
             }
             else if (isType(curr_token, "STRING")){
                 LeafNode curr_leaf = new LeafNode("STRING", curr_token.getValue());
                 stack.push(curr_leaf);
+                //System..out.println(stack);
             }
             
         }
@@ -69,8 +72,9 @@ public class ParseTree {
         //E -> 'let' D in E => ’let’
         //  -> 'fn' Vb+ '.' E => ’lambda’
         //  -> Ew
-        System.out.println("Procedure E");
+        //System..out.println("Procedure E");
         if (curr_token.getValue().equals("let")){
+            //System..out.println("E -> let D in E");
             readNext();
             procD();
             if (!curr_token.getValue().equals("in")){
@@ -82,6 +86,7 @@ public class ParseTree {
             buildTree("let",2);
         }
         else if (curr_token.getValue().equals("fn")){
+            //System..out.println("E -> fn Vb+. E");
             int N = 0;
             while (isType(curr_token,"IDENTIFIER")||curr_token.getValue().equals("(")){
                 procVb();
@@ -101,20 +106,23 @@ public class ParseTree {
             buildTree("lambda",N+1);
         }
         else{
+            //System..out.println("E -> Ew");
             procEW();
         }
 
     }
 
     private void procEW(){
-        //Ew -> T ’where’ Dr => ’where’
+        // Ew -> T ’where’ Dr => ’where’
         //   -> T;
-        System.out.println("Procedure Ew");
+        //System..out.println("Procedure Ew");
         procT(); //read next token in process T
         if (curr_token.getValue().equals("where")){
+            //System..out.println("Ew -> T where Dr");
             procDr(); //read next in Dr
             buildTree("where",2);
         }
+        //System..out.println("Ew -> T");
 
 
     }
@@ -125,6 +133,7 @@ public class ParseTree {
         procTa(); //T -> Ta
         int N = 0;
         while(curr_token.getValue().equals(",")){ //T -> Ta (',' Ta )+ => 'tau'
+          //System..out.println("T -> Ta (, Ta)+");
           readNext();
           procTa(); //extra readToken() done in procTA()
           N++;
@@ -132,6 +141,7 @@ public class ParseTree {
         if(N> 0) {
             buildTree("tau", N+1);
         }
+        //System..out.println("T -> Ta");
 
 
     }
@@ -142,10 +152,12 @@ public class ParseTree {
         procTc(); //Ta -> Tc
 
         while(curr_token.getValue().equals("aug")){ //Ta -> Ta 'aug' Tc => 'aug'
+          //System..out.println("Ta -> Ta aug Tc");
           readNext();
           procTc();
           buildTree("aug", 2);
         }
+        //System..out.println("Ta -> Tc");
     }
 
     private void procTc(){
@@ -154,17 +166,19 @@ public class ParseTree {
         procB();
 
         if(curr_token.getValue().equals("->")){ 
+
             readNext();
             procTc();
-        }
-        if(!curr_token.getValue().equals("|")){
-            //error
-            return;
-        }
-        readNext();
-        procTc();
+        
+            if(!curr_token.getValue().equals("|")){
+                //error
+                throw new ParseException("Expected | ");
+            }
+            readNext();
+            procTc();
 
-        buildTree("->", 3);
+            buildTree("->", 3);
+        }
         
     }
 
@@ -300,7 +314,7 @@ public class ParseTree {
         //  Ap -> Ap ’@’ ’<IDENTIFIER>’ R => ’@’
         //  -> R ;
         procAp(); 
-        if(curr_token.getValue().equals("*")){ 
+        if(curr_token.getValue().equals("**")){ 
                 readNext();
                 procAf();
                 buildTree("**",2);
@@ -316,7 +330,8 @@ public class ParseTree {
             readNext();
             if(!isType(curr_token, "IDENTIFIER")){
             //error
-            return;
+
+              throw new ParseException("Expected an identifier.");
             }
             readNext();
             procR(); //extra readNT in procR()
@@ -329,7 +344,7 @@ public class ParseTree {
         //  -> Rn ;
         procRn(); 
         readNext();
-    if(isType(curr_token, "INTEGER")||
+        while(isType(curr_token, "INTEGER")||
         isType(curr_token, "STRING")|| 
         isType(curr_token, "IDENTIFIER")||
         curr_token.getValue().equals("true")||
@@ -372,10 +387,12 @@ public class ParseTree {
         else if(curr_token.getValue().equals("(")){
             readNext();
             procE(); //extra readNT in procE()
+            
             if(!curr_token.getValue().equals(")")){
               //error
-              throw new ParseException("RN: ')' expected");
+              throw new ParseException("Expected )");
             } 
+            
         }
 
     }
@@ -426,7 +443,7 @@ public class ParseTree {
             readNext();
             if(!curr_token.getValue().equals(")")){
             //error
-            return;
+                throw new ParseException("Expected ).");
             }
             readNext();
         }
@@ -438,7 +455,7 @@ public class ParseTree {
                 procVl(); 
                 if(!curr_token.getValue().equals("=")){
                 //error
-                return;
+                    throw new ParseException("= is expected.");
                 }
                 buildTree("comma", 2);
                 readNext();
@@ -461,18 +478,19 @@ public class ParseTree {
                     int N = 0;
 
                     while(isType(curr_token, "IDENTIFIER") ||curr_token.getValue().equals("(")){
+                        
                         procVb(); //extra readNT in procVB()
                         N++;
                     }
 
                     if(N==0){
                     //error
-                        return;
+                         throw new ParseException("At least one identifier is required");
                     }
 
                     if(!curr_token.getValue().equals("=")){
                         //error
-                        return;
+                         throw new ParseException("= is expected");
                     }
                     
 
@@ -508,7 +526,7 @@ public class ParseTree {
                 procVl(); 
                 if(!curr_token.getValue().equals(")")){
                     //error
-                    return;
+                     throw new ParseException(") is expected.");
                 }
            
                 readNext();
@@ -534,7 +552,7 @@ public class ParseTree {
             readNext();
             if(!isType(curr_token, "IDENTIFIER")){
                 //error
-                return;
+                 throw new ParseException("Identifier is expected.");
             }
               
             readNext();
@@ -546,21 +564,23 @@ public class ParseTree {
         }
       }
     private void buildTree(String type,int n){
-            System.out.println("Build tree call ");
-            System.out.println(type);
-
-            Node temp1 = null;
-            Node temp2;
+            //System.out.println("Build tree call ");
+            //System.out.println(type);
+            Node p = null;
             for (int i =0;i<n;i++){
-                temp2 = stack.pop();
-                temp2.setRight(temp1);
-                temp1 = temp2;
+                Node c = stack.pop();
+                c.setRight(p);
+                p = c;
             }
             Node newNode = new Node(type);
-            newNode.setLeft(temp1);
+            newNode.setLeft(p);
             newNode.setRight(null);
-
+            //System..out.println(newNode);
+            //System..out.println(newNode.getLeft());
+            //System..out.println("left child");
             stack.push(newNode);
+
+            ////System..out.println(stack);
         }
 
 }

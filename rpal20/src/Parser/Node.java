@@ -24,7 +24,7 @@ public class Node {
         this.left_child=leftNode;
     }
     public void setRight (Node rightNode){
-        this.left_child=rightNode;
+        this.right_child=rightNode;
     }
     public Node getLeft (){
         return this.left_child;
