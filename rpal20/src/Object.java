@@ -31,6 +31,9 @@ public class Object {
         lambdano = lambdaenv = envno = thenno = elseno = tauno = -1;
     }
 
+    // used for tau node and identifier type variables
+        // only type and name are made
+        // but for Tau node need to declare tauno (# of variables in tuple) as well
     public Object(String t, String n) {
         type = t;
         name = n;
@@ -40,6 +43,14 @@ public class Object {
         lambdano = lambdaenv = envno = thenno = elseno = tauno = -1;
     }
 
+    // used for lambda variables
+        // type will always be declared as "lambdaClosure"
+        // lambdavar indicates the name of the variable to subsitute for
+        // lambdano gives the number of the delta control structure
+
+        // used in two occasions
+        // 1. When the subsituted variable is an identifier
+        // 2. For the comma node (that occurs when simulatenous definitions)
     public Object(String t, String lambda, int lambda_no) {
         type = t;
         lambdavar = lambda;
@@ -50,6 +61,7 @@ public class Object {
         lambdaenv = envno = thenno = elseno = tauno = -1;
     }
 
+    // used for environment variables 
     public Object(String t, int env_no) {
         type = t;
         envno = env_no;
@@ -59,6 +71,8 @@ public class Object {
         lambdano = lambdaenv = thenno = elseno = tauno = -1;
     }
 
+    // used for conditional statements 
+        // type is always given as "beta"
     public Object(String t, int then_no, int else_no) {
         type = t;
         thenno = then_no;
