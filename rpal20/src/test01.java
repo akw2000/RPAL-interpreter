@@ -1,9 +1,6 @@
-import java.io.File;
 import java.util.ArrayList;
-
 import Parser.AST;
 import Parser.ParseTree;
-import lexical_analyzer.LexicalAnalyzer;
 import lexical_analyzer.Token;
 
 public class test01 {
@@ -102,7 +99,7 @@ public class test01 {
         ParseTree parser = new ParseTree(tok);
 
         AST tree = parser.buildAst();
-        tree.standardize();
+        //tree.standardize();
 
         tree.print();
         

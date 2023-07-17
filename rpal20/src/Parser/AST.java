@@ -145,7 +145,7 @@ public class AST {
           
         }
         else if(node.getType() == "STRING")
-          System.out.printf(printPrefix+node.getType()+": "+((LeafNode)node).getValue());
+          System.out.printf(printPrefix+node.getType()+": "+((LeafNode)node).getValue()+"\n");
         else
           System.out.println(printPrefix+node.getType());
       }
