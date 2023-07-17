@@ -33,7 +33,7 @@ public class Object {
 
     // used for tau node and identifier type variables
         // only type and name are made
-        // but for Tau node need to declare tauno (# of variables in tuple) as well
+        // but for Tau node need to declare tauno (# of variables in tuple)
     public Object(String t, String n) {
         type = t;
         name = n;
