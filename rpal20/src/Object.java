@@ -34,6 +34,7 @@ public class Object {
     // used for tau node and identifier type variables
         // only type and name are made
         // but for Tau node need to declare tauno (# of variables in tuple)
+    // may need to make them as 2 different functions to separately handle identifiers and tau nodes
     public Object(String t, String n) {
         type = t;
         name = n;
@@ -48,9 +49,12 @@ public class Object {
         // lambdavar indicates the name of the variable to subsitute for
         // lambdano gives the number of the delta control structure
 
-        // used in two occasions
+    // used in two occasions
         // 1. When the subsituted variable is an identifier
         // 2. For the comma node (that occurs when simulatenous definitions)
+
+    // same function can be used in both cases
+        // need type, lambdavar or name, lambda number 
     public Object(String t, String lambda, int lambda_no) {
         type = t;
         lambdavar = lambda;
@@ -62,6 +66,7 @@ public class Object {
     }
 
     // used for environment variables 
+    // need type, env number
     public Object(String t, int env_no) {
         type = t;
         envno = env_no;
@@ -73,6 +78,7 @@ public class Object {
 
     // used for conditional statements 
         // type is always given as "beta"
+        // need the then_no and else_no as the parameters then
     public Object(String t, int then_no, int else_no) {
         type = t;
         thenno = then_no;
