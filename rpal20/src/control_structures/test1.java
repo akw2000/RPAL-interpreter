@@ -29,7 +29,7 @@ public class test1 {
 
         ctrller.genControlStructures(n1);
 
-        List<List<NodeCS>> cs = ctrller.getCS();
+        List<List<CSNode>> cs = ctrller.getCS();
 
         CSE cse_m = new CSE(cs);
 
