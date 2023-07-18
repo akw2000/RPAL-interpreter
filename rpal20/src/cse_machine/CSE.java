@@ -50,6 +50,23 @@ public class CSE {
             
             CSNode topCtrlNodeCS = this.getControlList().pop();
 
+            // switch (topCtrlNodeCS.getType()) {
+            //     // CSE Rules 3, 4, 10, 11, 12, 13
+            //     case "gamma":
+
+
+                    
+            //         break;
+
+            //     // CSE Rules 
+            //     case "beta":
+
+
+            //         break;
+            
+            //     default:
+            //         break;
+            // }
             /*
              * Switch Case to be implemented
              */
