@@ -51,26 +51,35 @@ public class CSE {
 
         while(!this.getControlList().empty()) {
             
-            CSNode topCtrlNodeCS = this.getControlList().pop();
+            CSNode topCtrlNode = this.getControlList().pop();
+            CSNode topStackNode1;
+            CSNode topStackNode2;
 
-            // switch (topCtrlNodeCS.getType()) {
-            //     // CSE Rules 3, 4, 10, 11, 12, 13
-            //     case "gamma":
+            switch (topCtrlNode.getType()) {
+                // CSE Rules 3, 4, 10, 11, 12, 13
+                case "gamma":
 
 
                     
-            //         break;
+                    break;
 
-            //     // CSE Rules 8
-            //     case "beta":
-
-
-
-            //         break;
+                // CSE Rules 8
+                case "beta":
+                    topStackNode1 = this.getStackList().pop();
+                    if (topStackNode1.getType().equals("TRUE")) {
+                        this.getStackList().pop();
+                        this.expandDelta();
+                    } else if (topStackNode1.getType().equals("FALSE")) {
+                        CSNode temp = this.getStackList().pop();
+                        this.getStackList().pop();
+                        this.getStackList().push(temp);
+                        this.expandDelta();
+                    }
+                    break;
             
-            //     default:
-            //         break;
-            // }
+                default:
+                    break;
+            }
             /*
              * Switch Case to be implemented
              */
