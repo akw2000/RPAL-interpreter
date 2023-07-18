@@ -1,256 +1,71 @@
 #######################Token List:
-<DELETE:  >
+<DELETE: // 4. Program to find factorial of a given number
+>
 <KEYWORD: let>
 <DELETE:  >
-<IDENTIFIER: TreePicture>
-<DELETE:  >
-<IDENTIFIER: T>
-<DELETE:  >
-<OPERATOR: =>
-<DELETE:  >
-<IDENTIFIER: Picture>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<STRING: ''>
-<R_PAREN: )>
-<DELETE:  >
-<KEYWORD: where>
-<DELETE: 
-  >
 <KEYWORD: rec>
 <DELETE:  >
-<IDENTIFIER: Picture>
-<DELETE:  >
+<IDENTIFIER: fact>
 <L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<IDENTIFIER: Spaces>
+<IDENTIFIER: n>
 <R_PAREN: )>
 <DELETE:  >
 <OPERATOR: =>
+<DELETE: 
+>
+<L_PAREN: (>
 <DELETE: 
     >
-<KEYWORD: not>
+<IDENTIFIER: n>
 <DELETE:  >
-<IDENTIFIER: Istuple>
+<KEYWORD: ls>
 <DELETE:  >
-<IDENTIFIER: T>
+<INTEGER: 0>
 <DELETE:  >
 <OPERATOR: ->>
-<OPERATOR: >>
-<DELETE:  >
-<STRING: 'T'>
 <DELETE: 
-     >
+    >
+<STRING: 'Factorial is not defined for negative numbers'>
+<DELETE: 
+    >
 <OPERATOR: |>
-<DELETE:  >
-<IDENTIFIER: ItoS>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: Order>
-<DELETE:  >
-<IDENTIFIER: T>
-<R_PAREN: )>
-<DELETE: 
-       >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<STRING: '\n'>
-<DELETE: 
-       >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<DELETE: 
-       >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<STRING: '.   '>
-<DELETE: 
-       >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: TPicture>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Order>
-<DELETE:  >
-<IDENTIFIER: T>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<DELETE:  >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<STRING: '.   '>
-<R_PAREN: )>
-<DELETE:  
-            >
-<KEYWORD: where>
-<DELETE:  >
-<KEYWORD: rec>
-<DELETE:  >
-<IDENTIFIER: TPicture>
-<DELETE:  >
-<L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
-<IDENTIFIER: N>
-<COMMA: ,>
-<IDENTIFIER: Spaces>
-<R_PAREN: )>
-<DELETE:  >
-<OPERATOR: =>
-<DELETE: 
-               >
-<IDENTIFIER: N>
+<IDENTIFIER: n>
 <DELETE:  >
 <KEYWORD: eq>
 <DELETE:  >
 <INTEGER: 0>
 <DELETE:  >
 <OPERATOR: ->>
-<OPERATOR: >>
-<DELETE:  >
-<STRING: ''>
-<DELETE: 
-                 >
-<OPERATOR: |>
-<DELETE:   >
-<IDENTIFIER: N>
-<DELETE:  >
-<KEYWORD: eq>
-<DELETE:  >
 <INTEGER: 1>
 <DELETE:  >
-<OPERATOR: ->>
-<OPERATOR: >>
-<DELETE:  >
-<IDENTIFIER: Picture>
-<L_PAREN: (>
-<IDENTIFIER: T>
-<DELETE:  >
-<IDENTIFIER: N>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<R_PAREN: )>
-<DELETE: 
-                      >
+<DELETE: // base case 0! = 1
+>
+<DELETE:     >
 <OPERATOR: |>
+<IDENTIFIER: n>
 <DELETE:  >
-<IDENTIFIER: TPicture>
-<DELETE:  >
+<OPERATOR: *>
+<IDENTIFIER: fact>
 <L_PAREN: (>
-<IDENTIFIER: T>
-<COMMA: ,>
+<IDENTIFIER: n>
 <DELETE:  >
-<IDENTIFIER: N>
 <OPERATOR: ->
 <INTEGER: 1>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
 <R_PAREN: )>
 <DELETE: 
-                        >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<STRING: '\n'>
-<DELETE: 
-                        >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: Spaces>
-<DELETE: 
-                        >
-<OPERATOR: @>
-<IDENTIFIER: Conc>
-<DELETE:  >
-<IDENTIFIER: Picture>
-<L_PAREN: (>
-<IDENTIFIER: T>
-<DELETE:  >
-<IDENTIFIER: N>
-<COMMA: ,>
-<DELETE:  >
-<IDENTIFIER: Spaces>
+>
 <R_PAREN: )>
-<DELETE:  
-
+<DELETE: 
 >
 <KEYWORD: in>
-<DELETE:   >
+<DELETE: 
+>
 <IDENTIFIER: Print>
-<DELETE:  >
 <L_PAREN: (>
-<DELETE:   
-            
-             >
-<IDENTIFIER: TreePicture>
+<IDENTIFIER: fact>
 <L_PAREN: (>
-<DELETE:  >
-<L_PAREN: (>
-<INTEGER: 1>
-<COMMA: ,>
-<DELETE:  >
-<L_PAREN: (>
-<INTEGER: 2>
-<COMMA: ,>
-<INTEGER: 3>
-<COMMA: ,>
-<INTEGER: 4>
-<R_PAREN: )>
-<COMMA: ,>
-<DELETE:  >
 <INTEGER: 5>
 <R_PAREN: )>
-<COMMA: ,>
-<DELETE: 
-                          >
-<L_PAREN: (>
-<INTEGER: 6>
-<COMMA: ,>
-<DELETE:  >
-<STRING: '7'>
-<R_PAREN: )>
-<COMMA: ,>
-<DELETE: 
-                          >
-<L_PAREN: (>
-<INTEGER: 8>
-<COMMA: ,>
-<DELETE:  >
-<INTEGER: 9>
-<COMMA: ,>
-<DELETE:  >
-<KEYWORD: nil>
-<R_PAREN: )>
-<COMMA: ,>
-<DELETE: 
-                          >
-<KEYWORD: nil>
-<DELETE:  >
-<KEYWORD: aug>
-<DELETE:  >
-<INTEGER: 10>
-<DELETE: 
-                        >
-<R_PAREN: )>
-<DELETE: 
-          >
 <R_PAREN: )>
 <DELETE: 
 >

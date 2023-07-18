@@ -121,6 +121,7 @@ public class LexicalAnalyzer {
 
         }  else if (nextChr.matches(operator_symbol)) { // Operator (starts with a OperatorSymbol -> ’+’ | ’-’ | ’*’ | ’<’ | ’>’ | ’&’ | ’.’ | ’@’ | ’/’ | ’:’ | ’=’ | ’~’ | ’|’ | ’$’ | ’!’ | ’#’ | ’%’ | ’`’ | ’_’ | ’[’ | ’]’ | ’{’ | ’}’ | ’"’ | ’’’ | ’?’)
             value = nextChr;
+            // System.out.println("first check ##" + nextChr + "##");
             String prevChr = nextChr;
             boolean isComment = false;    
             while ((nextChr = nextChr()) != null) {
@@ -137,7 +138,7 @@ public class LexicalAnalyzer {
                             // System.out.println("buffer back the last character ##" + nextChr + "##");
                             // buffer = nextChr;
                             token.setType("DELETE");
-                            token.setValue(value );
+                            token.setValue(value);
                             tokenList.add(token);
                             break;
                         }
@@ -145,18 +146,19 @@ public class LexicalAnalyzer {
                 } else if (nextChr.matches("[" + operator_symbol + "]*")) { // Operator -> OperatorSymbol OperatorSymbol* => check the OperatorSymbol* part
                     // System.out.println("while * check ##" + nextChr + "##");
                     value += nextChr;
-                    prevChr = nextChr; // check if needed
-                } 
-                if (isComment) {
-                    break; // no buffer back since last character is Eol
+                    prevChr = nextChr; // check if needed 
+                    // System.out.println("prev: " + prevChr);
                 } else {
                     // System.out.println("buffer back the last character ##" + nextChr + "##");
-                    buffer = nextChr;
+                    // buffer = nextChr;
                     token.setType("OPERATOR");
                     token.setValue(value);
                     tokenList.add(token);
                     break;
                 }
+                if (isComment) {
+                    break; // no buffer back since last character is Eol
+                } 
             }
 
         } else if (nextChr.matches("[\\s|\\t|\\n]")) { // Space (starts with a -> ’ ’ | ’\t’(ht)| ’\n’(Eol))
