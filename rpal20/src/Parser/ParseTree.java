@@ -31,7 +31,7 @@ public class ParseTree {
         
         do{
             curr_token = token_list.remove(0);
-            //System.out.println(curr_token.getType());
+            System.out.println(curr_token.getType());
           }while(isType(curr_token,"DELETE"));
         }
         if (curr_token!=null){
@@ -271,6 +271,7 @@ public class ParseTree {
         else if(curr_token.getValue().equals("-")){ 
           readNext();
           procAt();
+          buildTree("neg", 1);
         }
         else{
             procAt();
@@ -293,12 +294,12 @@ public class ParseTree {
         //  -> At ’/’ Af => ’/’
         //  -> Af ;
         procAf();
-        if(curr_token.getValue().equals("*")){ 
+        while(curr_token.getValue().equals("*")){ 
                 readNext();
                 procAf();
                 buildTree("*",2);
         }
-        else if (curr_token.getValue().equals("/")){ 
+        while(curr_token.getValue().equals("/")){ 
                 readNext();
                 procAf();
                 buildTree("/",2);
@@ -574,7 +575,6 @@ public class ParseTree {
             Node newNode = new Node(type);
             newNode.setLeft(p);
             newNode.setRight(null);
-            //System..out.println(newNode);
             //System..out.println(newNode.getLeft());
             //System..out.println("left child");
             stack.push(newNode);

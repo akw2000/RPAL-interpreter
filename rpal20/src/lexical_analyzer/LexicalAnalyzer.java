@@ -18,7 +18,7 @@ public class LexicalAnalyzer {
 
     private String letter = "[A-Za-z]";
     private String digit = "[0-9]";
-    private String operator_symbol = "['+'|'\\-'|'*'|'<'|'>'|'&'|'.'|'@'|'/'|':'|'='|'~'|'|'|'$'|'!'|'#'|'%'|'`'|'_'|'\\['|'\\]'|'{'|'}'|'\\\"'|'`'|'?']";
+    private String operator_symbol = "['+'|'\\-'|'*'|'<'|'>'|'&'|'.'|'@'|'/'|':'|'='|'~'|\\||'$'|'!'|'#'|'%'|'`'|'_'|'\\['|'\\]'|'{'|'}'|'\\\"'|'`'|'?']";
     private boolean readerClosed = false;
 
     public LexicalAnalyzer(File file) {
@@ -44,7 +44,6 @@ public class LexicalAnalyzer {
         EofToken.setType("EOF");
         EofToken.setValue("EOF");
         tokenList.add(EofToken);
-
     }
 
     public ArrayList<Token> getTokenList() {
@@ -88,23 +87,22 @@ public class LexicalAnalyzer {
             token.setType("INTEGER");
             token.setValue(value);
             tokenList.add(token);
-//#########
 
         } else if (nextChr.matches("[\']")) { // String (starts with a -> ’''’)
             value = nextChr;
             String prevChr = nextChr;
-            System.out.println("first check ##" + nextChr + "##");
+            // System.out.println("first check ##" + nextChr + "##");
             while ((nextChr = nextChr()) != null) {
-                System.out.println("second check ##" + nextChr + "##");
+                // System.out.println("second check ##" + nextChr + "##");
                 if (!(prevChr.equals("\\")) && nextChr.matches("[\']")) { // last character is a -> '
                     value += nextChr;
-                    System.out.println("buffer back the last character ##" + nextChr + "##");
+                    // System.out.println("buffer back the last character ##" + nextChr + "##");
                     // buffer = nextChr;
                     // value = value.toString().replace("\\n", System.getProperty("line.separator"));
                     // value = value.toString().replaceAll("\\t", "\t");
                     token.setType("STRING");
                     token.setValue(value);
-                    System.out.println("string: " + value);
+                    // System.out.println("string: " + value);
                     tokenList.add(token);
                     break;
                 } else if (nextChr.matches("[\\t|\\n|\\\\|\\\'|'('|')'|';'|','|' '|" + letter + "|" + digit + "|"
@@ -121,29 +119,26 @@ public class LexicalAnalyzer {
                 }
             }
 
-        } else if (nextChr.matches("[\\s|\\t|\\n]")) { // Space (starts with a -> ’ ’ | ’\t’(ht)| ’\n’(Eol))
-            value = nextChr;
-            while ((nextChr = nextChr()) != null) {
-                if (nextChr.matches("[\\s\\t\\n]*")) { // Space -> ( ’ ’ | ht | Eol )+ => check the + part
-                    value += nextChr;
-                } else {
-                    // System.out.println("buffer back the last character ##" + nextChr + "##");
-                    buffer = nextChr;
-                    break;
-                }
-            }
-            token.setType("DELETE");
-            token.setValue(value);
-            tokenList.add(token);
-        
         }  else if (nextChr.matches(operator_symbol)) { // Operator (starts with a OperatorSymbol -> ’+’ | ’-’ | ’*’ | ’<’ | ’>’ | ’&’ | ’.’ | ’@’ | ’/’ | ’:’ | ’=’ | ’~’ | ’|’ | ’$’ | ’!’ | ’#’ | ’%’ | ’`’ | ’_’ | ’[’ | ’]’ | ’{’ | ’}’ | ’"’ | ’’’ | ’?’)
             value = nextChr;
+            // System.out.println("first check ##" + nextChr + "##");
             String prevChr = nextChr;
             boolean isComment = false;    
             while ((nextChr = nextChr()) != null) {
                 if (prevChr.matches("[/]") && nextChr.matches("[/]")) { // Comment (starts with a -> ’//’) made higher precedence than operator to avoid conflict 
+                    // strip the characters before the comment and make an operator token
+                    if(value.length() > 1) {
+                        String tokenValue = value.substring(0, value.length() - 1);
+                        System.out.println("buffer back the last character ##" + tokenValue + "##");
+                        // buffer = nextChr;
+                        token.setType("OPERATOR");
+                        token.setValue(tokenValue);
+                        tokenList.add(token);
+                    }
+                    token = new Token();
+
                     isComment = true;
-                    value += nextChr;
+                    value = "//";
                     // System.out.println("Comment -> #####################" + value);
                     while ((nextChr = nextChr()) != null) {
                         if (nextChr.matches("['\''|'('|')'|';'|','|' '|'\\t'|" + letter + "|" + digit + "|"
@@ -162,10 +157,8 @@ public class LexicalAnalyzer {
                 } else if (nextChr.matches("[" + operator_symbol + "]*")) { // Operator -> OperatorSymbol OperatorSymbol* => check the OperatorSymbol* part
                     // System.out.println("while * check ##" + nextChr + "##");
                     value += nextChr;
-                    prevChr = nextChr; // check if needed
-                } 
-                if (isComment) {
-                    break; // no buffer back since last character is Eol
+                    prevChr = nextChr; // check if needed 
+                    // System.out.println("prev: " + prevChr);
                 } else {
                     // System.out.println("buffer back the last character ##" + nextChr + "##");
                     buffer = nextChr;
@@ -174,8 +167,28 @@ public class LexicalAnalyzer {
                     tokenList.add(token);
                     break;
                 }
+                if (isComment) {
+                    break; // no buffer back since last character is Eol
+                } 
             }
 
+        } else if (nextChr.matches("[\\s|\\t|\\n]")) { // Space (starts with a -> ’ ’ | ’\t’(ht)| ’\n’(Eol))
+            value = nextChr;
+            // System.out.println("Space detected" + nextChr + "##");
+
+            while ((nextChr = nextChr()) != null) {
+                if (nextChr.matches("[\\s\\t\\n]*")) { // Space -> ( ’ ’ | ht | Eol )+ => check the + part
+                    value += nextChr;
+                } else {
+                    // System.out.println("buffer back the last character ##" + nextChr + "##");
+                    buffer = nextChr;
+                    break;
+                }
+            }
+            token.setType("DELETE");
+            token.setValue(value);
+            tokenList.add(token);
+        
         } else if (nextChr.matches("[(]")) { // Punction -> LeftParenthesis -> ’(’
             value = nextChr;
             token.setType("L_PAREN");

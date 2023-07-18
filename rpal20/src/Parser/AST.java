@@ -22,19 +22,22 @@ public class AST {
         this.std = true;
       
     }
+   
 
     public boolean isStandardized(Node rooNode){
       return this.std;
     }
     private void standardizeNode(Node node){
       //traverse to the bootom most node
-      if (node.getLeft()!=null){
-        Node child = node.getLeft();
-        while (child!=null){
-          standardizeNode(child);
-          child = child.getRight();
+       
+      if(node.getLeft()!=null){
+        Node childNode = node.getLeft();
+        while(childNode!=null){
+          standardizeNode(childNode);
+          childNode = childNode.getRight();
         }
       }
+      
 
       // standardize using standardization rules
       switch (node.getType()){
@@ -48,11 +51,11 @@ public class AST {
           */
 
           Node equalNode = node.getLeft();
-          Node p = node.getRight();
-          node.setRight(equalNode.getRight());
-          equalNode.setRight(p);
-          node.setType("gamma");
+          Node exp = equalNode.getLeft().getRight();
+          equalNode.getLeft().setRight(equalNode.getRight());
+          equalNode.setRight(exp);
           equalNode.setType("lambda");
+          node.setType("gamma");
           break;
         case "where":
           /*      where                     gamma
@@ -62,13 +65,14 @@ public class AST {
            *         X   E               X     P
            */
 
-          equalNode = node.getRight();
-          p = node.getLeft();
-          node.setRight(equalNode.getRight());
-          equalNode.setRight(p);
-          node.setLeft(equalNode);
+          Node lamNode = new Node("lambda");
+          lamNode.setRight(node.getLeft().getRight().getLeft().getRight());
+          lamNode.setLeft(node.getLeft().getRight().getLeft());
+          node.getLeft().setRight(null);
+          lamNode.getLeft().setRight(node.getLeft());
+          node.setLeft(lamNode);
           node.setType("gamma");
-          equalNode.setType("lambda");
+          break;
 
         
         
@@ -81,17 +85,19 @@ public class AST {
            *                                    /   \
            *                                   X1    E2
            */
-          
-           equalNode = node.getLeft();
-           Node equalNode2 = node.getRight();
-           Node e1 = equalNode.getRight();
-           equalNode.setRight(equalNode2.getRight());
-           node.setLeft(equalNode2.getLeft());
-           equalNode2.setRight(e1);
-           equalNode2.setLeft(equalNode);
-           node.setType("=");
-           equalNode.setType("lambda");
-           equalNode2.setType("gamma");
+            Node e1 = node.getLeft().getLeft().getRight();
+            Node e2 = node.getLeft().getRight().getLeft().getRight();
+
+            lamNode = new Node("lambda");
+            lamNode.setLeft(node.getLeft().getLeft());
+            lamNode.getLeft().setRight(e2);
+            lamNode.setRight(e1);
+            node.setLeft(node.getLeft().getRight().getLeft());
+            node.getLeft().setLeft(lamNode);
+            node.getLeft().setRight(new Node("gamma"));
+            node.setType("=");
+            break;
+           
         
         case "rec":
 
@@ -103,22 +109,73 @@ public class AST {
            *                                          /   \
            *                                          X    E
            */
-          equalNode = node.getLeft();
-          Node lamNode = new Node("lambda");
-          lamNode.setLeft(equalNode.getLeft());
-          lamNode.setRight(equalNode.getRight());
+          Node xNode = node.getLeft().getLeft();
+          node.setLeft(xNode);
+          lamNode = new Node("lambda");
+          lamNode.setLeft(xNode);
           Node gamNode = new Node("gamma");
           gamNode.setLeft(new Node("Y"));
-          gamNode.setRight(lamNode);
-          node.setLeft(equalNode.getLeft());
-          node.setRight(gamNode);
-          node.setType("=");
+          gamNode.getLeft().setRight(lamNode);
+          node.getLeft().setRight(gamNode);
+          break;
         
+        case "fcn_form":
+          /*      fcn_form                      =
+           *      /   |   \     =>             /  \    
+           *     P    V+   E                  P   +lambda
+           *                                        /   \
+           *                                        V   E
+           */
+
+          Node vbNode = node.getLeft().getRight();
+          Node lNode = creteLambdas(vbNode);
+          node.getLeft().setRight(lNode);
+          node.setType("=");
+          break;
+        
+        case "@" :
+          /*        @                               gamma
+           *      / | \           =>                /   \ 
+           *    E1  N  E2                         gamma  E2
+           *                                      /   \
+           *                                     N    E1
+           */
+
+          e2 = node.getLeft().getRight().getRight();
+          e1 = node.getLeft();
+          gamNode = new Node("gamma");
+          gamNode.setLeft(node.getLeft().getRight());
+          e1.setRight(null);
+          gamNode.getLeft().setRight(e1);
+          gamNode.setLeft(e2);
+          node.setLeft(gamNode);
+          node.setType("gamma");
+          break;
+
+
 
 
         default:
+          break;
+
+        
       }
 
+    }
+
+    private Node creteLambdas (Node leafNode){
+      Node lamNode;
+      if (leafNode.getRight()!=null && leafNode.getRight().getRight()==null){
+        lamNode = new Node("lambda");
+        lamNode.setLeft(leafNode);
+        return lamNode;
+      }
+      else{
+        lamNode = new Node("lambda");
+        lamNode.setLeft(leafNode);
+        leafNode.setRight(creteLambdas(leafNode.getRight()));
+        return lamNode;
+      }
     }
 
     

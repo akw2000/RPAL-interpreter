@@ -62,7 +62,7 @@ public class test01 {
         tok.add(t10);
 
         Token t11 = new Token();
-        t11.setType("PUNCTUATION");
+        t11.setType("L_PAREN");
         t11.setValue("(");
         tok.add(t11);
 
@@ -87,7 +87,7 @@ public class test01 {
         tok.add(t15);
 
         Token t16 = new Token();
-        t16.setType("PUNCTUATION");
+        t16.setType("R_PAREN");
         t16.setValue(")");
         tok.add(t16);
 
@@ -99,7 +99,7 @@ public class test01 {
         ParseTree parser = new ParseTree(tok);
 
         AST tree = parser.buildAst();
-        //tree.standardize();
+        tree.standardize();
 
         tree.print();
         
