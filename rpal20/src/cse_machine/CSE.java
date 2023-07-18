@@ -37,15 +37,18 @@ public class CSE {
         }
     }
 
-    public void setupCSE() {
+    private void setupCSE() {
         CSNode parent_env = new CSNode("env", curr_env, (CSNode) null);
         this.ControlList.push(parent_env);
+        this.StackList.push(parent_env);
 
         this.insertToControl(0);
         this.expandDelta();
     }
 
     public void runCSE() {
+        setupCSE();
+
         while(!this.getControlList().empty()) {
             
             CSNode topCtrlNodeCS = this.getControlList().pop();
@@ -60,6 +63,7 @@ public class CSE {
 
             //     // CSE Rules 8
             //     case "beta":
+
 
 
             //         break;
