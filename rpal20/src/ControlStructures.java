@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.rpal;
+package com.mycompany.rpal2;
 
 /**
  *
  * @author OshadiPC
  */
-
-import java.util.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -22,7 +18,7 @@ public class ControlStructures {
     private int deltano;
     private int delta_count;
     private Queue<Node> pendingdelta;
-    private List<List<Object>> delta;
+    private List<List<CSNode>> delta;
 
     public ControlStructures() {
         deltano = 0;
@@ -34,128 +30,128 @@ public class ControlStructures {
     public void genControlStructures(Node root) {
         pendingdelta.add(root);
         while (!pendingdelta.isEmpty()) {
-            List<Object> currentdelta = new ArrayList<>();
+            List<CSNode> currentdelta = new ArrayList<>();
             Node current = pendingdelta.poll();
-            preorder(current, (ArrayList<Object>) currentdelta);
+            preorder(current, (ArrayList<CSNode>) currentdelta);
             delta.add(currentdelta);
             deltano++;
         }
     }
 
-    public void preorder(Node root, ArrayList<Object> currentdelta) {
-    	if (root.value.equals("lambda")) {
-        	if (!root.child.value.equals(",")) {
+    public void preorder(Node root, ArrayList<CSNode> currentdelta) {
+    	if (root.getValue().equals("lambda")) {
+        	if (!root.getChild().getValue().equals(",")) {
             		String name = "";
-            		if (root.child.value.substring(0, 3).equals("<ID")) {
-                		name = root.child.value.substring(4, root.child.value.length() - 5);
+            		if (root.getChild().getValue().substring(0, 3).equals("<ID")) {
+                		name = root.getChild().getValue().substring(4, root.getChild().getValue().length() - 1);
             		}
-            		Object lambdaclosure = new Object("lambdaClosure", name, ++delta_count);
+            		CSNode lambdaclosure = new CSNode("lambdaClosure", name, ++delta_count);
             		currentdelta.add(lambdaclosure);
         	} else {
-            		Node commachild = root.child.child;
+            		Node commachild = root.getChild().getChild();
             		String tuple = "";
             		while (commachild != null) {
                 		String name = "";
-                		if (commachild.value.substring(0, 3).equals("<ID")) {
-                    			name = commachild.value.substring(4, commachild.value.length() - 5);
+                		if (commachild.getValue().substring(0, 3).equals("<ID")) {
+                    			name = commachild.getValue().substring(4, commachild.getValue().length() - 1);
                 		}
                 		tuple += name + ",";
-            	    		commachild = commachild.sibling;
+            	    		commachild = commachild.getSibling();
             		}
-            		Object lambdaclosure = new Object("lambdaClosure", tuple, ++delta_count);
-            		lambdaclosure.isTuple = true;
+            		CSNode lambdaclosure = new CSNode("lambdaClosure", tuple, ++delta_count);
+            		lambdaclosure.setIstuple(true);
             		currentdelta.add(lambdaclosure);
         	}
-        	pendingdelta.add(root.child.sibling);
-        	if (root.sibling != null)
-            		preorder(root.sibling, currentdelta);
+        	pendingdelta.add(root.getChild().getSibling());
+        	if (root.getSibling() != null)
+                    preorder(root.getSibling(), currentdelta);
     	}
-    	else if(root.value.equals("->")) {
-    		Object betaObject = new Object("beta", delta_count + 1, delta_count + 2);
+    	else if(root.getValue().equals("->")) {
+    		CSNode betaObject = new CSNode("beta", delta_count + 1, delta_count + 2);
     		currentdelta.add(betaObject);
-    		pendingdelta.add(root.child.sibling);
+    		pendingdelta.add(root.getChild().getSibling());
     		Node temp = new Node();
     		//System.arraycopy(root.child.sibling.sibling, 0, temp, 0, sizeof(Node));
-                temp.value = root.child.sibling.sibling.value;
-                temp.child = root.child.sibling.sibling.child;
-                temp.sibling = root.child.sibling.sibling.sibling;
+                temp.setValue(root.getChild().getSibling().getSibling().getValue());
+                temp.setChild(root.getChild().getSibling().getSibling().getChild());
+                temp.setSibling(root.getChild().getSibling().getSibling().getSibling());
     		pendingdelta.add(temp);
-    		root.child.sibling.sibling = null;
-    		root.child.sibling = null;
+    		root.getChild().getSibling().setSibling(null);
+    		root.getChild().setSibling(null);
     		delta_count += 2;
-    		if(root.child != null) {
-        		preorder(root.child, currentdelta);
+    		if(root.getChild() != null) {
+        		preorder(root.getChild(), currentdelta);
     		}
-    		if(root.sibling != null) {
-        		preorder(root.sibling, currentdelta);
+    		if(root.getSibling() != null) {
+        		preorder(root.getSibling(), currentdelta);
     		}
     	}
-    	else if(root.value.equals("tau")) {
+    	else if(root.getValue().equals("tau")) {
     		String name = "tau";
     		String type = "tau";
     		int n = 0;
-    		Node temp = root.child;
+    		Node temp = root.getChild();
     		while(temp != null) {
         		++n;
-        		temp = temp.sibling;
+        		temp = temp.getSibling();
     		}
-    		Object t = new Object(type, name);
-    		t.tauno = n;
+    		CSNode t = new CSNode(type, name);
+                t.setTauno(n);
     		currentdelta.add(t);
-    		if(root.child != null)
-        		preorder(root.child, currentdelta);
-    		if(root.sibling != null)
-        		preorder(root.sibling, currentdelta);
+    		if(root.getChild() != null)
+        		preorder(root.getChild(), currentdelta);
+    		if(root.getSibling() != null)
+        		preorder(root.getSibling(), currentdelta);
     	}
     	else {
  		String type = "";
     		String name = "";
-    		if (root.value.substring(0, 3).equals("<ID")) {
+    		if (root.getValue().substring(0, 3).equals("<ID")) {
         		type = "IDENTIFIER";
-        		name = root.value.substring(4, root.value.length() - 5);
-    		} else if (root.value.substring(0, 4).equals("<STR")) {
+        		name = root.getValue().substring(4, root.getValue().length() - 1);
+    		} else if (root.getValue().substring(0, 4).equals("<STR")) {
         		type = "STRING";
-        		name = root.value.substring(5, root.value.length() - 6);
-    		} else if (root.value.substring(0, 4).equals("<INT")) {
+        		name = root.getValue().substring(5, root.getValue().length() - 1);
+    		} else if (root.getValue().substring(0, 4).equals("<INT")) {
         		type = "INTEGER";
-        		name = root.value.substring(5, root.value.length() - 6);
-    		} else if (root.value.equals("gamma")) {
+        		name = root.getValue().substring(5, root.getValue().length() - 1);
+    		} else if (root.getValue().equals("gamma")) {
         		type = "gamma";
         		name = "gamma";
-    		} else if (root.value.equals("<Y*>")) {
+    		} else if (root.getValue().equals("<Y*>")) {
         		type = "Y*";
         		name = "Y*";
-    		} else if (root.value.equals("<true>")) {
+    		} else if (root.getValue().equals("<true>")) {
         		type = "true";
         		name = "true";
-    		} else if (root.value.equals("<false>")) {
+    		} else if (root.getValue().equals("<false>")) {
         		type = "false";
         		name = "false";
-    		} else if (root.value.equals("not")) {
+    		} else if (root.getValue().equals("<UNARY_OP:not>")) {
         		type = "not";
         		name = "not";
-    		} else if (root.value.equals("neg")) {
+    		} else if (root.getValue().equals("<UNARY_OP:neg>")) {
         		type = "neg";
         		name = "neg";
-    		} else if (root.value.equals("<nil>")) {
+    		} else if (root.getValue().equals("<nil>")) {
         		type = "nil";
         		name = "nil";
-    		} else if (root.value.equals("<dummy>")) {
+    		} else if (root.getValue().equals("<dummy>")) {
         		type = "dummy";
         		name = "dummy";
-    		} else if(root.value.equals("let") || root.value.equals("in") || root.value.equals("fn") || root.value.equals("where") || root.value.equals("aug") || root.value.equals("nil") || root.value.equals("dummy") || root.value.equals("within") || root.value.equals("and") || root.value.equals("rec") || root.value.equals("list")) {
+    		} else if(root.getValue().equals("let") || root.getValue().equals("in") || root.getValue().equals("fn") || root.getValue().equals("where") || root.getValue().equals("aug") || root.getValue().equals("nil") || root.getValue().equals("dummy") || root.getValue().equals("within") || root.getValue().equals("and") || root.getValue().equals("rec") || root.getValue().equals("list")) {
     			type = "KEYWORD";
-    			name = root.value;
+    			name = root.getValue();
 		} else {
     			type = "OPERATOR";
-    			name = root.value;
+    			name = root.getValue();
 		}
-		Object t = new Object(type, name);
+		CSNode t = new CSNode(type, name);
 		currentdelta.add(t);
-		if(root.child != null)
-    			preorder(root.child, currentdelta);
-		if(root.sibling != null)
-    			preorder(root.sibling, currentdelta);
+		if(root.getChild() != null)
+    			preorder(root.getChild(), currentdelta);
+		if(root.getSibling() != null)
+    			preorder(root.getSibling(), currentdelta);
     	}
 
     }
@@ -167,7 +163,7 @@ public class ControlStructures {
             
 		for (int j = 0; j < delta.get(i).size(); ++j) {
                 
-			System.out.println("\n" + delta.get(i).get(j).name + "," + delta.get(i).get(j).type + "," + delta.get(i).get(j).lambdaenv + "," + delta.get(i).get(j).lambdano + "," + delta.get(i).get(j).lambdavar + "," + delta.get(i).get(j).envno + "," + delta.get(i).get(j).thenno + "," + delta.get(i).get(j).elseno + "," + delta.get(i).get(j).tauno + "," + delta.get(i).get(j).isTuple);
+			System.out.println("\n" + delta.get(i).get(j).getName() + "," + delta.get(i).get(j).getType() + "," + delta.get(i).get(j).getLambdaenv() + "," + delta.get(i).get(j).getLambdano() + "," + delta.get(i).get(j).getLambdavar() + "," + delta.get(i).get(j).getEnvno() + "," + delta.get(i).get(j).getThenno() + "," + delta.get(i).get(j).getElseno() + "," + delta.get(i).get(j).getTauno() + "," + delta.get(i).get(j).getIstuple());
             
 		}
             
@@ -178,9 +174,10 @@ public class ControlStructures {
     }
 
     
-    public List<List<Object>> getCS() {
+    public List<List<CSNode>> getCS() {
         
 	return delta;
     
     }
 }
+

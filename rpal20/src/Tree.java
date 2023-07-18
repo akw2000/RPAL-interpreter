@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.rpal;
+package com.mycompany.rpal2;
 
 /**
  *
@@ -11,7 +11,7 @@ package com.mycompany.rpal;
  */
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 public class Tree {
     private int pos;
     private List<Node> stack;
@@ -23,9 +23,9 @@ public class Tree {
 
     public void build_tree(String data, int num) {
         Node temp = new Node();
-        temp.value = data;
-        temp.child = null;
-        temp.sibling = null;
+        temp.setValue(data);
+        temp.setChild(null);
+        temp.setSibling(null);
         if (num == 0) {
             stack.add(temp);
             pos++;
@@ -49,10 +49,10 @@ public class Tree {
                 stack.remove(stack.size() - 1);
                 --pos;
                 --num;
-                b.sibling = a;
+                b.setSibling(a);
                 a = b;
             }
-            temp.child = a;
+            temp.setChild(a);
             stack.add(temp);
             pos++;
         }
@@ -66,9 +66,9 @@ public class Tree {
         if (root != null) {
             for (int i = 0; i < n; ++i)
                 System.out.print(".");
-            System.out.println(root.value);
-            traverse(root.child, n + 1);
-            traverse(root.sibling, n);
+            System.out.println(root.getValue());
+            traverse(root.getChild(), n + 1);
+            traverse(root.getSibling(), n);
         }
     }
 
