@@ -1,24 +1,10 @@
- let TreePicture T = Picture (T,'') where
-  rec Picture (T,Spaces) =
-    not Istuple T -> 'T'
-     | ItoS (Order T)
-       @Conc '\n'
-       @Conc Spaces
-       @Conc '.   '
-       @Conc TPicture (T, Order T, Spaces @Conc '.   ') 
-            where rec TPicture (T,N,Spaces) =
-               N eq 0 -> ''
-                 |  N eq 1 -> Picture(T N, Spaces)
-                      | TPicture (T, N-1, Spaces)
-                        @Conc '\n'
-                        @Conc Spaces
-                        @Conc Picture(T N, Spaces) 
-
-in  Print (  
-            
-             TreePicture( (1, (2,3,4), 5),
-                          (6, '7'),
-                          (8, 9, nil),
-                          nil aug 10
-                        )
-          )
+// 4. Program to find factorial of a given number
+let rec fact(n) =
+(
+    n ls 0 ->
+    'Factorial is not defined for negative numbers'
+    | n eq 0 -> 1 // base case 0! = 1
+    | n * fact(n - 1)
+)
+in
+Print(fact(5))
