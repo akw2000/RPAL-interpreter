@@ -55,9 +55,41 @@ public class CSE {
             CSNode topStackNode1;
             CSNode topStackNode2;
 
+            CSNode newGammaNode;
+            CSNode newlambdaNode;
+
             switch (topCtrlNode.getType()) {
                 // CSE Rules 3, 4, 10, 11, 12, 13
                 case "gamma":
+                    topStackNode1 = this.getStackList().pop();
+
+                    switch (topStackNode1.getType()) {
+                        
+                        // CSE Rule 12
+                        // Applying Y to lambda
+                        case "Y":
+                            topStackNode2 = this.getStackList().pop();
+                            topStackNode2.setType("eta");
+                            this.getStackList().push(topStackNode2);
+                            break;
+                        
+                        // CSE Rule 13
+                        // Applying f.p.
+                        case "eta":
+                            // updating the control
+                            newGammaNode = new CSNode("gamma", "gamma");
+                            this.getControlList().push(newGammaNode);       // pushing a gamma node into the control
+                            this.getControlList().push(topStackNode1);      // pushing a gamma node into the control
+
+                            // updating the stack
+                            newlambdaNode = new CSNode("lambda", topStackNode1.getName(), topStackNode1.getLambdano());
+                            this.getStackList().push(topStackNode1);        // pushing the eta node back into the stack
+                            this.getStackList().push(newlambdaNode);        // pushing the lambda into the stack
+                            break;
+                    
+                        default:
+                            break;
+                    }
 
 
                     
