@@ -127,8 +127,19 @@ public class LexicalAnalyzer {
             boolean isComment = false;    
             while ((nextChr = nextChr()) != null) {
                 if (prevChr.matches("[/]") && nextChr.matches("[/]")) { // Comment (starts with a -> ’//’) made higher precedence than operator to avoid conflict 
+                    // strip the characters before the comment and make an operator token
+                    if(value.length() > 1) {
+                        String tokenValue = value.substring(0, value.length() - 1);
+                        System.out.println("buffer back the last character ##" + tokenValue + "##");
+                        // buffer = nextChr;
+                        token.setType("OPERATOR");
+                        token.setValue(tokenValue);
+                        tokenList.add(token);
+                    }
+                    token = new Token();
+
                     isComment = true;
-                    value += nextChr;
+                    value = "//";
                     // System.out.println("Comment -> #####################" + value);
                     while ((nextChr = nextChr()) != null) {
                         if (nextChr.matches("['\''|'('|')'|';'|','|' '|'\\t'|" + letter + "|" + digit + "|"
@@ -151,7 +162,7 @@ public class LexicalAnalyzer {
                     // System.out.println("prev: " + prevChr);
                 } else {
                     // System.out.println("buffer back the last character ##" + nextChr + "##");
-                    // buffer = nextChr;
+                    buffer = nextChr;
                     token.setType("OPERATOR");
                     token.setValue(value);
                     tokenList.add(token);

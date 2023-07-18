@@ -1,10 +1,9 @@
 // 4. Program to find factorial of a given number
-let rec fact(n) =
-(
-    n ls 0 ->
-    'Factorial is not defined for negative numbers'
+
     | n eq 0 -> 1 // base case 0! = 1
     | n * fact(n - 1)
-)
-in
-Print(fact(5))
+@f
+nj-1
++//comment
+
++-+|//comment
