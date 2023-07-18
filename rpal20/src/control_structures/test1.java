@@ -2,6 +2,7 @@ package control_structures;
 
 import java.util.List;
 import cse_machine.CSE;
+import Parser.Node;
 
 /*
  * Created as a test implementation for the Control Structures
@@ -18,12 +19,12 @@ public class test1 {
         Node n6 = new Node("<INT:3>");
         Node n7 = new Node("<INT:3>");
 
-        n1.setChild(n2);
-        n2.setSibling(n7);
-        n2.setChild(n3);
-        n3.setSibling(n4);
-        n4.setChild(n5);
-        n5.setSibling(n6);
+        n1.setLeft(n2);
+        n2.setRight(n7);
+        n2.setLeft(n3);
+        n3.setRight(n4);
+        n4.setLeft(n5);
+        n5.setRight(n6);
 
         ControlStructures ctrller = new ControlStructures();
 
@@ -37,7 +38,7 @@ public class test1 {
 
         //cse_m.expandDelta();
 
-        cse_m.setupCSE();
+        cse_m.runCSE();
 
         
     }
