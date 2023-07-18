@@ -6,6 +6,9 @@ import Parser.ParseTree;
 import lexical_analyzer.LexicalAnalyzer;
 import lexical_analyzer.Token;
 
+import control_structures.ControlStructures;
+import cse_machine.CSE;
+
 public class rpal20 {
     public static void main(String[] args) throws Exception {
         // eg: java rpal20 rpal_test_programs/rpal_01 > output.01 -> filename = rpal_test_programs/rpal_01
@@ -28,5 +31,9 @@ public class rpal20 {
         tree.standardize();
         System.out.println("-------------------ST----------------------");
         tree.print();
+
+        ControlStructures ctrlstruct = new ControlStructures();
+
+        ctrlstruct.genControlStructures(tree.getRoot());
     }
 }
