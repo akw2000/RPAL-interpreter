@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package control_structures;
 
 /**
@@ -5,11 +10,8 @@ package control_structures;
  * @author OshadiPC
  */
 
-import java.util.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -17,7 +19,7 @@ public class ControlStructures {
     private int deltano;
     private int delta_count;
     private Queue<Node> pendingdelta;
-    private List<List<NodeCS>> delta;
+    private List<List<CSNode>> delta;
 
     public ControlStructures() {
         deltano = 0;
@@ -29,22 +31,22 @@ public class ControlStructures {
     public void genControlStructures(Node root) {
         pendingdelta.add(root);
         while (!pendingdelta.isEmpty()) {
-            List<NodeCS> currentdelta = new ArrayList<>();
+            List<CSNode> currentdelta = new ArrayList<>();
             Node current = pendingdelta.poll();
-            preorder(current, (ArrayList<NodeCS>) currentdelta);
+            preorder(current, (ArrayList<CSNode>) currentdelta);
             delta.add(currentdelta);
             deltano++;
         }
     }
 
-    public void preorder(Node root, ArrayList<NodeCS> currentdelta) {
+    public void preorder(Node root, ArrayList<CSNode> currentdelta) {
     	if (root.getValue().equals("lambda")) {
         	if (!root.getChild().getValue().equals(",")) {
             		String name = "";
             		if (root.getChild().getValue().substring(0, 3).equals("<ID")) {
                 		name = root.getChild().getValue().substring(4, root.getChild().getValue().length() - 1);
             		}
-            		NodeCS lambdaclosure = new NodeCS("lambdaClosure", name, ++delta_count);
+            		CSNode lambdaclosure = new CSNode("lambdaClosure", name, ++delta_count);
             		currentdelta.add(lambdaclosure);
         	} else {
             		Node commachild = root.getChild().getChild();
@@ -57,8 +59,8 @@ public class ControlStructures {
                 		tuple += name + ",";
             	    		commachild = commachild.getSibling();
             		}
-            		NodeCS lambdaclosure = new NodeCS("lambdaClosure", tuple, ++delta_count);
-            		lambdaclosure.isTuple = true;
+            		CSNode lambdaclosure = new CSNode("lambdaClosure", tuple, ++delta_count);
+            		lambdaclosure.setIsTuple(true);
             		currentdelta.add(lambdaclosure);
         	}
         	pendingdelta.add(root.getChild().getSibling());
@@ -66,7 +68,7 @@ public class ControlStructures {
             		preorder(root.getSibling(), currentdelta);
     	}
     	else if(root.getValue().equals("->")) {
-    		NodeCS betaObject = new NodeCS("beta", delta_count + 1, delta_count + 2);
+    		CSNode betaObject = new CSNode("beta", delta_count + 1, delta_count + 2);
     		currentdelta.add(betaObject);
     		pendingdelta.add(root.getChild().getSibling());
     		Node temp = new Node(root.getChild().getSibling().getSibling().getValue());
@@ -96,8 +98,8 @@ public class ControlStructures {
         		++n;
         		temp = temp.getSibling();
     		}
-    		NodeCS t = new NodeCS(type, name);
-    		t.tauno = n;
+    		CSNode t = new CSNode(type, name);
+    		t.setTauno(n);
     		currentdelta.add(t);
     		if(root.getChild() != null)
         		preorder(root.getChild(), currentdelta);
@@ -147,7 +149,7 @@ public class ControlStructures {
     			type = "OPERATOR";
     			name = root.getValue().substring(10, root.getValue().length() - 1);
 		}
-		NodeCS t = new NodeCS(type, name);
+		CSNode t = new CSNode(type, name);
 		currentdelta.add(t);
 		if(root.getChild() != null)
     			preorder(root.getChild(), currentdelta);
@@ -164,20 +166,23 @@ public class ControlStructures {
             
 		for (int j = 0; j < delta.get(i).size(); ++j) {
                 
-			System.out.println("\n" + delta.get(i).get(j).name + "," + delta.get(i).get(j).type + "," + delta.get(i).get(j).lambdaenv + "," + delta.get(i).get(j).lambdano + "," + delta.get(i).get(j).lambdavar + "," + delta.get(i).get(j).envno + "," + delta.get(i).get(j).thenno + "," + delta.get(i).get(j).elseno + "," + delta.get(i).get(j).tauno + "," + delta.get(i).get(j).isTuple);
-            
+			System.out.println("\n" + delta.get(i).get(j).getName() + "," + delta.get(i).get(j).getType() + "," 
+				+ delta.get(i).get(j).getLambdaenv() + "," + delta.get(i).get(j).getLambdano() + "," 
+				+ delta.get(i).get(j).getLambdavar() + "," + delta.get(i).get(j).getEnvno() + "," 
+				+ delta.get(i).get(j).getThenno() + "," + delta.get(i).get(j).getElseno() + "," 
+				+ delta.get(i).get(j).getTauno() + "," + delta.get(i).get(j).getIsTuple()
+				);
 		}
-            
-		System.out.println();
+
+			System.out.println();
         
-	}
+		}
     
     }
 
     
-    public List<List<NodeCS>> getCS() {
+    public List<List<CSNode>> getCS() {
         
-	return delta;
-    
+		return delta;
     }
 }

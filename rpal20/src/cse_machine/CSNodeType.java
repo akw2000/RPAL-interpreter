@@ -1,6 +1,6 @@
 package cse_machine;
 
-public enum NodeCSCategory {
+public enum CSNodeType {
     
     IDENTIFIER("<id:%s>"),
     STRING("<STR:'%s'"),
@@ -56,7 +56,7 @@ public enum NodeCSCategory {
 
     private String type;
 
-    private NodeCSCategory(String obj_type) {
+    private CSNodeType(String obj_type) {
         type = obj_type;
     }
 

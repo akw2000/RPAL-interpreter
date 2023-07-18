@@ -3,32 +3,32 @@ package cse_machine;
 import java.util.List;
 import java.util.Stack;
 
-import control_structures.NodeCS;
+import control_structures.CSNode;
 
 public class CSE {
-    private List<List<NodeCS>> deltaLists;
-    private Stack<NodeCS> ControlList;
-    private Stack<NodeCS> StackList;
+    private List<List<CSNode>> deltaLists;
+    private Stack<CSNode> ControlList;
+    private Stack<CSNode> StackList;
     private int curr_env;
     
-    public CSE(List<List<NodeCS>> deltaLists) {
+    public CSE(List<List<CSNode>> deltaLists) {
         this.deltaLists = deltaLists;
-        this.ControlList = new Stack<NodeCS>();
-        this.StackList = new Stack<NodeCS>();
+        this.ControlList = new Stack<CSNode>();
+        this.StackList = new Stack<CSNode>();
         this.curr_env = 0;
     }
 
     public void insertToControl(int delta_num) {
-        List<NodeCS> delta_i = deltaLists.get(delta_num);
-        NodeCS delta_cs = new NodeCS("delta", delta_num, delta_i);
+        List<CSNode> delta_i = deltaLists.get(delta_num);
+        CSNode delta_cs = new CSNode("delta", delta_num, delta_i);
         this.getControlList().push(delta_cs);
     }
 
     public void expandDelta() {
-        NodeCS delta_cs = this.getControlList().pop();
+        CSNode delta_cs = this.getControlList().pop();
 
         if (delta_cs.getType().equals("delta")) {
-            List<NodeCS> ctrl_struct = delta_cs.getTuple();
+            List<CSNode> ctrl_struct = delta_cs.getTuple();
             for (int i=0; i< ctrl_struct.size(); i++) {
                 this.getControlList().push(ctrl_struct.get(i)); 
             }
@@ -38,7 +38,7 @@ public class CSE {
     }
 
     public void setupCSE() {
-        NodeCS parent_env = new NodeCS("env", curr_env, (NodeCS) null);
+        CSNode parent_env = new CSNode("env", curr_env, (CSNode) null);
         this.ControlList.push(parent_env);
 
         this.insertToControl(0);
@@ -48,7 +48,7 @@ public class CSE {
     public void runCSE() {
         while(!this.getControlList().empty()) {
             
-            NodeCS topCtrlNodeCS = this.getControlList().pop();
+            CSNode topCtrlNodeCS = this.getControlList().pop();
 
             /*
              * Switch Case to be implemented
@@ -59,19 +59,19 @@ public class CSE {
 
     }
 
-    public Stack<NodeCS> getControlList() {
+    public Stack<CSNode> getControlList() {
         return ControlList;
     }
 
-    public void setControlList(Stack<NodeCS> controlList) {
+    public void setControlList(Stack<CSNode> controlList) {
         ControlList = controlList;
     }
 
-    public Stack<NodeCS> getStackList() {
+    public Stack<CSNode> getStackList() {
         return StackList;
     }
 
-    public void setStackList(Stack<NodeCS> stackList) {
+    public void setStackList(Stack<CSNode> stackList) {
         StackList = stackList;
     }
 
