@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import Parser.AST;
 import Parser.ParseTree;
@@ -8,6 +9,7 @@ import lexical_analyzer.Token;
 
 import control_structures.ControlStructures;
 import cse_machine.CSE;
+import control_structures.CSNode;
 
 public class rpal20 {
     public static void main(String[] args) throws Exception {
@@ -35,5 +37,9 @@ public class rpal20 {
         ControlStructures ctrlstruct = new ControlStructures();
 
         ctrlstruct.genControlStructures(tree.getRoot());
+
+        List<List<CSNode>> deltc_struct = ctrlstruct.getCS();
+
+        CSE cse_m = new CSE(deltc_struct);
     }
 }

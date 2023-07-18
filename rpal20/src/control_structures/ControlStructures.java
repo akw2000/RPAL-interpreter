@@ -31,8 +31,8 @@ public class ControlStructures {
         delta = new ArrayList<>();
     }
 
-    public void genControlStructures(Node root) {
-        pendingdelta.add(root);
+    public void genControlStructures(Parser.Node n1) {
+        pendingdelta.add(n1);
         while (!pendingdelta.isEmpty()) {
             List<CSNode> currentdelta = new ArrayList<>();
             Node current = pendingdelta.poll();
