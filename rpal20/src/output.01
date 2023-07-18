@@ -1,34 +1,12 @@
+buffer back the last character ##+##
+buffer back the last character ##+-+|##
 #######################Token List:
 <DELETE: // 4. Program to find factorial of a given number
 >
-<KEYWORD: let>
-<DELETE:  >
-<KEYWORD: rec>
-<DELETE:  >
-<IDENTIFIER: fact>
-<L_PAREN: (>
-<IDENTIFIER: n>
-<R_PAREN: )>
-<DELETE:  >
-<OPERATOR: =>
-<DELETE: 
->
-<L_PAREN: (>
-<DELETE: 
-    >
-<IDENTIFIER: n>
-<DELETE:  >
-<KEYWORD: ls>
-<DELETE:  >
-<INTEGER: 0>
-<DELETE:  >
-<OPERATOR: ->>
-<DELETE: 
-    >
-<STRING: 'Factorial is not defined for negative numbers'>
 <DELETE: 
     >
 <OPERATOR: |>
+<DELETE:  >
 <IDENTIFIER: n>
 <DELETE:  >
 <KEYWORD: eq>
@@ -36,37 +14,43 @@
 <INTEGER: 0>
 <DELETE:  >
 <OPERATOR: ->>
+<DELETE:  >
 <INTEGER: 1>
 <DELETE:  >
 <DELETE: // base case 0! = 1
 >
 <DELETE:     >
 <OPERATOR: |>
+<DELETE:  >
 <IDENTIFIER: n>
 <DELETE:  >
 <OPERATOR: *>
+<DELETE:  >
 <IDENTIFIER: fact>
 <L_PAREN: (>
 <IDENTIFIER: n>
 <DELETE:  >
 <OPERATOR: ->
+<DELETE:  >
 <INTEGER: 1>
 <R_PAREN: )>
 <DELETE: 
 >
-<R_PAREN: )>
+<OPERATOR: @>
+<IDENTIFIER: f>
 <DELETE: 
 >
-<KEYWORD: in>
+<IDENTIFIER: nj>
+<OPERATOR: ->
+<INTEGER: 1>
 <DELETE: 
 >
-<IDENTIFIER: Print>
-<L_PAREN: (>
-<IDENTIFIER: fact>
-<L_PAREN: (>
-<INTEGER: 5>
-<R_PAREN: )>
-<R_PAREN: )>
+<OPERATOR: +>
+<DELETE: //comment
+>
 <DELETE: 
+>
+<OPERATOR: +-+|>
+<DELETE: //comment
 >
 <EOF: EOF>
