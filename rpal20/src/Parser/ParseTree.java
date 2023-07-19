@@ -31,7 +31,7 @@ public class ParseTree {
         
         do{
             curr_token = token_list.remove(0);
-            System.out.println(curr_token.getType());
+            //System.out.println(curr_token.getType());
           }while(isType(curr_token,"DELETE"));
         }
         if (curr_token!=null){
@@ -549,7 +549,7 @@ public class ParseTree {
           readNext();
           int N = 0;
           while(isType(curr_token, "COMMA")){ 
-            System.out.println("loop;()");
+            
             readNext();
             if(!isType(curr_token, "IDENTIFIER")){
                 //error
