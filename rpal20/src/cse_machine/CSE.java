@@ -137,7 +137,24 @@ public class CSE {
                                     RPALFunc.Print(topStackNode2);
                                     this.getStackList().push(topStackNode2);
                                     break;
-                            
+
+                                case "Conc":
+                                    CSNode topStackNode3 = this.getStackList().pop();
+                                    CSNode concatNode = RPALFunc.Conc(topStackNode2, topStackNode3);
+                                    this.getControlList().pop();
+                                    this.getStackList().push(concatNode);
+                                    break;
+                                
+                                case "Stem":
+                                    CSNode stemNode = RPALFunc.Stem(topStackNode2);
+                                    this.getStackList().push(stemNode);
+                                    break;
+
+                                case "Stern":
+                                    CSNode sternNode = RPALFunc.Stern(topStackNode2);
+                                    this.getStackList().push(sternNode);
+                                    break;
+
                                 default:
                                     break;
                             }
