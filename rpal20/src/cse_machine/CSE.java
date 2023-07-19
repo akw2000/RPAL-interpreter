@@ -10,12 +10,14 @@ public class CSE {
     private Stack<CSNode> ControlList;
     private Stack<CSNode> StackList;
     private int curr_env;
+    private EnvNode currEnvNode;
     
     public CSE(List<List<CSNode>> deltaLists) {
         this.deltaLists = deltaLists;
         this.ControlList = new Stack<CSNode>();
         this.StackList = new Stack<CSNode>();
         this.curr_env = 0;
+        this.currEnvNode = null;
     }
 
     public void insertToControl(int delta_num) {
@@ -39,11 +41,24 @@ public class CSE {
 
     private void setupCSE() {
         CSNode parent_env = new CSNode("env", curr_env, (CSNode) null);
+        EnvNode parEnvNode = new EnvNode(0, null, null);
+
         this.ControlList.push(parent_env);
         this.StackList.push(parent_env);
+        this.currEnvNode = parEnvNode;
 
         this.insertToControl(0);
         this.expandDelta();
+    }
+
+    public CSNode lookUpEnv(EnvNode envNode, String variable) {
+        CSNode envVar = envNode.getVariable();
+        if (envVar.getName().equals(variable)) {
+            return envVar;
+        }
+        else {
+            return lookUpEnv(envNode.getParentEnv(), variable);
+        }
     }
 
     public void runCSE() {
@@ -209,6 +224,14 @@ public class CSE {
 
     public void setCurr_env(int curr_env) {
         this.curr_env = curr_env;
+    }
+
+    public EnvNode getEnvNode() {
+        return currEnvNode;
+    }
+    
+    public void setEnvNode(EnvNode envNode) {
+        this.currEnvNode = envNode;
     }
 
 }

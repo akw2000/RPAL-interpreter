@@ -1,5 +1,7 @@
 package cse_machine;
 
+import control_structures.CSNode;
+
 /*
  * Although this class is designed 
  * to store a single variable and single value,
@@ -9,14 +11,12 @@ package cse_machine;
 public class EnvNode {
     
     private int env_no;
-    private String env_variable;
-    private String value;
+    private CSNode variable;
     private EnvNode parentEnv;
 
-    public EnvNode(int env_no, String env_variable, String value, EnvNode parentEnv) {
+    public EnvNode(int env_no, CSNode variable, EnvNode parentEnv) {
         this.env_no = env_no;
-        this.env_variable = env_variable;
-        this.value = value;
+        this.variable = variable;
         this.parentEnv = parentEnv;
     }
 
@@ -28,20 +28,12 @@ public class EnvNode {
         this.env_no = env_no;
     }
 
-    public String getEnv_variable() {
-        return env_variable;
+    public CSNode getVariable() {
+        return variable;
     }
 
-    public void setEnv_variable(String env_variable) {
-        this.env_variable = env_variable;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public void setEnv_variable(CSNode env_variable) {
+        this.variable = env_variable;
     }
 
     public EnvNode getParentEnv() {
@@ -51,8 +43,5 @@ public class EnvNode {
     public void setParentEnv(EnvNode parentEnv) {
         this.parentEnv = parentEnv;
     }
-
-    
-
     
 }
