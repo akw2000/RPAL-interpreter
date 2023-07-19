@@ -199,8 +199,35 @@ public class CSE {
                             break;
                     }
 
+                    break;
 
+                // CSE Rules 5
+                // Exit Environment
+                case "env":
+                    // value node to be reinserted to stack
+                    topStackNode1 = this.getStackList().pop();
                     
+                    // environment variable found in stack
+                    topStackNode2 = this.getStackList().pop();
+
+                    // checking if the environment variables are correct
+                    if (topCtrlNode.getType().equals(topStackNode2.getType()) & 
+                                        topCtrlNode.getEnvno() == topStackNode2.getEnvno()){
+                        this.getStackList().push(topStackNode1);
+
+                        /*
+                         * Need to verify how the Environment Tree and 
+                         * current environment should be affected when exiting Environments
+                         */
+                        EnvNode parEnv = this.getEnvNode().getParentEnv();
+                        if (this.getEnvNode().getEnv_no() != 0) {
+                            this.setCurr_env(parEnv.getEnv_no());
+                            this.setEnvNode(parEnv);
+                        }
+                    } else {
+                        // Dummy Error Message
+                        System.out.println("There's an Error in Envs");
+                    }
                     break;
 
                 // CSE Rules 8
