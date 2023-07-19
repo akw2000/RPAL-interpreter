@@ -96,6 +96,7 @@ public class CSE {
                     break;
 
                 // CSE Rules 8
+                // Conditional
                 case "beta":
                     topStackNode1 = this.getStackList().pop();
                     if (topStackNode1.getType().equals("TRUE")) {
@@ -107,6 +108,27 @@ public class CSE {
                         this.getStackList().push(temp);
                         this.expandDelta();
                     }
+                    break;
+                
+                // CSE Rules 9
+                // Tuple Selection
+                case "tau":
+                    // get number of elements in the tuple
+                    int n = topCtrlNode.getTauno();
+                    
+                    // creating the tuple Object to be added into the stack
+                    CSNode tuple = new CSNode("tuple", "tuple");
+
+                    // extracting each of the tuple items from the loop 
+                        // and adding to the tuple object
+                    for (int i=0; i<n; i++) {
+                        CSNode tup_elem = this.getStackList().pop();
+                        tuple.getTuple().add(tup_elem);
+                    }
+
+                    // adding the tuple object to the stack
+                    this.getStackList().push(tuple);
+
                     break;
             
                 default:
