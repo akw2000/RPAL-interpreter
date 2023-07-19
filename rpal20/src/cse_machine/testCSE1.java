@@ -8,12 +8,15 @@ import java.util.List;
 
 public class testCSE1 {
     
+    /*
+     * Testing the Conditional Node through the Control Strucutres and CSE Machine
+     */
     public static void main(String[] args) {
         
         Node n1 = new Node("->");
         Node n2 = new Node("TRUE");
         Node n3 = new LeafNode("IDENTIFIER","3");
-        Node n4 = new LeafNode("IDENTIFIER","3");
+        Node n4 = new LeafNode("IDENTIFIER","9");
 
         n1.setLeft(n2);
         n2.setRight(n3);
