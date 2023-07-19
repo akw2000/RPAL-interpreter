@@ -40,7 +40,7 @@ public class CSE {
     }
 
     private void setupCSE() {
-        CSNode parent_env = new CSNode("env", curr_env, (CSNode) null);
+        CSNode parent_env = new CSNode("env", curr_env);
         EnvNode parEnvNode = new EnvNode(0, null, null);
 
         this.ControlList.push(parent_env);
@@ -53,8 +53,8 @@ public class CSE {
 
     public CSNode lookUpEnv(EnvNode envNode, String variable) {
         CSNode envVar = envNode.getVariable();
-        if (envVar.getName().equals(variable)) {
-            return envVar;
+        if (envVar.getLambdavar().equals(variable)) {
+            return envVar.getTuple().get(0);
         }
         else {
             return lookUpEnv(envNode.getParentEnv(), variable);
@@ -100,9 +100,26 @@ public class CSE {
                     this.getStackList().push(topCtrlNode);
                     break;
 
+                case "IDENTIFIER":
+
+                /*
+                 * Only applied for Variable Identifiers at the moment
+                 */
+
+                    // get the name of the indentifier variable
+                    String varName = topCtrlNode.getName();
+                    
+                    // lookup the value of the identifier using the environment tree
+                    CSNode valueNode = lookUpEnv(currEnvNode, varName);
+                    
+                    // add the value of the identifier to the stack
+                    this.StackList.push(valueNode);
+
+                    break;
+
                 // CSE Rules 2
                 // Stack Lambda into the Stack
-                case "lambda":
+                case "lambdaClosure":
                     topCtrlNode.setEnvno(curr_env);
                     this.StackList.push(topCtrlNode);
                     break;
@@ -112,6 +129,31 @@ public class CSE {
                     topStackNode1 = this.getStackList().pop();
 
                     switch (topStackNode1.getType()) {
+                        
+                        // CSE Rule 4
+                        // Apply Lambda
+                        case "lambdaClosure":
+                            // Obtaining Random Value
+                            topStackNode2 = this.getStackList().pop();
+                            
+                            // moving to next environment
+                            curr_env++;
+
+                            // creating new environment variable to insert to control-stack
+                            CSNode envCSNode = new CSNode("env", curr_env);
+
+                            topStackNode1.getTuple().add(topStackNode2);
+                            EnvNode envNode = new EnvNode(curr_env, topStackNode1, this.currEnvNode);
+
+                            this.setEnvNode(envNode);
+
+                            this.getControlList().push(envCSNode);
+                            this.getStackList().push(envCSNode);
+
+                            int delta_no = topStackNode1.getLambdano();
+                            this.insertToControl(delta_no);
+
+                            break;
 
                         // CSE Rule 10
                         // Tuple Selection
@@ -197,6 +239,10 @@ public class CSE {
 
                     break;
             
+                case "delta":
+                    this.ControlList.push(topCtrlNode);
+                    this.expandDelta();
+                    break;
                 default:
                     break;
             }

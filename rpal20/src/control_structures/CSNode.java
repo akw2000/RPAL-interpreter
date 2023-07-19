@@ -68,13 +68,12 @@ public class CSNode {
     }
 
     // used for environment variables 
-    // need type, env number and the parent environment variable
-    public CSNode(String t, int env_no, CSNode parent_env) {
+    // need type, env number
+    public CSNode(String t, int env_no) {
         type = t;
         envno = env_no;
         isTuple = false;
         tuple = new ArrayList<CSNode>();
-        tuple.add(parent_env);
         name = lambdavar = "";
         lambdano = lambdaenv = thenno = elseno = tauno = -1;
     }
