@@ -64,7 +64,26 @@ public class CSE {
                 // CSE Rules 1
                 case "INTEGER":
                     this.getStackList().push(topCtrlNode);
+                    break;
+                
+                case "STRING":
+                    this.getStackList().push(topCtrlNode);
+                    break;
+                
+                case "TRUE":
+                    this.getStackList().push(topCtrlNode);
+                    break;
 
+                case "FALSE":
+                    this.getStackList().push(topCtrlNode);
+                    break;
+
+                case "NIL":
+                    this.getStackList().push(topCtrlNode);
+                    break;
+
+                case "DUMMY":
+                    this.getStackList().push(topCtrlNode);
                     break;
 
                 // CSE Rules 3, 4, 10, 11, 12, 13
