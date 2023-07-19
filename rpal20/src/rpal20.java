@@ -41,5 +41,7 @@ public class rpal20 {
         List<List<CSNode>> deltc_struct = ctrlstruct.getCS();
 
         CSE cse_m = new CSE(deltc_struct);
+
+        cse_m.runCSE();
     }
 }
