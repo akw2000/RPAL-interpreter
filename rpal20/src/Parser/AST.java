@@ -65,14 +65,14 @@ public class AST {
            *         X   E               X     P
            */
 
-          Node lamNode = new Node("lambda");
-          lamNode.setRight(node.getLeft().getRight().getLeft().getRight());
-          lamNode.setLeft(node.getLeft().getRight().getLeft());
-          node.getLeft().setRight(null);
-          lamNode.getLeft().setRight(node.getLeft());
-          node.setLeft(lamNode);
-          node.setType("gamma");
-          break;
+           Node lamNode = new Node("lambda");
+           lamNode.setRight(node.getLeft().getRight().getLeft().getRight());
+           lamNode.setLeft(node.getLeft().getRight().getLeft());
+           node.getLeft().setRight(null);
+           lamNode.getLeft().setRight(node.getLeft());
+           node.setLeft(lamNode);
+           node.setType("gamma");
+           break;
 
         
         
@@ -85,16 +85,19 @@ public class AST {
            *                                    /   \
            *                                   X1    E2
            */
-            Node e1 = node.getLeft().getLeft().getRight();
-            Node e2 = node.getLeft().getRight().getLeft().getRight();
-
+            
+            Node x1 = node.getLeft().getLeft();
+            Node e1 = x1.getRight();
+            Node x2 = node.getLeft().getRight().getLeft();
+            Node e2 = x2.getRight();
             lamNode = new Node("lambda");
-            lamNode.setLeft(node.getLeft().getLeft());
-            lamNode.getLeft().setRight(e2);
+            x1.setRight(e2);
+            lamNode.setLeft(x1);
             lamNode.setRight(e1);
-            node.setLeft(node.getLeft().getRight().getLeft());
-            node.getLeft().setLeft(lamNode);
-            node.getLeft().setRight(new Node("gamma"));
+            Node gamNode = new Node ("gammma");
+            gamNode.setLeft(lamNode);
+            x2.setRight(gamNode);
+            node.setLeft(x2);
             node.setType("=");
             break;
            
@@ -109,15 +112,21 @@ public class AST {
            *                                          /   \
            *                                          X    E
            */
-          Node xNode = node.getLeft().getLeft();
-          node.setLeft(xNode);
-          lamNode = new Node("lambda");
-          lamNode.setLeft(xNode);
-          Node gamNode = new Node("gamma");
-          gamNode.setLeft(new Node("Y"));
-          gamNode.getLeft().setRight(lamNode);
-          node.getLeft().setRight(gamNode);
-          break;
+            equalNode = node.getLeft();
+            Node xNode = equalNode.getLeft();
+            lamNode = new Node("lambda");
+            lamNode.setLeft(xNode);
+            Node yNode = new Node("Y");
+            yNode.setRight(lamNode);
+            gamNode = new Node("gamma");
+            gamNode.setLeft(yNode);
+            //top x is a copy of x node without linking to e
+            LeafNode topX  = new LeafNode(xNode.getType(),((LeafNode)xNode).getValue());
+            topX.setLeft(xNode.getLeft());
+            topX.setRight(gamNode);
+            node.setLeft(topX);
+            node.setType("=");
+            break;
         
         case "fcn_form":
           /*      fcn_form                      =
@@ -141,19 +150,74 @@ public class AST {
            *                                     N    E1
            */
 
-          e2 = node.getLeft().getRight().getRight();
-          e1 = node.getLeft();
+            e1 = node.getLeft();
+            Node n = e1.getRight();
+            e2 = n.getRight();
+            gamNode = new Node("gamma");
+            gamNode.setLeft(n);
+            n.setRight(e1);
+            e1.setRight(null);
+            gamNode.setRight(e2);
+            node.setLeft(gamNode);
+            node.setType("gamma");
+
+          /* 
           gamNode = new Node("gamma");
           gamNode.setLeft(node.getLeft().getRight());
           e1.setRight(null);
           gamNode.getLeft().setRight(e1);
-          gamNode.setLeft(e2);
+          gamNode.setRight(e2);
           node.setLeft(gamNode);
           node.setType("gamma");
+          */
           break;
 
+          case "and":
+            /*
+             *          and                       =
+             *           |                       /  \
+             *          ++=           =>        ,    tau    
+             *          / \                     |      |
+             *         X   E                  ++X     ++E
+             */
+
+             equalNode = node.getLeft();
+             Node tauNode = new Node("tau");
+             Node commNode = new Node("commma");
+             tauNode.setLeft(equalNode.getLeft().getRight());
+             commNode.setLeft(equalNode.getLeft());
+             commNode.getLeft().setRight(null);
+             while(equalNode.getRight()!=null){
+                equalNode = equalNode.getRight();
+                tauNode.getLeft().appendRight(equalNode.getLeft().getRight());
+                equalNode.getLeft().setRight(null);
+                commNode.getLeft().appendRight(equalNode.getLeft());
+             }
+             node.setLeft(commNode);
+             commNode.setRight(tauNode);
+             node.setType("=");
+             break;
+        
+          case "lambda":
+             
+             /*       lambda                          ++lambda
+              *       /   \             =>             /    \
+                     V++   E                          V     .E
+              */
+            
+            vbNode = node.getLeft();
+            if (vbNode.getRight().getRight()==null){
+              break;
+            }
+            else{
+            lNode = creteLambdas(vbNode.getRight());
+            node.getLeft().setRight(lNode);
+            break;
+            }
+          
 
 
+        
 
         default:
           break;
@@ -165,6 +229,7 @@ public class AST {
 
     private Node creteLambdas (Node leafNode){
       Node lamNode;
+      
       if (leafNode.getRight()!=null && leafNode.getRight().getRight()==null){
         lamNode = new Node("lambda");
         lamNode.setLeft(leafNode);

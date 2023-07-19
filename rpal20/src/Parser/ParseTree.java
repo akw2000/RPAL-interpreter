@@ -31,7 +31,7 @@ public class ParseTree {
         
         do{
             curr_token = token_list.remove(0);
-            System.out.println(curr_token.getType());
+            //System.out.println(curr_token.getType());
           }while(isType(curr_token,"DELETE"));
         }
         if (curr_token!=null){
@@ -250,10 +250,10 @@ public class ParseTree {
           procA();
           buildTree("eq", 2);
         }
-        else if(curr_token.getValue().equals("gr")||curr_token.getValue().equals(">")){ 
+        else if(curr_token.getValue().equals("ne")){ 
           readNext();
           procA();
-          buildTree("gr", 2);
+          buildTree("ne", 2);
         }
         
     }
@@ -389,6 +389,7 @@ public class ParseTree {
             
             if(!curr_token.getValue().equals(")")){
               //error
+              System.out.printf("got %s %n",curr_token.getValue());
               throw new ParseException("Expected )");
             } 
             
@@ -542,13 +543,13 @@ public class ParseTree {
         //Vl -> ’<IDENTIFIER>’ list ’,’ => ’,’?
         if(!isType(curr_token, "IDENTIFIER")){
             //error
-            return;
+            throw new ParseException("Identifier is expected");
         }
         else{
           readNext();
           int N = 0;
           while(isType(curr_token, "COMMA")){ 
-            System.out.println("loop;()");
+            
             readNext();
             if(!isType(curr_token, "IDENTIFIER")){
                 //error

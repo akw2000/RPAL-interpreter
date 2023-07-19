@@ -32,5 +32,12 @@ public class Node {
     public Node getRight(){
         return this.right_child;
     }
+    public void appendRight(Node newNode){
+        Node tempNode = this;
+        while (tempNode.getRight()!=null){
+            tempNode=tempNode.getRight();
+        }
+        tempNode.setRight(newNode);
+    }
 
 }
