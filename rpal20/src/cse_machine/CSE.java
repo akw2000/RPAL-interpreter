@@ -60,6 +60,13 @@ public class CSE {
             CSNode newlambdaNode;
 
             switch (topCtrlNode.getType()) {
+                
+                // CSE Rules 1
+                case "INTEGER":
+                    this.getStackList().push(topCtrlNode);
+
+                    break;
+
                 // CSE Rules 3, 4, 10, 11, 12, 13
                 case "gamma":
                     topStackNode1 = this.getStackList().pop();
@@ -71,13 +78,13 @@ public class CSE {
                         case "tuple":
                             // get the index of the element to select from tuple
                             topStackNode2 = this.getStackList().pop();
-                            int index_i = Integer.parseInt(topStackNode1.getName());
+                            int index_i = Integer.parseInt(topStackNode2.getName());
 
                             // extract tuple
                             List<CSNode> tuple = topStackNode1.getTuple();
                             
                             // selecting the required tuple element
-                            CSNode tup_elem = tuple.get(index_i);
+                            CSNode tup_elem = tuple.get(index_i-1);
 
                             // inserting the selected tuple element
                             this.getStackList().push(tup_elem);
