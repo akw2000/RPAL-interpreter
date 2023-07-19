@@ -191,4 +191,8 @@ public class ControlStructures {
         
 		return delta;
     }
+
+	public int getDeltano() {
+		return deltano;
+	}
 }
