@@ -155,6 +155,16 @@ public class CSE {
                                     this.getStackList().push(sternNode);
                                     break;
 
+                                case "Order":
+                                    CSNode numNode = RPALFunc.Order(topStackNode2);
+                                    this.getStackList().push(numNode);
+                                    break;
+
+                                case "Null":
+                                    CSNode nullNode = RPALFunc.Order(topStackNode2);
+                                    this.getStackList().push(nullNode);
+                                    break;
+
                                 default:
                                     break;
                             }

@@ -35,5 +35,22 @@ public class RPALFunc {
         return new CSNode("STRING", conc);
     }
 
+    public static CSNode Order(CSNode tupleNode) {
+        int num = tupleNode.getTuple().size();
+        return new CSNode("INTEGER", String.valueOf(num));
+    }
+
+    public static CSNode Null(CSNode tupleNode) {
+        if (tupleNode.getTuple().size() == 0) {
+            return new CSNode("TRUE", "true");
+        } else {
+            return new CSNode("FALSE", "false");
+        }
+    }
+
+    public static CSNode aug(CSNode tupleNode, CSNode new_elem) {
+        tupleNode.getTuple().add(new_elem);
+        return tupleNode;
+    }
 
 }
