@@ -3,6 +3,7 @@ package control_structures;
 import java.util.List;
 import cse_machine.CSE;
 import Parser.Node;
+import Parser.LeafNode;
 
 /*
  * Created as a test implementation for the Control Structures
@@ -13,11 +14,11 @@ public class test1 {
     public static void main(String[] args) {
         Node n1 = new Node("gamma");
         Node n2 = new Node("lambda");
-        Node n3 = new Node("<ID:x>");
-        Node n4 = new Node("<OPERATOR:+>");
-        Node n5 = new Node("<ID:x>");
-        Node n6 = new Node("<INT:3>");
-        Node n7 = new Node("<INT:3>");
+        Node n3 = new LeafNode("IDENTIFIER", "x");
+        Node n4 = new Node("+");
+        Node n5 = new LeafNode("IDENTIFIER", "x");
+        Node n6 = new LeafNode("INTEGER", "3");
+        Node n7 = new LeafNode("INTEGER", "3");
 
         n1.setLeft(n2);
         n2.setRight(n7);
