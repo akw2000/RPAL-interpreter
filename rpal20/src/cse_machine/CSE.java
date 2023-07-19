@@ -100,6 +100,13 @@ public class CSE {
                     this.getStackList().push(topCtrlNode);
                     break;
 
+                // CSE Rules 2
+                // Stack Lambda into the Stack
+                case "lambda":
+                    topCtrlNode.setEnvno(curr_env);
+                    this.StackList.push(topCtrlNode);
+                    break;
+  
                 // CSE Rules 3, 4, 10, 11, 12, 13
                 case "gamma":
                     topStackNode1 = this.getStackList().pop();
