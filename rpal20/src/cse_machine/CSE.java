@@ -1,5 +1,6 @@
 package cse_machine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -64,6 +65,24 @@ public class CSE {
                     topStackNode1 = this.getStackList().pop();
 
                     switch (topStackNode1.getType()) {
+
+                        // CSE Rule 10
+                        // Tuple Selection
+                        case "tuple":
+                            // get the index of the element to select from tuple
+                            topStackNode2 = this.getStackList().pop();
+                            int index_i = Integer.parseInt(topStackNode1.getName());
+
+                            // extract tuple
+                            List<CSNode> tuple = topStackNode1.getTuple();
+                            
+                            // selecting the required tuple element
+                            CSNode tup_elem = tuple.get(index_i);
+
+                            // inserting the selected tuple element
+                            this.getStackList().push(tup_elem);
+                            
+                            break;
                         
                         // CSE Rule 12
                         // Applying Y to lambda
