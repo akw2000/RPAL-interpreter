@@ -102,18 +102,16 @@ public class CSE {
 
                 case "IDENTIFIER":
 
-                /*
-                 * Only applied for Variable Identifiers at the moment
-                 */
-
-                    // get the name of the indentifier variable
-                    String varName = topCtrlNode.getName();
-                    
-                    // lookup the value of the identifier using the environment tree
-                    CSNode valueNode = lookUpEnv(currEnvNode, varName);
-                    
-                    // add the value of the identifier to the stack
-                    this.StackList.push(valueNode);
+                    if (RPALFunc.checkInBuilt(topCtrlNode.getName())) {
+                        this.StackList.push(topCtrlNode);
+                    } else {
+                        // get the name of the indentifier variable
+                        String varName = topCtrlNode.getName();
+                        // lookup the value of the identifier using the environment tree
+                        CSNode valueNode = lookUpEnv(currEnvNode, varName);
+                        // add the value of the identifier to the stack
+                        this.StackList.push(valueNode);
+                    }
 
                     break;
 
@@ -130,6 +128,22 @@ public class CSE {
 
                     switch (topStackNode1.getType()) {
                         
+                        // CSE Rule 3
+                        // Apply Rator
+                        case "IDENTIFIER":
+                            topStackNode2 = this.getStackList().pop();
+                            switch (topStackNode1.getName()) {
+                                case "Print":
+                                    RPALFunc.Print(topStackNode2);
+                                    this.getStackList().push(topStackNode2);
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+
+                            break;
+
                         // CSE Rule 4
                         // Apply Lambda
                         case "lambdaClosure":
