@@ -111,7 +111,7 @@ public class CSE {
                     break;
                 
                 // CSE Rules 9
-                // Tuple Selection
+                // Tuple Formation
                 case "tau":
                     // get number of elements in the tuple
                     int n = topCtrlNode.getTauno();
