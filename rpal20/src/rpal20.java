@@ -10,7 +10,7 @@ public class rpal20 {
     public static void main(String[] args) throws Exception {
         // eg: java rpal20 rpal_test_programs/rpal_01 > output.01 -> filename = rpal_test_programs/rpal_01
         //File file = new File(args[0]);
-        File file = new File ("rpal20\\test progs\\add");
+        File file = new File ("rpal20\\test progs\\towers");
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(file);
         ArrayList<Token> tokenList = lexicalAnalyzer.getTokenList();
         System.out.println("#######################Token List:");

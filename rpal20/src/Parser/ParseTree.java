@@ -250,10 +250,10 @@ public class ParseTree {
           procA();
           buildTree("eq", 2);
         }
-        else if(curr_token.getValue().equals("gr")||curr_token.getValue().equals(">")){ 
+        else if(curr_token.getValue().equals("ne")){ 
           readNext();
           procA();
-          buildTree("gr", 2);
+          buildTree("ne", 2);
         }
         
     }
@@ -389,6 +389,7 @@ public class ParseTree {
             
             if(!curr_token.getValue().equals(")")){
               //error
+              System.out.printf("got %s %n",curr_token.getValue());
               throw new ParseException("Expected )");
             } 
             
@@ -542,7 +543,7 @@ public class ParseTree {
         //Vl -> ’<IDENTIFIER>’ list ’,’ => ’,’?
         if(!isType(curr_token, "IDENTIFIER")){
             //error
-            return;
+            throw new ParseException("Identifier is expected");
         }
         else{
           readNext();
