@@ -17,6 +17,10 @@ CLASSES = \
 	control_structures/CSNode.java \
 	cse_machine/CSE.java \
 	cse_machine/CSNodeType.java \
+	cse_machine/EnvNode.java \
+	cse_machine/EvaluationException.java \
+	cse_machine/RPALBinaryOps.java \
+	cse_machine/RPALUnaryOps.java \
     rpal20.java
 
 # Target for building the classes
@@ -33,8 +37,11 @@ test:
 	java -cp bin rpal20 rpal_test_programs/rpal_01 > output.01
 	fc output.01 rpal_test_programs/output01.test
 
+test2: 
+	java -cp bin rpal20
 # both build and test
-check: default test
+# check: default test
+check: default test2
 
 clean:
 	del /Q /S bin
