@@ -18,7 +18,7 @@ public class CSNode {
     private List<CSNode> tuple;
     private String type;
     private String name;
-    private String lambdavar;
+    private List<String> lambdavar;
     private int lambdano;
     private int lambdaenv;
     private int envno;
@@ -29,7 +29,8 @@ public class CSNode {
     public CSNode() {
         isTuple = false;
         tuple = new ArrayList<CSNode>();
-        type = name = lambdavar = "";
+        lambdavar = new ArrayList<String>();
+        type = name = "";
         lambdano = lambdaenv = envno = thenno = elseno = tauno = -1;
     }
 
@@ -42,7 +43,7 @@ public class CSNode {
         name = n;
         isTuple = false;
         tuple = new ArrayList<CSNode>();
-        lambdavar = "";
+        lambdavar = new ArrayList<String>();
         lambdano = lambdaenv = envno = thenno = elseno = tauno = -1;
     }
 
@@ -57,9 +58,9 @@ public class CSNode {
 
     // same function can be used in both cases
         // need type, lambdavar or name, lambda number 
-    public CSNode(String t, String lambda, int lambda_no) {
+    public CSNode(String t, ArrayList<String> varLambda, int lambda_no) {
         type = t;
-        lambdavar = lambda;
+        lambdavar = varLambda;
         lambdano = lambda_no;
         isTuple = false;
         tuple = new ArrayList<CSNode>();
@@ -74,7 +75,8 @@ public class CSNode {
         envno = env_no;
         isTuple = false;
         tuple = new ArrayList<CSNode>();
-        name = lambdavar = "";
+        name = "";
+        lambdavar = new ArrayList<String>();
         lambdano = lambdaenv = thenno = elseno = tauno = -1;
     }
 
@@ -87,7 +89,8 @@ public class CSNode {
         elseno = else_no;
         isTuple = false;
         tuple = new ArrayList<CSNode>();
-        name = lambdavar = "";
+        name = "";
+        lambdavar =new ArrayList<String>();
         lambdano = lambdaenv = envno = tauno = -1;
     }
 
@@ -97,7 +100,8 @@ public class CSNode {
         envno = delta_no;
         tuple = delta_struct;
         isTuple = false;
-        name = lambdavar = "";
+        name =  "";
+        lambdavar = new ArrayList<String>();
         lambdano = lambdaenv = thenno = elseno = tauno = -1;
     }
 
@@ -117,7 +121,7 @@ public class CSNode {
         return name;
     }
 
-    public String getLambdavar() {
+    public List<String> getLambdavar() {
         return lambdavar;
     }
 
@@ -161,7 +165,7 @@ public class CSNode {
         this.name = name;
     }
 
-    public void setLambdavar(String lambdavar) {
+    public void setLambdavar(ArrayList<String> lambdavar) {
         this.lambdavar = lambdavar;
     }
 

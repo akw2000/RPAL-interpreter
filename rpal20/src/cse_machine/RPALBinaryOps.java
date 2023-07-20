@@ -119,11 +119,11 @@ public class RPALBinaryOps {
         }
     }
 
-    // public static CSNode LogicOR(CSNode node1, CSNode node2) {
+    // public static CSNode logicOR(CSNode node1, CSNode node2) {
 
     // }
 
-    // public static CSNode LogicAND(CSNode node1, CSNode node2) {
+    // public static CSNode logicAND(CSNode node1, CSNode node2) {
 
     // }
 

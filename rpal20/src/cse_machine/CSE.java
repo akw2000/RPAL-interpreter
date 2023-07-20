@@ -1,5 +1,6 @@
 package cse_machine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -53,8 +54,10 @@ public class CSE {
 
     public CSNode lookUpEnv(EnvNode envNode, String variable) {
         CSNode envVar = envNode.getVariable();
-        if (envVar.getLambdavar().equals(variable)) {
-            return envVar.getTuple().get(0);
+        List<String> varList = envVar.getLambdavar();
+        if (varList.contains(variable)) {
+            int idx = varList.indexOf(variable);
+            return envVar.getTuple().get(idx);
         }
         else {
             return lookUpEnv(envNode.getParentEnv(), variable);
@@ -227,7 +230,9 @@ public class CSE {
                             this.getControlList().push(topStackNode1);      // pushing a gamma node into the control
 
                             // updating the stack
-                            newlambdaNode = new CSNode("lambda", topStackNode1.getName(), topStackNode1.getLambdano());
+                            ArrayList<String> varList = new ArrayList<String>();
+                            varList.add(topStackNode1.getName());
+                            newlambdaNode = new CSNode("lambda", varList, topStackNode1.getLambdano());
                             this.getStackList().push(topStackNode1);        // pushing the eta node back into the stack
                             this.getStackList().push(newlambdaNode);        // pushing the lambda into the stack
                             break;
@@ -348,7 +353,7 @@ public class CSE {
                     topStackNode1 = this.getStackList().pop();
                     this.getStackList().push(RPALUnaryOps.neg(topStackNode1));
                     break;
-                    
+
                 // CSE Rules 8
                 // Conditional
                 case "beta":

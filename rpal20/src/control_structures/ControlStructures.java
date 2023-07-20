@@ -44,22 +44,23 @@ public class ControlStructures {
 
     public void preorder(Node root, ArrayList<CSNode> currentdelta) {
     	if (root.getType().equals("lambda")) {
-        	if (!root.getLeft().getType().equals(",")) {
-            		String name = "";
+        	if (!root.getLeft().getType().equals("comma")) {
+            		ArrayList<String> name = new ArrayList<String>();
             		if (root.getLeft().getType().equals("IDENTIFIER")) {
-                		name = ((LeafNode) root.getLeft()).getValue();
+                		String varname = ((LeafNode) root.getLeft()).getValue();
+						name.add(varname);
             		}
             		CSNode lambdaclosure = new CSNode("lambdaClosure", name, ++delta_count);
             		currentdelta.add(lambdaclosure);
         	} else {
             		Node commachild = root.getLeft().getLeft();
-            		String tuple = "";
+            		ArrayList<String> tuple = new ArrayList<String>();
             		while (commachild != null) {
                 		String name = "";
                 		if (commachild.getType().equals("IDENTIFIER")) {
-                    			name = ((LeafNode) commachild.getLeft()).getValue();
+                    			name = ((LeafNode) commachild).getValue();
                 		}
-                		tuple += name + ",";
+                		tuple.add(name);
             	    		commachild = commachild.getRight();
             		}
             		CSNode lambdaclosure = new CSNode("lambdaClosure", tuple, ++delta_count);
