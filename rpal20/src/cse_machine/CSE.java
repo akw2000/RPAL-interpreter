@@ -338,6 +338,17 @@ public class CSE {
                     
                     break;
 
+                // CSE Rules 7
+                // Unary Operators
+                case "not":
+                    topStackNode1 = this.getStackList().pop();
+                    this.getStackList().push(RPALUnaryOps.logicNot(topStackNode1));
+                    break;
+                case "neg":
+                    topStackNode1 = this.getStackList().pop();
+                    this.getStackList().push(RPALUnaryOps.neg(topStackNode1));
+                    break;
+                    
                 // CSE Rules 8
                 // Conditional
                 case "beta":
