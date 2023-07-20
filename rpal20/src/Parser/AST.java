@@ -160,17 +160,7 @@ public class AST {
             gamNode.setRight(e2);
             node.setLeft(gamNode);
             node.setType("gamma");
-
-          /* 
-          gamNode = new Node("gamma");
-          gamNode.setLeft(node.getLeft().getRight());
-          e1.setRight(null);
-          gamNode.getLeft().setRight(e1);
-          gamNode.setRight(e2);
-          node.setLeft(gamNode);
-          node.setType("gamma");
-          */
-          break;
+            break;
 
           case "and":
             /*

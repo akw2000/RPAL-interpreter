@@ -5,6 +5,13 @@ public class Node {
     private Node left_child;
     private Node right_child;
 
+    /*      first child - next sibling repreesentation
+                    Node
+                    /   \
+            left(child)  right(sibling)
+     * 
+     */
+
 
     public Node(String type){
         this.type = type ;
@@ -33,6 +40,7 @@ public class Node {
         return this.right_child;
     }
     public void appendRight(Node newNode){
+        //append the input note to the list of siblings of the node
         Node tempNode = this;
         while (tempNode.getRight()!=null){
             tempNode=tempNode.getRight();

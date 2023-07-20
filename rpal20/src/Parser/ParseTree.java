@@ -565,8 +565,7 @@ public class ParseTree {
         }
       }
     private void buildTree(String type,int n){
-            //System.out.println("Build tree call ");
-            //System.out.println(type);
+            //build the AST
             Node p = null;
             for (int i =0;i<n;i++){
                 Node c = stack.pop();
@@ -576,11 +575,9 @@ public class ParseTree {
             Node newNode = new Node(type);
             newNode.setLeft(p);
             newNode.setRight(null);
-            //System..out.println(newNode.getLeft());
-            //System..out.println("left child");
             stack.push(newNode);
 
-            ////System..out.println(stack);
+            
         }
 
 }
