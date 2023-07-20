@@ -182,7 +182,17 @@ public class CSE {
                             // creating new environment variable to insert to control-stack
                             CSNode envCSNode = new CSNode("env", curr_env);
 
-                            topStackNode1.getTuple().add(topStackNode2);
+                            if (topStackNode2.getName().equals("tuple")) {
+                                List<CSNode> tuple1 = topStackNode2.getTuple();
+                                for (int i = 0; i < tuple1.size(); i++) {
+                                    topStackNode1.getTuple().add(tuple1.get(i));
+                                }
+
+                            } else {
+                                topStackNode1.getTuple().add(topStackNode2);
+                            }
+
+                            
                             EnvNode envNode = new EnvNode(curr_env, topStackNode1, this.currEnvNode);
 
                             this.setEnvNode(envNode);

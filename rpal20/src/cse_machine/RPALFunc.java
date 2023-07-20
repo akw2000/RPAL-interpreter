@@ -53,4 +53,7 @@ public class RPALFunc {
         return tupleNode;
     }
 
+    /*
+     * Code to check Type of the variable
+     */
 }
