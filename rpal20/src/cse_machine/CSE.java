@@ -87,7 +87,7 @@ public class CSE {
                     this.getStackList().push(topCtrlNode);
                     break;
                 
-                case "TRUEVALUE":
+                case "TRUTHVALUE":
                     this.getStackList().push(topCtrlNode);
                     break;
 
@@ -96,6 +96,10 @@ public class CSE {
                     break;
 
                 case "DUMMY":
+                    this.getStackList().push(topCtrlNode);
+                    break;
+
+                case "Y":
                     this.getStackList().push(topCtrlNode);
                     break;
 
@@ -111,6 +115,10 @@ public class CSE {
                         // add the value of the identifier to the stack
                         this.StackList.push(valueNode);
                     }
+
+                    /*
+                     * Need to implement a way to read functions determined by user
+                     */
 
                     break;
 
@@ -165,6 +173,10 @@ public class CSE {
                                     break;
 
                                 default:
+
+                                /*
+                                 * Need to implement code for Defined functions by the user 
+                                 */
                                     break;
                             }
 
@@ -261,6 +273,10 @@ public class CSE {
                     
                     // environment variable found in stack
                     topStackNode2 = this.getStackList().pop();
+
+                    /*
+                     * There is an error regarding when Lambda variables are found causing a loss of environment
+                     */
 
                     // checking if the environment variables are correct
                     if (topCtrlNode.getType().equals(topStackNode2.getType()) & 
@@ -366,12 +382,17 @@ public class CSE {
 
                 // CSE Rules 8
                 // Conditional
+                
+                /*
+                 * Check on this
+                 */
+
                 case "beta":
                     topStackNode1 = this.getStackList().pop();
-                    if (topStackNode1.getName().equals("TRUE")) {
+                    if (topStackNode1.getName().equals("true")) {
                         this.getStackList().pop();
                         this.expandDelta();
-                    } else if (topStackNode1.getName().equals("FALSE")) {
+                    } else if (topStackNode1.getName().equals("false")) {
                         CSNode temp = this.getStackList().pop();
                         this.getStackList().pop();
                         this.getStackList().push(temp);

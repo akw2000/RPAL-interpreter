@@ -42,9 +42,9 @@ public class RPALFunc {
 
     public static CSNode Null(CSNode tupleNode) {
         if (tupleNode.getTuple().size() == 0) {
-            return new CSNode("TRUEVALUE", "true");
+            return new CSNode("TRUTHVALUE", "true");
         } else {
-            return new CSNode("TRUEVALUE", "false");
+            return new CSNode("TRUTHVALUE", "false");
         }
     }
 

@@ -75,16 +75,18 @@ public class ControlStructures {
     		CSNode betaObject = new CSNode("beta", delta_count + 1, delta_count + 2);
     		currentdelta.add(betaObject);
     		pendingdelta.add(root.getLeft().getRight());
-    		Node temp = new Node(root.getLeft().getRight().getRight().getType());
-    		//System.arraycopy(root.getLeft().getRight().getRight(), 0, temp, 0, sizeof(Node));
+    		// Node temp = new Node(root.getLeft().getRight().getRight().getType());
+    		// //System.arraycopy(root.getLeft().getRight().getRight(), 0, temp, 0, sizeof(Node));
                 
-				temp.setType(root.getLeft().getRight().getRight().getType());
-				temp.setLeft(root.getLeft().getRight().getRight().getLeft());
-				temp.setRight(root.getLeft().getRight().getRight().getRight());
-    		pendingdelta.add(temp);
+			// 	temp.setType(root.getLeft().getRight().getRight().getType());
+			// 	temp.setLeft(root.getLeft().getRight().getRight().getLeft());
+			// 	temp.setRight(root.getLeft().getRight().getRight().getRight());
+    		// pendingdelta.add(temp);
+			pendingdelta.add(root.getLeft().getRight().getRight());
 
-			root.getLeft().getRight().setLeft(null);
+			root.getLeft().getRight().setRight(null);
     		root.getLeft().setRight(null);
+			root.setRight(null);
     		delta_count += 2;
     		if(root.getLeft() != null) {
         		preorder(root.getLeft(), currentdelta);
