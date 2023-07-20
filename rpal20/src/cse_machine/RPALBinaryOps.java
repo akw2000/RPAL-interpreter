@@ -11,10 +11,7 @@ public class RPALBinaryOps {
             int sum = num1 + num2;
             return new CSNode("INTEGER",String.valueOf(sum));
         } else {
-            /*
-             * Need to implement error handling
-             */
-            return null;
+            throw new EvaluationException("Operator is not Integer");
         }
 
     } 
