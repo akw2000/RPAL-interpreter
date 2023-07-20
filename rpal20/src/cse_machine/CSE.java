@@ -271,6 +271,26 @@ public class CSE {
                     }
                     break;
 
+                    
+                // CSE Rules 6
+                // Binary Operators
+                case "OPERATOR":
+                    
+                    switch (topCtrlNode.getName()) {
+                        case "+":
+                            topStackNode1 = this.getStackList().pop();
+                            topStackNode2 = this.getStackList().pop();
+                            CSNode sumNode = RPALBinaryOps.add(topStackNode1, topStackNode2);
+                            this.getStackList().push(sumNode);    
+
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                    
+                    break;
+
                 // CSE Rules 8
                 // Conditional
                 case "beta":
