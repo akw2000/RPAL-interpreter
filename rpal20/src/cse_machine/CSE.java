@@ -357,7 +357,7 @@ public class CSE {
                             CSNode logicOR = RPALBinaryOps.logicOR(topStackNode1, topStackNode2);
                             this.getStackList().push(logicOR);
                             break;
-                        case "and":
+                        case "&":
                             CSNode logicAND = RPALBinaryOps.logicAND(topStackNode1, topStackNode2);
                             this.getStackList().push(logicAND);
                             break;
