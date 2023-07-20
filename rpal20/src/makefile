@@ -8,6 +8,15 @@ JC = javac -d bin
 CLASSES = \
     lexical_analyzer/LexicalAnalyzer.java \
     lexical_analyzer/Token.java \
+	Parser/AST.java \
+	Parser/LeafNode.java \
+	Parser/Node.java \
+	Parser/ParseException.java \
+	Parser/ParseTree.java \
+	control_structures/ControlStructures.java \
+	control_structures/CSNode.java \
+	cse_machine/CSE.java \
+	cse_machine/CSNodeType.java \
     rpal20.java
 
 # Target for building the classes
