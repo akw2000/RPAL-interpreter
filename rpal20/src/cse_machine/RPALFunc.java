@@ -10,7 +10,7 @@ public class RPALFunc {
     public static boolean checkInBuilt(String name) {
         ArrayList<String> functionNames = new ArrayList<String>();
 
-        Collections.addAll(functionNames, "Print","Stem","Stern","Conc","aug","Order","Null",
+        Collections.addAll(functionNames, "Print","Stem","Stern","Conc","Order","Null",
                 "Isinteger","Istruthvalue","Isstring","Istuple","Isfunction","Isdummy");
 
         return functionNames.contains(name);
@@ -42,9 +42,9 @@ public class RPALFunc {
 
     public static CSNode Null(CSNode tupleNode) {
         if (tupleNode.getTuple().size() == 0) {
-            return new CSNode("TRUE", "true");
+            return new CSNode("TRUEVALUE", "true");
         } else {
-            return new CSNode("FALSE", "false");
+            return new CSNode("TRUEVALUE", "false");
         }
     }
 

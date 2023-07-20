@@ -84,11 +84,7 @@ public class CSE {
                     this.getStackList().push(topCtrlNode);
                     break;
                 
-                case "TRUE":
-                    this.getStackList().push(topCtrlNode);
-                    break;
-
-                case "FALSE":
+                case "TRUEVALUE":
                     this.getStackList().push(topCtrlNode);
                     break;
 
@@ -275,15 +271,66 @@ public class CSE {
                 // CSE Rules 6
                 // Binary Operators
                 case "OPERATOR":
-                    
+                    topStackNode1 = this.getStackList().pop();
+                    topStackNode2 = this.getStackList().pop();
                     switch (topCtrlNode.getName()) {
                         case "+":
-                            topStackNode1 = this.getStackList().pop();
-                            topStackNode2 = this.getStackList().pop();
                             CSNode sumNode = RPALBinaryOps.add(topStackNode1, topStackNode2);
                             this.getStackList().push(sumNode);    
-
                             break;
+                        /*
+                         * Will uncomment once the those sections are coded
+                         */
+                        // case "-":
+                        //     CSNode diffNode = RPALBinaryOps.subtract(topStackNode1, topStackNode2);
+                        //     this.getStackList().push(diffNode);    
+                        //     break;
+                        // case "*":
+                        //     CSNode productNode = RPALBinaryOps.multiply(topStackNode1, topStackNode2);
+                        //     this.getStackList().push(productNode);
+                        //     break;
+                        // case "/":
+                        //     CSNode quotientNode = RPALBinaryOps.divide(topStackNode1, topStackNode2);
+                        //     this.getStackList().push(quotientNode);
+                        //     break;
+                        // case "**":
+                        //     CSNode powerNode = RPALBinaryOps.power(topStackNode1, topStackNode2);
+                        //     this.getStackList().push(powerNode);
+                        //     break;
+                        case "eq":
+                            CSNode isEqual = RPALBinaryOps.isEqual(topStackNode1, topStackNode2);
+                            this.getStackList().push(isEqual);
+                            break;
+                        case "ne":
+                            CSNode isNotEqual = RPALBinaryOps.isNotEqual(topStackNode1, topStackNode2);
+                            this.getStackList().push(isNotEqual);
+                            break;
+                        case "ls":
+                        case "<":
+                            CSNode isLess = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
+                            this.getStackList().push(isLess);
+                            break;
+                        case "gr":
+                        case ">":
+                            CSNode isGreater = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
+                            this.getStackList().push(isGreater);
+                            break;
+                        case "le":
+                        case "<=":
+                            CSNode isLessEqual = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
+                            this.getStackList().push(isLessEqual);
+                            break;
+                        case "ge":
+                        case ">=":
+                            CSNode isGreaterEqual = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
+                            this.getStackList().push(isGreaterEqual);
+                            break;
+                        /*
+                         * Need to implement Cases for 'or', '&'
+                         */
+
+                        
+                        
                     
                         default:
                             break;
@@ -295,10 +342,10 @@ public class CSE {
                 // Conditional
                 case "beta":
                     topStackNode1 = this.getStackList().pop();
-                    if (topStackNode1.getType().equals("TRUE")) {
+                    if (topStackNode1.getName().equals("TRUE")) {
                         this.getStackList().pop();
                         this.expandDelta();
-                    } else if (topStackNode1.getType().equals("FALSE")) {
+                    } else if (topStackNode1.getName().equals("FALSE")) {
                         CSNode temp = this.getStackList().pop();
                         this.getStackList().pop();
                         this.getStackList().push(temp);

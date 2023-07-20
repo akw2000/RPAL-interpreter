@@ -131,10 +131,10 @@ public class ControlStructures {
         		type = "Y";
         		name = "Y";
     		} else if (root.getType().equals("TRUE")) {
-        		type = "TRUE";
+        		type = "TRUTHVALUE";
         		name = "true";
     		} else if (root.getType().equals("FALSE")) {
-        		type = "FALSE";
+        		type = "TRUTHVALUE";
         		name = "false";
     		} else if (root.getType().equals("not")) {
         		type = "not";
