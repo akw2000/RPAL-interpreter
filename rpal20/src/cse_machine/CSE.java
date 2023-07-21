@@ -309,25 +309,22 @@ public class CSE {
                             CSNode sumNode = RPALBinaryOps.add(topStackNode1, topStackNode2);
                             this.getStackList().push(sumNode);    
                             break;
-                        /*
-                         * Will uncomment once the those sections are coded
-                         */
-                        // case "-":
-                        //     CSNode diffNode = RPALBinaryOps.subtract(topStackNode1, topStackNode2);
-                        //     this.getStackList().push(diffNode);    
-                        //     break;
-                        // case "*":
-                        //     CSNode productNode = RPALBinaryOps.multiply(topStackNode1, topStackNode2);
-                        //     this.getStackList().push(productNode);
-                        //     break;
-                        // case "/":
-                        //     CSNode quotientNode = RPALBinaryOps.divide(topStackNode1, topStackNode2);
-                        //     this.getStackList().push(quotientNode);
-                        //     break;
-                        // case "**":
-                        //     CSNode powerNode = RPALBinaryOps.power(topStackNode1, topStackNode2);
-                        //     this.getStackList().push(powerNode);
-                        //     break;
+                        case "-":
+                            CSNode diffNode = RPALBinaryOps.subtract(topStackNode1, topStackNode2);
+                            this.getStackList().push(diffNode);    
+                            break;
+                        case "*":
+                            CSNode productNode = RPALBinaryOps.multiply(topStackNode1, topStackNode2);
+                            this.getStackList().push(productNode);
+                            break;
+                        case "/":
+                            CSNode quotientNode = RPALBinaryOps.divide(topStackNode1, topStackNode2);
+                            this.getStackList().push(quotientNode);
+                            break;
+                        case "**":
+                            CSNode powerNode = RPALBinaryOps.power(topStackNode1, topStackNode2);
+                            this.getStackList().push(powerNode);
+                            break;
                         case "eq":
                             CSNode isEqual = RPALBinaryOps.isEqual(topStackNode1, topStackNode2);
                             this.getStackList().push(isEqual);
@@ -356,13 +353,14 @@ public class CSE {
                             CSNode isGreaterEqual = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
                             this.getStackList().push(isGreaterEqual);
                             break;
-                        /*
-                         * Need to implement Cases for 'or', '&'
-                         */
-
-                        
-                        
-                    
+                        case "or":
+                            CSNode logicOR = RPALBinaryOps.logicOR(topStackNode1, topStackNode2);
+                            this.getStackList().push(logicOR);
+                            break;
+                        case "&":
+                            CSNode logicAND = RPALBinaryOps.logicAND(topStackNode1, topStackNode2);
+                            this.getStackList().push(logicAND);
+                            break;
                         default:
                             break;
                     }
