@@ -11,15 +11,19 @@ public class CSE {
     private Stack<CSNode> ControlList;
     private Stack<CSNode> StackList;
     private int curr_env;
-    private EnvNode currEnvNode;
+    private int env_counter = 0;
+    private EnvironmentTree envtree = new EnvironmentTree();
     
     public CSE(List<List<CSNode>> deltaLists) {
         this.deltaLists = deltaLists;
         this.ControlList = new Stack<CSNode>();
         this.StackList = new Stack<CSNode>();
         this.curr_env = 0;
-        this.currEnvNode = null;
     }
+
+    public int getEnvCounter() {
+        return env_counter;
+    } 
 
     public void insertToControl(int delta_num) {
         List<CSNode> delta_i = deltaLists.get(delta_num);
@@ -42,26 +46,39 @@ public class CSE {
 
     private void setupCSE() {
         CSNode parent_env = new CSNode("env", curr_env);
-        EnvNode parEnvNode = new EnvNode(0, null, null);
 
         this.ControlList.push(parent_env);
         this.StackList.push(parent_env);
-        this.currEnvNode = parEnvNode;
+        this.envtree.addEnv(curr_env, null, null);
 
         this.insertToControl(0);
         this.expandDelta();
     }
 
-    public CSNode lookUpEnv(EnvNode envNode, String variable) {
-        CSNode envVar = envNode.getVariable();
+    public CSNode lookUpEnv(EnvironmentTree envtree, int env_no, String variable) {
+        CSNode envVar = envtree.getEnvNode(env_no).getVariable();
         List<String> varList = envVar.getLambdavar();
         if (varList.contains(variable)) {
             int idx = varList.indexOf(variable);
             return envVar.getTuple().get(idx);
+        } else {
+            int parent_no = envtree.getEnvNode(env_no).getParentEnv().getEnv_no();
+            return lookUpEnv(envtree, parent_no, variable);
         }
-        else {
-            return lookUpEnv(envNode.getParentEnv(), variable);
-        }
+
+
+
+
+
+        // CSNode envVar = envNode.getVariable();
+        // List<String> varList = envVar.getLambdavar();
+        // if (varList.contains(variable)) {
+        //     int idx = varList.indexOf(variable);
+        //     return envVar.getTuple().get(idx);
+        // }
+        // else {
+        //     return lookUpEnv(envNode.getParentEnv(), variable);
+        // }
     }
 
     public void runCSE() {
@@ -111,7 +128,7 @@ public class CSE {
                         // get the name of the indentifier variable
                         String varName = topCtrlNode.getName();
                         // lookup the value of the identifier using the environment tree
-                        CSNode valueNode = lookUpEnv(currEnvNode, varName);
+                        CSNode valueNode = lookUpEnv(envtree, curr_env, varName);
                         // add the value of the identifier to the stack
                         this.StackList.push(valueNode);
                     }
@@ -189,10 +206,11 @@ public class CSE {
                             topStackNode2 = this.getStackList().pop();
                             
                             // moving to next environment
-                            curr_env++;
+                            env_counter++;
+                            this.curr_env = env_counter;
 
                             // creating new environment variable to insert to control-stack
-                            CSNode envCSNode = new CSNode("env", curr_env);
+                            CSNode envCSNode = new CSNode("env", env_counter);
 
                             if (topStackNode2.getName().equals("tuple")) {
                                 List<CSNode> tuple1 = topStackNode2.getTuple();
@@ -204,10 +222,10 @@ public class CSE {
                                 topStackNode1.getTuple().add(topStackNode2);
                             }
 
-                            
-                            EnvNode envNode = new EnvNode(curr_env, topStackNode1, this.currEnvNode);
+                            this.envtree.addEnv(curr_env, topStackNode1, this.envtree.getEnvNode(topStackNode1.getEnvno()));
+                            // EnvNode envNode = new EnvNode(curr_env, topStackNode1, this.envtree.getEnvNode(curr_env));
 
-                            this.setEnvNode(envNode);
+                            this.setCurr_env(curr_env);
 
                             this.getControlList().push(envCSNode);
                             this.getStackList().push(envCSNode);
@@ -282,19 +300,22 @@ public class CSE {
                     if (topCtrlNode.getType().equals(topStackNode2.getType()) & 
                                         topCtrlNode.getEnvno() == topStackNode2.getEnvno()){
                         this.getStackList().push(topStackNode1);
+                        if (this.curr_env != 0) {
+                            curr_env = this.envtree.getEnvNode(curr_env).getParentEnv().getEnv_no();
+                        }
 
                         /*
-                         * Need to verify how the Environment Tree and 
-                         * current environment should be affected when exiting Environments
+                         * I think it is working 
+                         * 
                          */
-                        EnvNode parEnv = this.getEnvNode().getParentEnv();
-                        if (this.getEnvNode().getEnv_no() != 0) {
-                            this.setCurr_env(parEnv.getEnv_no());
-                            this.setEnvNode(parEnv);
-                        }
+                        // EnvNode parEnv = this.getEnvNode().getParentEnv();
+                        // parEnv.setDiscardedEnv(this.currEnvNode);
+                        // if (this.getEnvNode().getEnv_no() != 0) {
+                        //     this.setCurr_env(parEnv.getEnv_no());
+                        //     this.setEnvNode(parEnv);
+                        // }
                     } else {
-                        // Dummy Error Message
-                        System.out.println("There's an Error in Envs");
+                        throw new EvaluationException("Error in Environments");
                     }
                     break;
 
@@ -380,10 +401,6 @@ public class CSE {
 
                 // CSE Rules 8
                 // Conditional
-                
-                /*
-                 * Check on this
-                 */
 
                 case "beta":
                     topStackNode1 = this.getStackList().pop();
@@ -455,14 +472,6 @@ public class CSE {
 
     public void setCurr_env(int curr_env) {
         this.curr_env = curr_env;
-    }
-
-    public EnvNode getEnvNode() {
-        return currEnvNode;
-    }
-    
-    public void setEnvNode(EnvNode envNode) {
-        this.currEnvNode = envNode;
     }
 
 }
