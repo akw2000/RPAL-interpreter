@@ -56,4 +56,53 @@ public class RPALFunc {
     /*
      * Code to check Type of the variable
      */
+    public static CSNode Isinteger(CSNode node) {
+        if (node.getType().equals("INTEGER")) {
+            return new CSNode("TRUTHVALUE", "true");
+        } else {
+            return new CSNode("TRUTHVALUE", "false");
+        }
+    }
+
+    public static CSNode Istruthvalue(CSNode node) {
+        if (node.getType().equals("TRUTHVALUE")) {
+            return new CSNode("TRUTHVALUE", "true");
+        } else {
+            return new CSNode("TRUTHVALUE", "false");
+        }
+    }
+
+    public static CSNode Isstring(CSNode node) {
+        if (node.getType().equals("STRING")) {
+            return new CSNode("TRUTHVALUE", "true");
+        } else {
+            return new CSNode("TRUTHVALUE", "false");
+        }
+    }
+
+    public static CSNode Istuple(CSNode node) {
+        if (node.getIsTuple()) { ///////////////////// check this
+            return new CSNode("TRUTHVALUE", "true");
+        } else {
+            return new CSNode("TRUTHVALUE", "false");
+        }
+    }
+
+    public static CSNode Isfunction(CSNode node) {
+        if (node.getType().equals("FUNCTION")) { //////////check this
+            return new CSNode("TRUTHVALUE", "true");
+        } else {
+            return new CSNode("TRUTHVALUE", "false");
+        }
+    }
+
+    public static CSNode Isdummy(CSNode node) {
+        if (node.getType().equals("DUMMY")) {
+            return new CSNode("TRUTHVALUE", "true");
+        } else {
+            return new CSNode("TRUTHVALUE", "false");
+        }
+    }
+
+    
 }

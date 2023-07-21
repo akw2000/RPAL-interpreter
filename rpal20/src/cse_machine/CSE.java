@@ -188,6 +188,36 @@ public class CSE {
                                     this.getStackList().push(nullNode);
                                     break;
 
+                                case "Isinteger":
+                                    CSNode isIntNode = RPALFunc.Isinteger(topStackNode2);
+                                    this.getStackList().push(isIntNode);
+                                    break;
+                                
+                                case "Istruthvalue":
+                                    CSNode isTruthNode = RPALFunc.Istruthvalue(topStackNode2);
+                                    this.getStackList().push(isTruthNode);
+                                    break;
+                                
+                                case "Isstring":
+                                    CSNode isStringNode = RPALFunc.Isstring(topStackNode2);
+                                    this.getStackList().push(isStringNode);
+                                    break;
+                                
+                                case "Istuple":
+                                    CSNode isTupleNode = RPALFunc.Istuple(topStackNode2);
+                                    this.getStackList().push(isTupleNode);
+                                    break;
+                                
+                                case "Isfunction":
+                                    CSNode isFunctionNode = RPALFunc.Isfunction(topStackNode2);
+                                    this.getStackList().push(isFunctionNode);
+                                    break;
+                                
+                                case "Isdummy":
+                                    CSNode isDummyNode = RPALFunc.Isdummy(topStackNode2);
+                                    this.getStackList().push(isDummyNode);
+                                    break;
+                                
                                 default:
 
                                 /*
