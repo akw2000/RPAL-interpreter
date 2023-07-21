@@ -1,6 +1,7 @@
 package cse_machine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -13,6 +14,7 @@ public class CSE {
     private int curr_env;
     private int env_counter = 0;
     private EnvironmentTree envtree = new EnvironmentTree();
+    private List<Integer> activeEnvNum = new ArrayList<Integer>(); 
     
     public CSE(List<List<CSNode>> deltaLists) {
         this.deltaLists = deltaLists;
@@ -50,6 +52,7 @@ public class CSE {
         this.ControlList.push(parent_env);
         this.StackList.push(parent_env);
         this.envtree.addEnv(curr_env, null, null);
+        this.activeEnvNum.add(curr_env);
 
         this.insertToControl(0);
         this.expandDelta();
@@ -208,17 +211,29 @@ public class CSE {
                             // creating new environment variable to insert to control-stack
                             CSNode envCSNode = new CSNode("env", env_counter);
 
-                            if (topStackNode2.getName().equals("tuple")) {
+                            topStackNode1.setTuple(new ArrayList<CSNode>());
+                            
+                            int test1 = topStackNode1.getLambdavar().size();
+                            if (topStackNode1.getLambdavar().size() > 1) {
                                 List<CSNode> tuple1 = topStackNode2.getTuple();
                                 for (int i = 0; i < tuple1.size(); i++) {
                                     topStackNode1.getTuple().add(tuple1.get(i));
                                 }
 
+
+                            // if (topStackNode2.getName().equals("tuple")) {
+                            //     List<CSNode> tuple1 = topStackNode2.getTuple();
+                            //     for (int i = 0; i < tuple1.size(); i++) {
+                            //         topStackNode1.getTuple().add(tuple1.get(i));
+                            //     }
+
                             } else {
                                 topStackNode1.getTuple().add(topStackNode2);
                             }
+                            CSNode valueNode = topStackNode1.duplicate();
 
-                            this.envtree.addEnv(curr_env, topStackNode1, this.envtree.getEnvNode(topStackNode1.getEnvno()));
+                            this.envtree.addEnv(curr_env, valueNode, this.envtree.getEnvNode(topStackNode1.getEnvno()));
+                            this.activeEnvNum.add(curr_env);
                             // EnvNode envNode = new EnvNode(curr_env, topStackNode1, this.envtree.getEnvNode(curr_env));
 
                             this.setCurr_env(curr_env);
@@ -263,12 +278,14 @@ public class CSE {
                             // updating the control
                             newGammaNode = new CSNode("gamma", "gamma");
                             this.getControlList().push(newGammaNode);       // pushing a gamma node into the control
-                            this.getControlList().push(topStackNode1);      // pushing a gamma node into the control
+                            this.getControlList().push(newGammaNode);      // pushing a gamma node into the control
 
                             // updating the stack
-                            ArrayList<String> varList = new ArrayList<String>();
-                            varList.add(topStackNode1.getName());
-                            newlambdaNode = new CSNode("lambda", varList, topStackNode1.getLambdano());
+                            // ArrayList<String> varList = new ArrayList<String>();
+                            // varList.add(topStackNode1.getName());
+                            List<String> varList = topStackNode1.getLambdavar();
+                            newlambdaNode = new CSNode("lambdaClosure", varList, topStackNode1.getLambdano());
+                            newlambdaNode.setEnvno(topStackNode1.getEnvno());
                             this.getStackList().push(topStackNode1);        // pushing the eta node back into the stack
                             this.getStackList().push(newlambdaNode);        // pushing the lambda into the stack
                             break;
@@ -297,7 +314,8 @@ public class CSE {
                                         topCtrlNode.getEnvno() == topStackNode2.getEnvno()){
                         this.getStackList().push(topStackNode1);
                         if (this.curr_env != 0) {
-                            curr_env = this.envtree.getEnvNode(curr_env).getParentEnv().getEnv_no();
+                            this.activeEnvNum.remove((Integer) curr_env);
+                            this.curr_env = Collections.max(activeEnvNum);   
                         }
 
                         /*

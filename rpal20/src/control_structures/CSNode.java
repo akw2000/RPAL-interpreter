@@ -58,7 +58,7 @@ public class CSNode {
 
     // same function can be used in both cases
         // need type, lambdavar or name, lambda number 
-    public CSNode(String t, ArrayList<String> varLambda, int lambda_no) {
+    public CSNode(String t, List<String> varLambda, int lambda_no) {
         type = t;
         lambdavar = varLambda;
         lambdano = lambda_no;
@@ -165,7 +165,7 @@ public class CSNode {
         this.name = name;
     }
 
-    public void setLambdavar(ArrayList<String> lambdavar) {
+    public void setLambdavar(List<String> lambdavar) {
         this.lambdavar = lambdavar;
     }
 
@@ -193,4 +193,21 @@ public class CSNode {
         this.tauno = tauno;
     }
     
+    public CSNode duplicate() {
+        CSNode dupNode = new CSNode();
+        dupNode.setIsTuple(this.getIsTuple());
+        dupNode.setTuple(this.getTuple());
+        dupNode.setType(this.getType());
+        dupNode.setName(this.getName());
+        dupNode.setLambdavar(this.getLambdavar());
+        dupNode.setLambdano(this.getLambdano());
+        dupNode.setLambdaenv(this.getLambdaenv());
+        dupNode.setEnvno(this.getEnvno());
+        dupNode.setThenno(this.getThenno());
+        dupNode.setElseno(this.getElseno());
+        dupNode.setTauno(this.getTauno());
+
+        return dupNode;
+    }
+
 }
