@@ -390,12 +390,10 @@ public class CSE {
                 case "beta":
                     topStackNode1 = this.getStackList().pop();
                     if (topStackNode1.getName().equals("true")) {
-                        this.getStackList().pop();
+                        this.insertToControl(topCtrlNode.getThenno());
                         this.expandDelta();
                     } else if (topStackNode1.getName().equals("false")) {
-                        CSNode temp = this.getStackList().pop();
-                        this.getStackList().pop();
-                        this.getStackList().push(temp);
+                        this.insertToControl(topCtrlNode.getElseno());
                         this.expandDelta();
                     }
                     break;
