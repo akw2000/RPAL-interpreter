@@ -66,10 +66,6 @@ public class CSE {
             return lookUpEnv(envtree, parent_no, variable);
         }
 
-
-
-
-
         // CSNode envVar = envNode.getVariable();
         // List<String> varList = envVar.getLambdavar();
         // if (varList.contains(variable)) {

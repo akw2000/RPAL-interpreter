@@ -122,6 +122,7 @@ public class ControlStructures {
     		} else if (root.getType().equals("STRING")) {
         		type = "STRING";
         		name = ((LeafNode) root).getValue();
+				name = name.substring(1, name.length()-1);
 				// name = root.getType().substring(5, root.getType().length() - 1);
     		} else if (root.getType().equals("INTEGER")) {
         		type = "INTEGER";
