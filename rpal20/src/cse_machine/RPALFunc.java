@@ -17,7 +17,24 @@ public class RPALFunc {
     }
 
     public static void Print(CSNode node) {
-        System.out.println(node.getName());
+        switch (node.getType()) {
+            case "INTEGER":
+            case "STRING":
+            case "TRUTHVALUE":
+                System.out.println(node.getName());
+                break;
+            case "tau":
+
+                break;
+            case "lambdaClosure":
+
+                break;
+            case "NIL":
+                
+                break;
+            default:
+                break;
+        }        
     }
 
     public static CSNode Stem(CSNode node) {
