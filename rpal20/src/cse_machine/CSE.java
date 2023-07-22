@@ -162,9 +162,18 @@ public class CSE {
                                     break;
 
                                 case "Conc":
-                                    CSNode topStackNode3 = this.getStackList().pop();
-                                    CSNode concatNode = RPALFunc.Conc(topStackNode2, topStackNode3);
-                                    this.getControlList().pop();
+                                    // CSNode topStackNode3 = this.getStackList().pop();
+                                    // CSNode concatNode = RPALFunc.Conc(topStackNode2, topStackNode3);
+                                    // this.getControlList().pop();
+                                    // this.getStackList().push(concatNode);
+                                    // break;
+                                    CSNode concOneNode = RPALFunc.ConcOne(topStackNode2);
+                                    this.getStackList().push(concOneNode);
+                                    break;
+
+                                case "ConcOne":
+                                    CSNode node1 = topStackNode1.getTuple().get(0);
+                                    CSNode concatNode = RPALFunc.Conc(node1, topStackNode2);
                                     this.getStackList().push(concatNode);
                                     break;
                                 

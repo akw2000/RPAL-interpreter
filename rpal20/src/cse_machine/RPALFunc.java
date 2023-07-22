@@ -30,6 +30,12 @@ public class RPALFunc {
         return node;
     }
 
+    public static CSNode ConcOne(CSNode node1) {
+        CSNode concOne = new CSNode("IDENTIFIER","ConcOne");
+        concOne.getTuple().add(node1);
+        return concOne;
+    }
+
     public static CSNode Conc(CSNode node1, CSNode node2) {
         String conc = node1.getName().concat(node2.getName());
         return new CSNode("STRING", conc);

@@ -183,7 +183,7 @@ public class AST {
 
              equalNode = node.getLeft();
              Node tauNode = new Node("tau");
-             Node commNode = new Node("commma");
+             Node commNode = new Node("comma");
              tauNode.setLeft(equalNode.getLeft().getRight());
              commNode.setLeft(equalNode.getLeft());
              commNode.getLeft().setRight(null);
