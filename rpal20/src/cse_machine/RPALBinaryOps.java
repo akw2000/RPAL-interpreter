@@ -87,7 +87,7 @@ public class RPALBinaryOps {
 
         if (acceptableTypes.contains(node1.getType()) && node1.getType().equals(node2.getType())) {
             if (node1.getName().equals(node2.getName())){
-                return new CSNode("TRUTHVALUE", "false");
+                return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
             }
@@ -100,7 +100,7 @@ public class RPALBinaryOps {
         
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
             if (Integer.parseInt(node1.getName()) < Integer.parseInt(node2.getName())){
-                return new CSNode("TRUTHVALUE", "false");
+                return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
             }
@@ -113,7 +113,7 @@ public class RPALBinaryOps {
         
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
             if (Integer.parseInt(node1.getName()) > Integer.parseInt(node2.getName())){
-                return new CSNode("TRUTHVALUE", "false");
+                return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
             }
@@ -126,7 +126,7 @@ public class RPALBinaryOps {
         
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
             if (Integer.parseInt(node1.getName()) <= Integer.parseInt(node2.getName())){
-                return new CSNode("TRUTHVALUE", "false");
+                return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
             }
@@ -139,7 +139,7 @@ public class RPALBinaryOps {
         
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
             if (Integer.parseInt(node1.getName()) >= Integer.parseInt(node2.getName())){
-                return new CSNode("TRUTHVALUE", "false");
+                return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
             }

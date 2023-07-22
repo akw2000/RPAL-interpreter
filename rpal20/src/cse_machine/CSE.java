@@ -252,7 +252,6 @@ public class CSE {
 
                             topStackNode1.setTuple(new ArrayList<CSNode>());
                             
-                            int test1 = topStackNode1.getLambdavar().size();
                             if (topStackNode1.getLambdavar().size() > 1) {
                                 List<CSNode> tuple1 = topStackNode2.getTuple();
                                 for (int i = 0; i < tuple1.size(); i++) {
@@ -414,17 +413,17 @@ public class CSE {
                             break;
                         case "gr":
                         case ">":
-                            CSNode isGreater = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
+                            CSNode isGreater = RPALBinaryOps.isGreaterThan(topStackNode1, topStackNode2);
                             this.getStackList().push(isGreater);
                             break;
                         case "le":
                         case "<=":
-                            CSNode isLessEqual = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
+                            CSNode isLessEqual = RPALBinaryOps.isLessEqualThan(topStackNode1, topStackNode2);
                             this.getStackList().push(isLessEqual);
                             break;
                         case "ge":
                         case ">=":
-                            CSNode isGreaterEqual = RPALBinaryOps.isLessThan(topStackNode1, topStackNode2);
+                            CSNode isGreaterEqual = RPALBinaryOps.isGreaterEqualThan(topStackNode1, topStackNode2);
                             this.getStackList().push(isGreaterEqual);
                             break;
                         case "or":
