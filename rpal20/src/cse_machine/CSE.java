@@ -435,6 +435,11 @@ public class CSE {
                             CSNode logicAND = RPALBinaryOps.logicAND(topStackNode1, topStackNode2);
                             this.getStackList().push(logicAND);
                             break;
+                        case "aug":
+                            // CSNode augNode = RPALBinaryOps.augment(topStackNode1, topStackNode2);
+                            CSNode augNode = RPALBinaryOps.augment(topStackNode1, topStackNode2);
+                            this.getStackList().push(augNode);
+                            break;
                         default:
                             break;
                     }

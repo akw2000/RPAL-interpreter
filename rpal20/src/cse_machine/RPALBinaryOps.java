@@ -174,4 +174,21 @@ public class RPALBinaryOps {
         }
     }
 
+    public static CSNode augment(CSNode node1, CSNode node2) { 
+        
+        List<String> acceptableTypes = new ArrayList<String>(); 
+        Collections.addAll(acceptableTypes,"tau","NIL");
+        
+        if (acceptableTypes.contains(node1.getType())) {
+            CSNode augNode = node1.duplicate();
+            augNode.setName("tau");
+            augNode.setType("tau");
+            augNode.getTuple().add(node2);
+            augNode.setIsTuple(true);
+            return augNode;
+        } else {
+            throw new EvaluationException("Cannot Augment to a non-tuple");
+        }
+    }    
+
 }
