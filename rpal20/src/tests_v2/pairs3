@@ -1,0 +1,14 @@
+let rec Rev S =
+     S eq '' -> ''
+     | (Rev(Stern S)) @Conc (Stem S )
+in let
+     Pairs (S1,S2) = P (Rev S1, Rev S2)
+	where rec P (S1, S2) =
+	   S1 eq '' & S2 eq '' -> nil
+	 |  (fn L. P (Stern S1, Stern S2) aug ((Stem S1) @Conc (Stem S2)))
+	    nil
+	  
+
+ in Print ( Pairs ('abc','def'))
+
+

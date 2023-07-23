@@ -1,0 +1,12 @@
+<ARROW
+    <BINOP
+        x
+        EQ
+        0
+    >
+    Y
+    <AP
+        f
+        2
+    >
+>

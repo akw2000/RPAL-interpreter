@@ -1,0 +1,9 @@
+let Vec_sum (A,B) =
+    Psum(A,B,Order A)
+    where
+      rec Psum(A,B,N) = 
+	  N eq 0
+	  ->  nil
+	  |  (Psum(A,B,N-1) aug  A N + B N)
+
+ in Print (Vec_sum (   (1,2,3),  (4,5,6)  ))

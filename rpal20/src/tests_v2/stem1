@@ -1,0 +1,2 @@
+let f x = Stem x
+in Print (f '222')

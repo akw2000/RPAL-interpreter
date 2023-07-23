@@ -1,0 +1,1 @@
+let a = 'Hello World.\n' in Print( a )

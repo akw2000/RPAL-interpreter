@@ -1,0 +1,6 @@
+Print((fn X. fn Y. Conc X Y)
+	  ((fn X1. fn Y1. Conc X1 Y1) 'This ' 'is ')
+	  ((fn X2. fn Y2. Conc X2 Y2) 'COP' 
+	   (Stern ('X' eq ((fn f1. f1 'X5550') (fn f2. Stem f2)) -> 'A5550' | '5550'))
+      )
+	 )

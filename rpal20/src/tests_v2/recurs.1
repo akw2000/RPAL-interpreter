@@ -1,0 +1,6 @@
+let P M N = P1 M N ((M+1)/2*2)
+    where rec P1 M N L =
+	 L gr N -> dummy
+	       | (P1 M N (L+2), Print (L),Print(' '))
+
+in P 4  14

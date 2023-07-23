@@ -22,15 +22,36 @@ public class RPALFunc {
             case "STRING":
             case "TRUTHVALUE":
             case "NIL":
+                // if getName string contains escape characters, print them accordingly
+                if (node.getName().contains("\\n")) {
+                    node.setName(node.getName().replace("\\n", "\n"));
+                }
+                if(node.getName().contains("\\t")) {
+                    node.setName(node.getName().replace("\\t", "\t"));
+                }
                 System.out.println(node.getName());
                 break;
             case "tau":
-
+                // print as a tuple like (1,2,3)
+                System.out.print("(");
+                for (int i = 0; i < node.getTuple().size(); i++) {
+                    System.out.print(node.getTuple().get(i).getName());
+                    if (i != node.getTuple().size() - 1) {
+                        System.out.print(", ");
+                    }
+                }
+                System.out.println(")");
                 break;
             case "lambdaClosure":
-
+                // print like [lambda closure: x: 2]
+                System.out.print("[lambda closure: ");
+                System.out.print(node.getTuple().get(0).getName());
+                System.out.print(": ");
+                System.out.print(node.getTuple().get(1).getName());
+                System.out.println("]");
                 break;
             default:
+                System.out.println(); // check this
                 break;
             /*
              * Need to implement the rest of the Printing here

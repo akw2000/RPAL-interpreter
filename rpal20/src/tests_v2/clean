@@ -1,0 +1,16 @@
+let Is_Element Number Tuple = Rec_Is_Element Number Tuple (Order Tuple)
+	   where rec Rec_Is_Element Number Tuple M =
+			   M eq 0 -> false
+			 | (Tuple M) eq Number -> true
+			 | Rec_Is_Element Number Tuple (M-1)
+in
+let rec Rec_F Tuple Index =
+	   Index eq 0 -> nil
+         | (let Result = Rec_F Tuple (Index-1) in
+              (Is_Element (Tuple Index) Result -> Result
+            | (Result aug (Tuple Index)))
+           )
+in
+let F Tuple = Rec_F Tuple (Order Tuple)
+in
+Print ( F (1,2,3,2,4,5,4) )
