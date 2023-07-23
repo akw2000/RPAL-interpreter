@@ -21,6 +21,7 @@ public class RPALFunc {
             case "INTEGER":
             case "STRING":
             case "TRUTHVALUE":
+            case "NIL":
                 System.out.println(node.getName());
                 break;
             case "tau":
@@ -29,22 +30,25 @@ public class RPALFunc {
             case "lambdaClosure":
 
                 break;
-            case "NIL":
-                
-                break;
             default:
                 break;
+            /*
+             * Need to implement the rest of the Printing here
+             * Make sure no other cases are missed as well
+             */
         }        
     }
 
     public static CSNode Stem(CSNode node) {
-        node.setName(node.getName().substring(0,1));
-        return node;
+        CSNode newNode = node.duplicate();
+        newNode.setName(newNode.getName().substring(0,1));
+        return newNode;
     }
 
     public static CSNode Stern(CSNode node) {
-        node.setName(node.getName().substring(1));
-        return node;
+        CSNode newNode = node.duplicate();
+        newNode.setName(newNode.getName().substring(1));
+        return newNode;
     }
 
     public static CSNode ConcOne(CSNode node1) {
@@ -72,8 +76,9 @@ public class RPALFunc {
     }
 
     public static CSNode aug(CSNode tupleNode, CSNode new_elem) {
-        tupleNode.getTuple().add(new_elem);
-        return tupleNode;
+        CSNode newNode = tupleNode.duplicate();
+        newNode.getTuple().add(new_elem);
+        return newNode;
     }
 
     /*

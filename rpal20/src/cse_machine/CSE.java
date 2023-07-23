@@ -92,49 +92,46 @@ public class CSE {
             CSNode newGammaNode;
             CSNode newlambdaNode;
 
+            CSNode valueItem = topCtrlNode.duplicate();
             switch (topCtrlNode.getType()) {
                 
                 // CSE Rules 1
                 case "INTEGER":
-                    this.getStackList().push(topCtrlNode);
+                    this.getStackList().push(valueItem);
                     break;
                 
                 case "STRING":
-                    this.getStackList().push(topCtrlNode);
+                    this.getStackList().push(valueItem);
                     break;
                 
                 case "TRUTHVALUE":
-                    this.getStackList().push(topCtrlNode);
+                    this.getStackList().push(valueItem);
                     break;
 
                 case "NIL":
-                    this.getStackList().push(topCtrlNode);
+                    this.getStackList().push(valueItem);
                     break;
 
                 case "DUMMY":
-                    this.getStackList().push(topCtrlNode);
+                    this.getStackList().push(valueItem);
                     break;
 
                 case "Y":
-                    this.getStackList().push(topCtrlNode);
+                    this.getStackList().push(valueItem);
                     break;
 
                 case "IDENTIFIER":
 
                     if (RPALFunc.checkInBuilt(topCtrlNode.getName())) {
-                        this.StackList.push(topCtrlNode);
+                        this.getStackList().push(valueItem);
                     } else {
                         // get the name of the indentifier variable
                         String varName = topCtrlNode.getName();
                         // lookup the value of the identifier using the environment tree
                         CSNode valueNode = lookUpEnv(envtree, curr_env, varName);
                         // add the value of the identifier to the stack
-                        this.StackList.push(valueNode);
+                        this.getStackList().push(valueNode);
                     }
-
-                    /*
-                     * Need to implement a way to read functions determined by user
-                     */
 
                     break;
 
@@ -142,7 +139,8 @@ public class CSE {
                 // Stack Lambda into the Stack
                 case "lambdaClosure":
                     topCtrlNode.setEnvno(curr_env);
-                    this.StackList.push(topCtrlNode);
+                    CSNode lambdaNode = topCtrlNode.duplicate();
+                    this.StackList.push(lambdaNode);
                     break;
   
                 // CSE Rules 3, 4, 10, 11, 12, 13
@@ -229,9 +227,6 @@ public class CSE {
                                 
                                 default:
 
-                                /*
-                                 * Need to implement code for Defined functions by the user 
-                                 */
                                     break;
                             }
 
@@ -306,8 +301,9 @@ public class CSE {
                         // Applying Y to lambda
                         case "Y":
                             topStackNode2 = this.getStackList().pop();
-                            topStackNode2.setType("eta");
-                            this.getStackList().push(topStackNode2);
+                            CSNode etaNode = topStackNode2.duplicate();
+                            etaNode.setType("eta");
+                            this.getStackList().push(etaNode);
                             break;
                         
                         // CSE Rule 13
@@ -483,7 +479,7 @@ public class CSE {
                         // and adding to the tuple object
                     for (int i=0; i<n; i++) {
                         CSNode tup_elem = this.getStackList().pop();
-                        tuple.getTuple().add(tup_elem);
+                        tuple.getTuple().add(tup_elem.duplicate());
                     }
 
                     // adding the tuple object to the stack
