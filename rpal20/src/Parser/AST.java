@@ -94,7 +94,7 @@ public class AST {
             x1.setRight(e2);
             lamNode.setLeft(x1);
             lamNode.setRight(e1);
-            Node gamNode = new Node ("gammma");
+            Node gamNode = new Node ("gamma");
             gamNode.setLeft(lamNode);
             x2.setRight(gamNode);
             node.setLeft(x2);
