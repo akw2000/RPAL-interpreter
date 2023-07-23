@@ -1,0 +1,35 @@
+let Tag s n = n aug s
+and TreePicture(T) = TPicture(T,'')
+where
+  rec TPicture (T,Spaces) =
+    not (Istuple T)
+      -> T
+      |  Order T eq 0
+	  -> ''
+	  |  '<' @Conc (T(Order T))
+		 @Conc ( '\n')
+		 @Conc Spaces
+		 @Conc '    '
+		 @Conc (Picture(T,(Order T)-1,Spaces @Conc '    '))
+		 @Conc '\n'
+		 @Conc Spaces
+		 @Conc '>'
+		 where rec Picture(T,n,Spaces)=
+		    n eq 1
+		       -> TPicture(T n, Spaces)
+		       |  (Picture(T,n-1,Spaces))
+			  @Conc '\n'
+			  @Conc Spaces
+			  @Conc (TPicture (T n, Spaces))
+in
+
+Print (   TreePicture (Tag 'ARROW'
+			   (Tag 'BINOP'
+				('x','EQ','0')
+		           , 'Y'
+			   , Tag 'AP'
+				 ('f','2')
+                           )
+                       )
+      )
+

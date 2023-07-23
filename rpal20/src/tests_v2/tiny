@@ -1,0 +1,105 @@
+let EQ x y = Istruthvalue x & Istruthvalue y
+	     -> (x & y) or (not x & not y)
+	     |    Isstring x     & Isstring y
+	       or Isinteger x    & Isinteger y -> x eq y
+					     |  false
+in
+let COMP f g x = let R = f x in R @EQ 'error' -> 'error'
+                                | g R
+in
+let PIPE x f = x @EQ 'error' -> 'error'
+                            | (f x)
+in
+let Return v s = (v,s)
+in
+let Check Dom (v,s) = Dom eq 'Num'  ->
+			   Isinteger v -> (v,s)
+                                        | 'error'
+                    | Dom eq 'Bool' ->
+			   Istruthvalue v -> (v,s)
+                                    | 'error'
+                    | 'error'
+in
+let Dummy s = s
+in
+let Cond F1 F2 (v,s) = s @PIPE (v -> F1 | F2)
+in
+let Replace m i v x = x @EQ i -> v | m x
+in
+let Head i = i 1
+in
+let Tail T = Rtail T (Order T)
+		    where rec Rtail T N =
+                                N eq 1 -> nil |
+                                   (Rtail T (N-1) aug (T N))
+in
+let rec EE E (m,i,o) =
+   Isinteger E -> Return E (m,i,o)
+ | Isstring E ->
+     (  E eq 'true'  -> Return true (m,i,o)
+      | E eq 'false' -> Return false (m,i,o)
+      | E eq 'read'  -> Null i -> 'error' | (Head i,(m,Tail i,o))
+      | (let R = m E in R @EQ 'undef' -> 'error'
+			| (R,(m,i,o))
+        )
+     )
+ | Istuple E ->
+    (   (E 1) @EQ 'not' ->
+	      (m,i,o) @PIPE EE(E 2)
+                      @PIPE (Check 'Bool')
+                      @PIPE (fn(v,s).(not v,s))
+      | (E 1) @EQ '<='  ->
+              (m,i,o) @PIPE EE(E 2)
+                      @PIPE (Check 'Num')
+                      @PIPE (fn(v1,s1). s1
+			       @PIPE EE(E 3)
+                               @PIPE (Check 'Num')
+                               @PIPE (fn(v2,s2).(v1 le v2,s2))
+                            )
+      | (E 1) @EQ '+'   ->
+	      (m,i,o) @PIPE EE(E 2)
+		      @PIPE (Check 'Num')
+		      @PIPE (fn(v1,s1). s1
+			       @PIPE EE(E 3)
+			       @PIPE (Check 'Num')
+			       @PIPE (fn(v2,s2).(v1 + v2,s2))
+                            )
+      | 'error'
+    )
+ | 'error'
+in
+let rec CC C s =
+     not (Istuple C) -> 'error'
+   | (C 1) @EQ ':='
+	  -> s @PIPE EE (C 3)
+	       @PIPE (fn(v,s).(Replace (s 1) (C 2) v,s 2,s 3))
+   | (C 1) @EQ 'print'
+	  -> s @PIPE EE (C 2)
+	       @PIPE (fn(v,s).(s 1,s 2,s 3 aug v))
+   | (C 1) @EQ 'if'
+	  -> s @PIPE EE (C 2)
+	       @PIPE (Check 'Bool')
+	       @PIPE (Cond (CC(C 3)) (CC(C 4)) )
+   | (C 1) @EQ 'while'
+	  -> s @PIPE EE (C 2)
+	       @PIPE (Check 'Bool')
+               @PIPE Cond (CC(';',C 3,C)) Dummy
+   | (C 1) @EQ ';'
+	  -> s @PIPE CC (C 2)
+	       @PIPE CC (C 3)
+   | 'error'
+in
+let PP P =
+     not (Istuple P) -> (fn i. 'error')
+   | not ((P 1) @EQ 'program') -> (fn i. 'error')
+   | ((fn i. CC (P 2) ((fn i.'undef'),i,nil)) @COMP (fn s.(s 3))  )
+			    
+in
+Print (
+        PP ('program',
+		   (';',
+		      (':=', 'x',3),
+		      ('print', 'x')
+                   )
+	   ) (nil aug 3)
+      )

@@ -1,0 +1,6 @@
+let rec Rev S =
+	S eq ''
+	  -> ''
+	  |  Conc (Rev(Stern S))(Stem S)
+in Print (Rev 'abc' ,  Rev 'dabale arroz a la zorra el abad')
+

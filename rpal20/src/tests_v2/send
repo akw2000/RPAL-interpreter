@@ -1,0 +1,10 @@
+fn x.x+1
+
+(fn x. x+1) 3
+
+nil aug 1 aug 2
+
+(fn x. x le 0 -> 'abc' | 'def')3
+
+Conc 'abc' 'def'
+

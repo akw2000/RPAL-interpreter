@@ -1,0 +1,21 @@
+let WS IS = PWS IS 1 0
+    where
+    rec PWS IS I L = 
+       not (Istuple IS)
+	 -> Isinteger IS -> IS * L
+			 |  'error'
+         |  I gr Order IS
+	     -> 0
+	     |  Add ( PWS IS (I+1) L )
+		    ( PWS (IS I) 1 (L+1) )
+                where Add x y =
+		  Isstring x or Isstring y
+		    -> 'error'
+		    |  x + y
+      
+in Print (
+//	   WS (nil aug 2),
+	   WS (1,(1,(nil,nil),2),3)
+//	   WS 1
+//	   WS nil
+         )

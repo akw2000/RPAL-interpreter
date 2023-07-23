@@ -14,8 +14,10 @@ import control_structures.CSNode;
 public class rpal20 {
     public static void main(String[] args) throws Exception {
         // eg: java rpal20 rpal_test_programs/rpal_01 > output.01 -> filename = rpal_test_programs/rpal_01
-        //File file = new File(args[0]);
+        // File file = new File(args[0]); // for makefile
         File file = new File ("rpal20\\test progs\\towers");
+        // File file = new File ("rpal20\\src\\tests_v2\\clean"); // if makefile doesn't work, use this
+
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(file);
         ArrayList<Token> tokenList = lexicalAnalyzer.getTokenList();
         System.out.println("#######################Token List:");
