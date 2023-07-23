@@ -87,9 +87,9 @@ public class RPALBinaryOps {
 
         if (acceptableTypes.contains(node1.getType()) && node1.getType().equals(node2.getType())) {
             if (node1.getName().equals(node2.getName())){
-                return new CSNode("TRUTHVALUE", "true");
-            } else {
                 return new CSNode("TRUTHVALUE", "false");
+            } else {
+                return new CSNode("TRUTHVALUE", "true");
             }
         } else {
             throw new EvaluationException("Types do not match");

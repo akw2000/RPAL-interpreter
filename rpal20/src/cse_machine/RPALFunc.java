@@ -32,6 +32,7 @@ public class RPALFunc {
                 System.out.println(node.getName());
                 break;
             case "tau":
+            case "tuple":
                 // print as a tuple like (1,2,3)
                 System.out.print("(");
                 for (int i = 0; i < node.getTuple().size(); i++) {
@@ -45,9 +46,14 @@ public class RPALFunc {
             case "lambdaClosure":
                 // print like [lambda closure: x: 2]
                 System.out.print("[lambda closure: ");
-                System.out.print(node.getTuple().get(0).getName());
+                for (int i = 0; i < node.getLambdavar().size(); i++) {
+                    System.out.print(node.getLambdavar().get(i));       
+                    /*
+                     * Have to check how it should be printed for many lambda variables
+                     */
+                }
                 System.out.print(": ");
-                System.out.print(node.getTuple().get(1).getName());
+                System.out.print(node.getLambdano());
                 System.out.println("]");
                 break;
             default:
