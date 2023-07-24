@@ -10,61 +10,79 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LexicalAnalyzer {
-    private ArrayList<Token> tokenList;
+    private ArrayList<Token> tokenList; // list of tokens as the output, input for the parser
     private BufferedReader reader;
+    // keywords (reserved words) defined in the RPAL language
     private List<String> keywords = Arrays.asList("let", "in", "fn", "where", "aug", "or", "not", "gr", "ge", "ls",
             "le", "eq", "ne",
             "true", "false", "nil", "dummy", "within", "and", "rec");
 
+    // regex for the primary lexical units
     private String letter = "[A-Za-z]";
     private String digit = "[0-9]";
     private String operator_symbol = "[+|\\-|*|<|>|&|.|@|/|:|=|~|\\||$|!|#|%|`|_|\\[|\\]|{|}|\\\"|?]";
-    private boolean readerClosed = false;
+
+    private boolean readerClosed = false; // flag to check if the reader is closed, to avoid reading after EOF
 
     public LexicalAnalyzer(File file) {
         this.tokenList = new ArrayList<Token>();
         try {
             this.reader = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found");
         }
 
-        String nextChr = null;
-        String buffer = null;
-
-        while ((nextChr = nextChr()) != null) {
-            // System.out.println("first check ##" + nextChr + "##");
+        String nextChr = null; // to store the next read character
+        String buffer = null;  // to store the last read character that is not yet scanned
+        
+        while ((nextChr = nextChr()) != null) { // read until EOF(returns null)
             constructToken(nextChr, buffer);
             if (readerClosed) {
                 break;
             }
         }
-        // end of file token
+
+        // Add additional end of file token for easy parsing
         Token EofToken = new Token();
         EofToken.setType("EOF");
         EofToken.setValue("EOF");
         tokenList.add(EofToken);
     }
 
+
+    /** 
+     *  return the token list for the parser
+     * 
+     * @return ArrayList<Token>
+     */
     public ArrayList<Token> getTokenList() {
         return tokenList;
     }
 
+    /**
+     *  construct a token from the input string
+     * 
+     * @param nextChr
+     * @param buffer
+     */
     private void constructToken(String nextChr, String buffer) {
         Token token = new Token();
         String value = "";
+
         if (nextChr.matches(letter)) { // Identifier(starts with a Letter -> ’A’..’Z’ | ’a’..’z’;)
             value = nextChr;
             while ((nextChr = nextChr()) != null) {
-                if (nextChr.matches("[" + letter + "|" + digit + "|'_']*")) { // Identifier -> Letter (Letter | Digit | ’_’)* => check the (Letter | Digit | ’_’)* part
+                // Identifier -> Letter (Letter | Digit | ’_’)* => check the (Letter | Digit | ’_’)* part
+                if (nextChr.matches("[" + letter + "|" + digit + "|'_']*")) {
                     value += nextChr;
                 } else {
                     // buffer back the last character
-                    // System.out.println("buffer back the last character ##" + nextChr + "##");
                     buffer = nextChr;
                     break;
                 }
             }
+
+            // update the identifier type, if it is a keyword
             if (keywords.contains(value)) {
                 token.setType("KEYWORD");
             } else {
@@ -76,10 +94,10 @@ public class LexicalAnalyzer {
         } else if (nextChr.matches(digit)) { // Integer (starts with a Digit -> ’0’..’9’)
             value = nextChr;
             while ((nextChr = nextChr()) != null) {
-                if (nextChr.matches("[" + digit + "]*")) { // Integer -> Digit Digit* => check the Digit* part
+                // Integer -> Digit Digit* => check the Digit* part
+                if (nextChr.matches("[" + digit + "]*")) {
                     value += nextChr;
                 } else {
-                    // System.out.println("buffer back the last character ##" + nextChr + "##");
                     buffer = nextChr;
                     break;
                 }
@@ -91,63 +109,51 @@ public class LexicalAnalyzer {
         } else if (nextChr.matches("[\']")) { // String (starts with a -> ’''’)
             value = nextChr;
             String prevChr = nextChr;
-            // System.out.println("first check ##" + nextChr + "##");
             while ((nextChr = nextChr()) != null) {
-                // System.out.println("second check ##" + nextChr + "##");
-                if (!(prevChr.equals("\\")) && nextChr.matches("[\']")) { // last character is a -> '
+                // last character is a -> ' and previous character checked for \' type strings(special case otherwise it'll end after the first ')
+                if (!(prevChr.equals("\\")) && nextChr.matches("[\']")) {
                     value += nextChr;
-                    // System.out.println("buffer back the last character ##" + nextChr + "##");
-                    // buffer = nextChr;
-                    // value = value.toString().replace("\\n", System.getProperty("line.separator"));
-                    // value = value.toString().replaceAll("\\t", "\t");
                     token.setType("STRING");
                     token.setValue(value);
-                    // System.out.println("string: " + value);
                     tokenList.add(token);
                     break;
                 } else if (nextChr.matches("[\\t|\\n|\\\\|\\\'|'('|')'|';'|','|' '|" + letter + "|" + digit + "|"
                         + operator_symbol + "]*")) { // String ->( ’\’ ’t’ | ’\’ ’n’ | ’\’ ’\’ | ’\’ ’’’’| ’(’ | ’)’ | ’;’ | ’,’|’’| Letter | Digit | Operator_symbol)* ’’’’
                     prevChr = nextChr;
                     value += nextChr;
-                }  else if (prevChr.equals("\\") && nextChr.matches("[\']")) { // String -> ’\’ ’’’’ check
+                } else if (prevChr.equals("\\") && nextChr.matches("[\']")) { // String -> \' check(special case)
                     prevChr = nextChr;
                     value += nextChr;
                 } else {
-                    // System.out.println("buffer back the last character ##" + nextChr + "##");
                     buffer = nextChr;
                     break;
                 }
             }
 
-        }  else if (nextChr.matches(operator_symbol)) { // Operator (starts with a OperatorSymbol -> ’+’ | ’-’ | ’*’ | ’<’ | ’>’ | ’&’ | ’.’ | ’@’ | ’/’ | ’:’ | ’=’ | ’~’ | ’|’ | ’$’ | ’!’ | ’#’ | ’%’ | ’`’ | ’_’ | ’[’ | ’]’ | ’{’ | ’}’ | ’"’ | ’’’ | ’?’)
+        } else if (nextChr.matches(operator_symbol)) { // Operator (starts with a OperatorSymbol -> ’+’ | ’-’ | ’*’ | ’<’ | ’>’ | ’&’ | ’.’ | ’@’ | ’/’ | ’:’ | ’=’ | ’~’ | ’|’ | ’$’ | ’!’ | ’#’ | ’%’ | ’`’ | ’_’ | ’[’ | ’]’ | ’{’ | ’}’ | ’"’ | ’’’ | ’?’)
             value = nextChr;
-            // System.out.println("first check ##" + nextChr + "##");
             String prevChr = nextChr;
-            boolean isComment = false;    
+            boolean isComment = false;
             while ((nextChr = nextChr()) != null) {
-                if (prevChr.matches("[/]") && nextChr.matches("[/]")) { // Comment (starts with a -> ’//’) made higher precedence than operator to avoid conflict 
-                    // strip the characters before the comment and make an operator token
-                    if(value.length() > 1) {
+                // Comment (starts with a -> ’//’) 
+                if (prevChr.matches("[/]") && nextChr.matches("[/]")) {
+                    // strip the characters before the comment and make an operator token(+//comment type cases)
+                    if (value.length() > 1) { // strip the operator out
                         String tokenValue = value.substring(0, value.length() - 1);
-                        System.out.println("buffer back the last character ##" + tokenValue + "##");
-                        // buffer = nextChr;
                         token.setType("OPERATOR");
                         token.setValue(tokenValue);
                         tokenList.add(token);
                     }
                     token = new Token();
-
                     isComment = true;
                     value = "//";
-                    // System.out.println("Comment -> #####################" + value);
                     while ((nextChr = nextChr()) != null) {
+                        // Comment -> ( ’\’ ’t’ | ’\’ ’n’ | ’\’ ’\’ | ’\’ ’’’’| ’(’ | ’)’ | ’;’ | ’,’|’’| Letter | Digit | Operator_symbol)* part
                         if (nextChr.matches("['\''|'('|')'|';'|','|' '|'\\t'|" + letter + "|" + digit + "|"
-                                + operator_symbol + "]*")) { // Comment -> ( ’\’ ’t’ | ’\’ ’n’ | ’\’ ’\’ | ’\’ ’’’’| ’(’ | ’)’ | ’;’ | ’,’|’’| Letter | Digit | Operator_symbol)* part
+                                + operator_symbol + "]*")) {
                             value += nextChr;
                         } else if (nextChr.matches("[\\n]")) { // last character is Eol
                             value += nextChr;
-                            // System.out.println("buffer back the last character ##" + nextChr + "##");
-                            // buffer = nextChr;
                             token.setType("DELETE");
                             token.setValue(value);
                             tokenList.add(token);
@@ -155,12 +161,9 @@ public class LexicalAnalyzer {
                         }
                     }
                 } else if (nextChr.matches("[" + operator_symbol + "]*")) { // Operator -> OperatorSymbol OperatorSymbol* => check the OperatorSymbol* part
-                    // System.out.println("while * check ##" + nextChr + "##");
                     value += nextChr;
-                    prevChr = nextChr; // check if needed 
-                    // System.out.println("prev: " + prevChr);
+                    prevChr = nextChr;
                 } else {
-                    // System.out.println("buffer back the last character ##" + nextChr + "##");
                     buffer = nextChr;
                     token.setType("OPERATOR");
                     token.setValue(value);
@@ -169,18 +172,16 @@ public class LexicalAnalyzer {
                 }
                 if (isComment) {
                     break; // no buffer back since last character is Eol
-                } 
+                }
             }
 
         } else if (nextChr.matches("[\\s|\\t|\\n]")) { // Space (starts with a -> ’ ’ | ’\t’(ht)| ’\n’(Eol))
             value = nextChr;
-            // System.out.println("Space detected" + nextChr + "##");
-
             while ((nextChr = nextChr()) != null) {
-                if (nextChr.matches("[\\s\\t\\n]*")) { // Space -> ( ’ ’ | ht | Eol )+ => check the + part
+                // Space -> ( ’ ’ | ht | Eol )+ => check the + part
+                if (nextChr.matches("[\\s\\t\\n]*")) {
                     value += nextChr;
                 } else {
-                    // System.out.println("buffer back the last character ##" + nextChr + "##");
                     buffer = nextChr;
                     break;
                 }
@@ -188,14 +189,14 @@ public class LexicalAnalyzer {
             token.setType("DELETE");
             token.setValue(value);
             tokenList.add(token);
-        
+
         } else if (nextChr.matches("[(]")) { // Punction -> LeftParenthesis -> ’(’
             value = nextChr;
             token.setType("L_PAREN");
             token.setValue(value);
             tokenList.add(token);
 
-        }  else if (nextChr.matches("[)]")) { // Punction -> RightParenthesis -> ’)’
+        } else if (nextChr.matches("[)]")) { // Punction -> RightParenthesis -> ’)’
             value = nextChr;
             token.setType("R_PAREN");
             token.setValue(value);
@@ -215,42 +216,35 @@ public class LexicalAnalyzer {
 
         }
         // if there is a buffered character(read but not used), use it first
-        if(buffer!=null)
-        {
+        if (buffer != null) {
             nextChr = buffer;
             buffer = null;
             constructToken(nextChr, buffer);
         }
     }
 
-
+    
+    /**
+     *  read the next character from the file
+     * 
+     * @return String
+     */
     private String nextChr() {
         String nextChr = null;
         try {
             if (readerClosed) {
-                return null;
+                return null; // abort if the reader is closed
             }
             int chr = reader.read(); // read the first character
-            // System.out.println("read " + chr + "##"); //
-            if (chr != -1) {
+            if (chr != -1) { // if not EOF(-1)
                 nextChr = Character.toString((char) chr);
-                // System.out.println("after change to char" +nextChr + "##"); //
             } else {
-                readerClosed = true;
-                reader.close();
+                readerClosed = true; // set the flag to true if EOF
+                reader.close(); // close the reader
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error reading file");
         }
         return nextChr;
     }
-
-    // private Token lexiconMatcher(String scannedToken) {
-    //     Token token = new Token();
-    //     //Identifier
-    //     if (scannedToken.matches("[A-Za-z][A-Za-z0-9_]*")) {
-    //         token.setType("IDENTIFIER");
-    //         token.setValue(scannedToken);
-    //     }
-    // }
 }
