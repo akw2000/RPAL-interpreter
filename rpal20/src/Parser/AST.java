@@ -254,13 +254,11 @@ public class AST {
     
       private void printNode(Node node, String printPrefix){
         if(node.getType() == "IDENTIFIER" ||
-            node.getType() == "INTEGER"){
+            node.getType() == "INTEGER"||node.getType() == "STRING" ){
           
           System.out.printf(printPrefix+node.getType()+": "+((LeafNode)node).getValue()+"\n");
           
         }
-        else if(node.getType() == "STRING")
-          System.out.printf(printPrefix+node.getType()+": "+((LeafNode)node).getValue()+"\n");
         else
           System.out.println(printPrefix+node.getType());
       }
