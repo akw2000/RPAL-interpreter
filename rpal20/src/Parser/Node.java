@@ -1,6 +1,13 @@
 package Parser;
 
 public class Node {
+    /*Represents a node in AST. Uses first child next sibling representation
+     * 
+     *                  Node
+     *                  /  \
+     *              left    right
+     *             (child)  (sibling)
+     */
     private String type;
     private Node left_child;
     private Node right_child;
@@ -33,6 +40,7 @@ public class Node {
         return this.right_child;
     }
     public void appendRight(Node newNode){
+        /*method to add new sibling to a node */
         Node tempNode = this;
         while (tempNode.getRight()!=null){
             tempNode=tempNode.getRight();

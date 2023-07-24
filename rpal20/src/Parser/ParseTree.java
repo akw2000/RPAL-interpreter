@@ -65,9 +65,12 @@ public class ParseTree {
     }
 
     private void procE(){
-        //E -> 'let' D in E => ’let’
-        //  -> 'fn' Vb+ '.' E => ’lambda’
-        //  -> Ew
+        /*
+          E -> 'let' D in E => ’let’
+            -> 'fn' Vb+ '.' E => ’lambda’
+            -> Ew
+         */
+        
         
         if (curr_token.getValue().equals("let")){
            
@@ -110,9 +113,10 @@ public class ParseTree {
     }
 
     private void procEW(){
-        // Ew -> T ’where’ Dr => ’where’
-        //   -> T;
-        
+        /* 
+         Ew -> T ’where’ Dr => ’where’
+            -> T;
+        */
         procT(); //read next token in process T
         if (curr_token.getValue().equals("where")){
            
@@ -126,8 +130,10 @@ public class ParseTree {
     }
 
     private void procT(){
-        // T - > Ta (',' Ta)+ => 'tau'
-        //   - > Ta
+        /* 
+         T - > Ta (',' Ta)+ => 'tau'
+           - > Ta
+        */
         procTa(); 
         int N = 0;
         while(curr_token.getValue().equals(",")){ 
@@ -143,11 +149,13 @@ public class ParseTree {
     }
 
     private void procTa(){
-        // Ta -> Ta 'aug' Tc => 'aug'
-        //    - > Tc
-        procTc(); //Ta -> Tc
+        /* 
+         Ta -> Ta 'aug' Tc => 'aug'
+            - > Tc
+        */
+        procTc(); 
 
-        while(curr_token.getValue().equals("aug")){ //Ta -> Ta 'aug' Tc => 'aug'
+        while(curr_token.getValue().equals("aug")){ 
           readNext();
           procTc();
           buildTree("aug", 2);
@@ -156,8 +164,10 @@ public class ParseTree {
     }
 
     private void procTc(){
-        //Tc -> B ’->’ Tc ’|’ Tc => ’->’
-        //   -> B ;
+        /* 
+         Tc -> B ’->’ Tc ’|’ Tc => ’->’
+            -> B ;
+        */
         procB();
 
         if(curr_token.getValue().equals("->")){ 
@@ -178,8 +188,11 @@ public class ParseTree {
     }
 
     private void procB(){
-        //B ->B’or’ Bt => ’or’
-        //  -> Bt ;
+        /*
+         B ->B’or’ Bt => ’or’
+           -> Bt ; 
+        */
+        
         procBt();
         
         while(curr_token.getValue().equals("or")){ 
@@ -190,8 +203,12 @@ public class ParseTree {
     }
 
     private void procBt(){
-        //Bt -> Bt ’&’ Bs => ’&’
-        //   -> Bs ;
+
+        /*
+         Bt -> Bt ’&’ Bs => ’&’
+            -> Bs ;
+         */
+        
         procBs();
         while(curr_token.getValue().equals("&")){
           readNext();
@@ -202,8 +219,11 @@ public class ParseTree {
     }
 
     private void procBs(){
-        //Bs -> ’not’ Bp => ’not’
-        //   -> Bp ;
+        /*
+         Bs -> ’not’ Bp => ’not’
+            -> Bp ;
+        */
+        
         if(curr_token.getValue().equals("not")){ 
             readNext();
             procBp(); 
@@ -214,13 +234,16 @@ public class ParseTree {
     }
 
     private void procBp(){
-        //Bp -> A (’gr’ | ’>’ ) A => ’gr’
-        //   -> A (’ge’ | ’>=’) A => ’ge’
-        //   -> A (’ls’ | ’<’ ) A => ’ls’
-        //   -> A (’le’ | ’<=’) A => ’le’
-        //   -> A ’eq’ A => ’eq’
-        //   -> A ’ne’ A => ’ne’
-        //   -> A ;
+        /*
+         Bp -> A (’gr’ | ’>’ ) A => ’gr’
+            -> A (’ge’ | ’>=’) A => ’ge’
+            -> A (’ls’ | ’<’ ) A => ’ls’
+            -> A (’le’ | ’<=’) A => ’le’
+            -> A ’eq’ A => ’eq’
+            -> A ’ne’ A => ’ne’
+            -> A ;
+        */
+        
         procA();
         if(curr_token.getValue().equals("gr")||curr_token.getValue().equals(">")){ 
           readNext();
@@ -256,11 +279,14 @@ public class ParseTree {
     }
 
     private void procA(){
-        //A ->A’+’ At => ’+’
-        //  -> A ’-’ At => ’-’
-        //  -> ’+’ At
-        //  -> ’-’ At => ’neg’
-        //  -> At ;
+        /*
+         A ->A’+’ At => ’+’
+           -> A ’-’ At => ’-’
+           -> ’+’ At
+           -> ’-’ At => ’neg’
+           -> At ;
+        */
+        
         if(curr_token.getValue().equals("+")){ 
           readNext();
           procAt();
@@ -283,9 +309,12 @@ public class ParseTree {
     }
 
     private void procAt(){
-        //  At -> At ’*’ Af => ’*’
-        //  -> At ’/’ Af => ’/’
-        //  -> Af ;
+        /*
+        At -> At ’*’ Af => ’*’
+           -> At ’/’ Af => ’/’
+           -> Af 
+        */
+        ;
         procAf();
         
         while (curr_token.getValue().equals("*")||curr_token.getValue().equals("/")){
@@ -297,11 +326,14 @@ public class ParseTree {
     }
 
     private void procAf(){
+        /* 
+         Af -> Ap ’**’ Af => ’**’
+            -> Ap ;
+         Ap -> Ap ’@’ ’<IDENTIFIER>’ R => ’@’
+            -> R ;
+        */
     
-        //  Af -> Ap ’**’ Af => ’**’
-        //  -> Ap ;
-        //  Ap -> Ap ’@’ ’<IDENTIFIER>’ R => ’@’
-        //  -> R ;
+        
         procAp(); 
         if(curr_token.getValue().equals("**")){ 
                 readNext();
@@ -311,8 +343,11 @@ public class ParseTree {
     }
 
     private void procAp(){
-        //Ap -> Ap ’@’ ’<IDENTIFIER>’ R => ’@’
-        //   -> R ;
+        /* 
+         Ap -> Ap ’@’ ’<IDENTIFIER>’ R => ’@’
+            -> R ;
+        */
+        
         procR(); 
     
         while(curr_token.getValue().equals("@")){ 
@@ -329,8 +364,11 @@ public class ParseTree {
     }
 
     private void procR(){
-        //R ->RRn => ’gamma’
-        //  -> Rn ;
+        /* 
+         R ->RRn => ’gamma’
+           -> Rn ;
+        */
+        
         procRn(); 
         readNext();
         while (isType(curr_token, "INTEGER")|| isType(curr_token, "STRING")|| 
@@ -348,10 +386,20 @@ public class ParseTree {
     }
 
     private void procRn(){
+        /*
+         Rn -> <IDENTIFIER>
+            -> <INTEGER>
+            -> <STRING>
+            -> 'true'
+            -> 'false'
+            -> 'nil'
+            -> '('E')'
+            -> 'dummy'
+         */
         LeafNode newLeaf;
-        if(isType(curr_token, "IDENTIFIER")|| //R -> '<IDENTIFIER>'
-        isType(curr_token, "INTEGER")|| //R -> '<INTEGER>' 
-        isType(curr_token, "STRING")){ //R-> '<STRING>'
+        if(isType(curr_token, "IDENTIFIER")|| 
+        isType(curr_token, "INTEGER")||
+        isType(curr_token, "STRING")){ 
         }
 
         else if (curr_token.getValue().equals("true")){
@@ -387,8 +435,11 @@ public class ParseTree {
     }
 
     private void procD(){
-        //D -> Da ’within’ D => ’within’
-        //  -> Da 
+        /* 
+         D -> Da ’within’ D => ’within’
+           -> Da 
+        */
+        
         procDa(); 
         if( curr_token.getValue().equals("within")){ //D -> Da 'within' D => 'within'
             readNext();
@@ -397,8 +448,11 @@ public class ParseTree {
         }
     }
     private void procDa(){
-        //Da -> Dr ( ’and’ Dr )+ => ’and’
-        //   -> Dr ;
+        /* 
+         Da -> Dr ( ’and’ Dr )+ => ’and’
+            -> Dr ;
+        */
+        
         procDr(); 
         int N = 0;
         while(curr_token.getValue().equals("and")){ 
@@ -410,8 +464,11 @@ public class ParseTree {
     }
 
     private void procDr(){
-        //Dr -> ’rec’ Db => ’rec’
-        //   -> Db ;
+        /* 
+         Dr -> ’rec’ Db => ’rec’
+            -> Db ;
+        */
+        
         if(curr_token.getValue().equals("rec")){ 
             readNext();
             procDb(); 
@@ -424,9 +481,12 @@ public class ParseTree {
     }
 
     private void procDb(){
-        //Db -> Vl ’=’ E => ’=’
-        //   -> ’<IDENTIFIER>’ Vb+ ’=’ E => ’fcn_form’
-        //   -> ’(’ D ’)’ ;
+        /* 
+         Db -> Vl ’=’ E => ’=’
+            -> ’<IDENTIFIER>’ Vb+ ’=’ E => ’fcn_form’
+            -> ’(’ D ’)’ ;
+        */
+        
         if(isType(curr_token, "L_PAREN")){ 
             procD();
             readNext();
@@ -496,9 +556,12 @@ public class ParseTree {
 
 
     private void procVb(){
-        //Vb -> ’<IDENTIFIER>’
-        //   -> ’(’ Vl ’)’
-        //   -> ’(’ ’)’ => ’()’;
+        /* 
+         Vb -> ’<IDENTIFIER>’
+            -> ’(’ Vl ’)’
+            -> ’(’ ’)’ => ’()’;
+        */
+        
         if(isType(curr_token, "IDENTIFIER")){
             readNext();
         }
@@ -529,7 +592,9 @@ public class ParseTree {
     
 
     private void procVl(){
-        //Vl -> ’<IDENTIFIER>’ list ’,’ => ’,’?
+        /* 
+         Vl -> <IDENTIFIER> list ','        => ','?
+        */
         if(!isType(curr_token, "IDENTIFIER")){
             //error
             throw new ParseException("Identifier is expected");
