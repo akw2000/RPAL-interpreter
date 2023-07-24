@@ -224,6 +224,11 @@ public class CSE {
                                     CSNode isDummyNode = RPALFunc.Isdummy(topStackNode2);
                                     this.getStackList().push(isDummyNode);
                                     break;
+
+                                case "ItoS":
+                                    CSNode strNode = RPALFunc.intToStr(topStackNode2);
+                                    this.getStackList().push(strNode);
+                                    break;
                                 
                                 default:
 
@@ -474,6 +479,7 @@ public class CSE {
                     
                     // creating the tuple Object to be added into the stack
                     CSNode tuple = new CSNode("tuple", "tuple");
+                    tuple.setIsTuple(true);
 
                     // extracting each of the tuple items from the loop 
                         // and adding to the tuple object

@@ -11,7 +11,7 @@ public class RPALFunc {
         ArrayList<String> functionNames = new ArrayList<String>();
 
         Collections.addAll(functionNames, "Print","Stem","Stern","Conc","Order","Null",
-                "Isinteger","Istruthvalue","Isstring","Istuple","Isfunction","Isdummy");
+                "Isinteger","Istruthvalue","Isstring","Istuple","Isfunction","Isdummy","ItoS");
 
         return functionNames.contains(name);
     }
@@ -156,6 +156,16 @@ public class RPALFunc {
             return new CSNode("TRUTHVALUE", "true");
         } else {
             return new CSNode("TRUTHVALUE", "false");
+        }
+    }
+
+    public static CSNode intToStr(CSNode intNode) {
+        if (intNode.getType().equals("INTEGER")) {
+            CSNode strNode = intNode.duplicate();
+            strNode.setType("STRING");
+            return strNode;
+        } else {
+            throw new EvaluationException("Argument is not an Integer");
         }
     }
 

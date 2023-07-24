@@ -177,12 +177,12 @@ public class RPALBinaryOps {
     public static CSNode augment(CSNode node1, CSNode node2) { 
         
         List<String> acceptableTypes = new ArrayList<String>(); 
-        Collections.addAll(acceptableTypes,"tau","NIL");
+        Collections.addAll(acceptableTypes,"tau","NIL","tuple");
         
         if (acceptableTypes.contains(node1.getType())) {
             CSNode augNode = node1.duplicate();
-            augNode.setName("tau");
-            augNode.setType("tau");
+            augNode.setName("tuple");
+            augNode.setType("tuple");
             augNode.getTuple().add(node2);
             augNode.setIsTuple(true);
             return augNode;
