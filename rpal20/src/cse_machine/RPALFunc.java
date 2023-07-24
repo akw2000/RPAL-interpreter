@@ -41,7 +41,7 @@ public class RPALFunc {
                         System.out.print(", ");
                     }
                 }
-                System.out.println(")");
+                System.out.print(")");
                 break;
             case "lambdaClosure":
                 // print like [lambda closure: x: 2]
@@ -54,7 +54,7 @@ public class RPALFunc {
                 }
                 System.out.print(": ");
                 System.out.print(node.getLambdano());
-                System.out.println("]");
+                System.out.print("]");
                 break;
             default:
                 System.out.println(); // check this

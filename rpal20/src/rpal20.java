@@ -55,9 +55,9 @@ public class rpal20 {
 
         // New line fix
         // if there is no token called <IDENTIFIER: Print> in the tokenList, then print a newline to match the rpal interpreter output
-        if (!found) {
+        // if (!found) {
             // System.out.println("did not find print" );
-            System.out.println();
-        }
+        System.out.println();
+        // }
     }
 }
