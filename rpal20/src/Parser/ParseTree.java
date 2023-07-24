@@ -275,7 +275,7 @@ public class ParseTree {
         }
         else{
             procAt();
-
+            /* 
             while(curr_token.getValue().equals("+")){ 
                 readNext();
                 procAt();
@@ -286,6 +286,13 @@ public class ParseTree {
                 procAt();
                 buildTree("-",2);
             }
+            */
+            while (curr_token.getValue().equals("+")||curr_token.getValue().equals("-")){
+                String val = curr_token.getValue();
+                readNext();
+                procAt();
+                buildTree(val, 2);
+            }
         }
     }
 
@@ -294,6 +301,7 @@ public class ParseTree {
         //  -> At ’/’ Af => ’/’
         //  -> Af ;
         procAf();
+        /* 
         while(curr_token.getValue().equals("*")){ 
                 readNext();
                 procAf();
@@ -304,6 +312,13 @@ public class ParseTree {
                 procAf();
                 buildTree("/",2);
         }
+        */
+        while (curr_token.getValue().equals("*")||curr_token.getValue().equals("/")){
+                String val = curr_token.getValue();
+                readNext();
+                procAf();
+                buildTree(val, 2);
+            }
     }
 
     private void procAf(){
