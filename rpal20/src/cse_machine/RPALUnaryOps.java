@@ -19,7 +19,7 @@ public class RPALUnaryOps {
     public static CSNode neg(CSNode node){
         if (node.getType().equals("INTEGER")) {
             int num = Integer.parseInt(node.getName());
-            node.setName(String.valueOf(num));
+            node.setName(String.valueOf(-num));
             return node;
         } else {
             throw new EvaluationException("Not an INTEGER type");
