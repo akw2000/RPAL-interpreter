@@ -1,2 +1,0 @@
-let f x y z = x + y + z
-  in Print ((3 @f 6) 4)

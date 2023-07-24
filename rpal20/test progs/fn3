@@ -1,1 +1,0 @@
-Print (   (fn x. x+1) ( (fn y. y+3) ( (fn z. z+4)7 ) )   )
