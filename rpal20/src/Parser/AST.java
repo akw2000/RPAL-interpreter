@@ -28,7 +28,7 @@ public class AST {
       return this.std;
     }
     private void standardizeNode(Node node){
-      //traverse to the bootom most node
+      //traverse to the bottom most node
        
       if(node.getLeft()!=null){
         Node childNode = node.getLeft();
@@ -210,6 +210,7 @@ public class AST {
         
 
         default:
+        /*No changes for other types of nodes */
           break;
 
         
@@ -218,6 +219,7 @@ public class AST {
     }
 
     private Node creteLambdas (Node leafNode){
+      /*Method to crete chain of lambda node */
       Node lamNode;
       
       if (leafNode.getRight()!=null && leafNode.getRight().getRight()==null){
@@ -235,6 +237,7 @@ public class AST {
 
     
     public void print(){
+      /*method to print AST in preorder traverasal */
         printPreorder(root,"");
         
     }
