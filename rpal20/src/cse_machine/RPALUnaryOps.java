@@ -2,8 +2,19 @@ package cse_machine;
 
 import control_structures.CSNode;
 
+/**
+ * 
+ * @author navindu-ds
+ */
+
+/*
+ * Class of Methods for Unary Operators
+ */
 public class RPALUnaryOps {
     
+    /*
+     * RPAL function for NOT operator 
+     */
     public static CSNode logicNot(CSNode node){
         if (node.getType().equals("TRUTHVALUE")) {
             if (node.getName().equals("true")) {
@@ -16,6 +27,9 @@ public class RPALUnaryOps {
         }
     }
     
+    /*
+     * RPAL function for negative operator
+     */
     public static CSNode neg(CSNode node){
         if (node.getType().equals("INTEGER")) {
             int num = Integer.parseInt(node.getName());

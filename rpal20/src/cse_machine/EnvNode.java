@@ -2,17 +2,20 @@ package cse_machine;
 
 import control_structures.CSNode;
 
+/**
+ * 
+ * @author navindu-ds
+ */
+
 /*
- * Although this class is designed 
- * to store a single variable and single value,
- * the class has to be built to 
- * store multiple variables in cases of multi-variable functions
+ * Class to represent an Environment Node inserted into the Environment Tree
+ *      and stores the variables and values for the environment
  */
 public class EnvNode {
     
-    private int env_no;
-    private CSNode variable;
-    private EnvNode parentEnv;
+    private int env_no;             // environment number 
+    private CSNode variable;        // the variable/s and its corresponding value/s
+    private EnvNode parentEnv;      // the parent environment node
 
     public EnvNode(int env_no, CSNode variable, EnvNode parentEnv) {
         this.env_no = env_no;
