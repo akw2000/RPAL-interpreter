@@ -13,18 +13,25 @@ import java.util.List;
  *
  * @author OshadiPC
  */
+/*
+ * Class for Objects used as Nodes inside the Control Structures and CSE Machine
+ */
 public class CSNode {
-    private boolean isTuple;
-    private List<CSNode> tuple;
-    private String type;
-    private String name;
-    private List<String> lambdavar;
-    private int lambdano;
-    private int lambdaenv;
-    private int envno;
-    private int thenno;
-    private int elseno;
-    private int tauno;
+    private boolean isTuple;            // indicates if node is tuple
+    private List<CSNode> tuple;         // stores the elements of the tuple
+    private String type;                // stores the type of node
+    private String name;                // contains the value of the node for Integer, String, Truthvalue
+    private List<String> lambdavar;     // stores the list of nodes enclosed by the lambda node
+    private int lambdano;               // indicates the delta control structure it connects to
+    private int lambdaenv;              // 
+    private int envno;                  // indicates the environment number the node celongs too
+                                                // used in lambda and env nodes
+    private int thenno;                 // indicates the control structure to load if condition is true
+                                                // used in Beta nodes
+    private int elseno;                 // indicates the control structure to load if condition is false
+                                                // used in Beta nodes
+    private int tauno;                  // indicates the number of elements in tau node
+                                                // used in tau nodes
 
     public CSNode() {
         isTuple = false;
@@ -37,7 +44,6 @@ public class CSNode {
     // used for tau node and identifier type variables
         // only type and name are made
         // but for Tau node need to declare tauno (# of variables in tuple)
-    // may need to make them as 2 different functions to separately handle identifiers and tau nodes
     public CSNode(String t, String n) {
         type = t;
         name = n;
@@ -51,13 +57,6 @@ public class CSNode {
         // type will always be declared as "lambdaClosure"
         // lambdavar indicates the name of the variable to subsitute for
         // lambdano gives the number of the delta control structure
-
-    // used in two occasions
-        // 1. When the subsituted variable is an identifier
-        // 2. For the comma node (that occurs when simulatenous definitions)
-
-    // same function can be used in both cases
-        // need type, lambdavar or name, lambda number 
     public CSNode(String t, List<String> varLambda, int lambda_no) {
         type = t;
         lambdavar = varLambda;
@@ -69,7 +68,7 @@ public class CSNode {
     }
 
     // used for environment variables 
-    // need type, env number
+        // need type, env number
     public CSNode(String t, int env_no) {
         type = t;
         envno = env_no;
@@ -95,6 +94,7 @@ public class CSNode {
     }
 
     // used to create an object for inserting a delta structure into the control stack 
+        // delta no is stored in the envno parameter
     public CSNode(String t, int delta_no, List<CSNode> delta_struct) {
         type = t;
         envno = delta_no;
@@ -193,6 +193,9 @@ public class CSNode {
         this.tauno = tauno;
     }
     
+    /*
+     * Function to duplicate contents of Control Structure Nodes
+     */
     public CSNode duplicate() {
         CSNode dupNode = new CSNode();
         dupNode.setIsTuple(this.getIsTuple());
