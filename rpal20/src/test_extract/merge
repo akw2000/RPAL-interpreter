@@ -1,0 +1,15 @@
+let rec merge a b =
+    not (Isstring a & Isstring b) ->
+    ' Both inputs must be strings'
+    |a eq '' -> b
+        | b eq '' -> a
+            | (let head_a = Stem a
+            and tail_a = Stern a
+            and head_b = Stem b
+            and tail_b = Stern b
+            in
+            head_a ls head_b ->
+            Conc head_a (merge tail_a b)
+            | Conc head_b (merge a tail_b))
+in
+Print(merge 'acegh' 'bdfi')
