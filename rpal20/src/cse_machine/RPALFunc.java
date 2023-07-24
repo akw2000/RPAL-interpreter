@@ -29,7 +29,7 @@ public class RPALFunc {
                 if(node.getName().contains("\\t")) {
                     node.setName(node.getName().replace("\\t", "\t"));
                 }
-                System.out.println(node.getName());
+                System.out.print(node.getName());
                 break;
             case "tau":
             case "tuple":
