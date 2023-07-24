@@ -97,9 +97,17 @@ public class RPALBinaryOps {
     }
 
     public static CSNode isLessThan(CSNode node1, CSNode node2) {
-        
+         // added for string comparison(unicode based)       
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
-            if (Integer.parseInt(node1.getName()) < Integer.parseInt(node2.getName())){
+                if (Integer.parseInt(node1.getName()) < Integer.parseInt(node2.getName())){
+                    return new CSNode("TRUTHVALUE", "true");
+                } else {
+                    return new CSNode("TRUTHVALUE", "false");
+                }
+        } else if (node1.getType().equals("STRING") && node2.getType().equals("STRING")) {
+            // string comparison
+            // compare 2 strings lexographically, if result is negative, node1 comes before node2 lexicographically
+            if (node1.getName().compareTo(node2.getName()) < 0){
                 return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
@@ -110,9 +118,17 @@ public class RPALBinaryOps {
     }
 
     public static CSNode isGreaterThan(CSNode node1, CSNode node2) {
-        
+        // added for string comparison(unicode based)       
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
-            if (Integer.parseInt(node1.getName()) > Integer.parseInt(node2.getName())){
+            if (Integer.parseInt(node1.getName()) > Integer.parseInt(node2.getName())) {
+                return new CSNode("TRUTHVALUE", "true");
+            } else {
+                return new CSNode("TRUTHVALUE", "false");
+            }
+        } else if (node1.getType().equals("STRING") && node2.getType().equals("STRING")) {
+            // string comparison
+            // compare 2 strings lexographically, if result is positive, node1 comes after node2 lexicographically
+            if (node1.getName().compareTo(node2.getName()) > 0) {
                 return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
@@ -123,9 +139,17 @@ public class RPALBinaryOps {
     }
 
     public static CSNode isLessEqualThan(CSNode node1, CSNode node2) {
-        
+        // added for string comparison(unicode based)       
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
-            if (Integer.parseInt(node1.getName()) <= Integer.parseInt(node2.getName())){
+                if (Integer.parseInt(node1.getName()) <= Integer.parseInt(node2.getName())) {
+                    return new CSNode("TRUTHVALUE", "true");
+                } else {
+                    return new CSNode("TRUTHVALUE", "false");
+                }
+        } else if (node1.getType().equals("STRING") && node2.getType().equals("STRING")) {
+            // string comparison
+            // compare 2 strings lexographically, if result is negative, node1 comes before node2 lexicographically, if equal to 0, they are equal
+            if (node1.getName().compareTo(node2.getName()) <= 0) {
                 return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");
@@ -135,10 +159,19 @@ public class RPALBinaryOps {
         }
     }
 
+    
     public static CSNode isGreaterEqualThan(CSNode node1, CSNode node2) {
-        
+         // added for string comparison(unicode based)       
         if (node1.getType().equals("INTEGER") && node2.getType().equals("INTEGER")) {
             if (Integer.parseInt(node1.getName()) >= Integer.parseInt(node2.getName())){
+                return new CSNode("TRUTHVALUE", "true");
+            } else {
+                return new CSNode("TRUTHVALUE", "false");
+            }
+        } else if (node1.getType().equals("STRING") && node2.getType().equals("STRING")) {
+            // string comparison
+            // compare 2 strings lexographically, if result is positive, node1 comes after node2 lexicographically, if equal to 0, they are equal
+            if (node1.getName().compareTo(node2.getName()) >= 0){
                 return new CSNode("TRUTHVALUE", "true");
             } else {
                 return new CSNode("TRUTHVALUE", "false");

@@ -1,0 +1,4 @@
+let add n = radd 0 n
+where rec radd r n = n eq 0 -> r
+| radd (r + n)
+in Print ( add 2 3 4 0)

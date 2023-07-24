@@ -1,0 +1,14 @@
+// function to get the length of the string to handle errors
+let rec length S = S eq '' -> 0
+    | 1 + length (Stern S)
+in
+let rec substring s n m = not Isstring s -> ' not a string'
+    | s eq '' -> ' empty string'
+    | ((n le 0) or (n gr (length s))-> ' invalid index' 
+        | ((m ls 0) or (m gr (length s))-> ' invalid length' 
+            | (m eq 0 -> '' // just output empty string
+                | (n eq 1 -> (m eq 1 -> Stem s
+                        |Conc (Stem s) (substring (Stern s) 1 (m-1)))
+                | substring (Stern s) (n-1) m))))
+in
+Print(substring 'Kavindu' 1 3)

@@ -13,51 +13,41 @@ import control_structures.CSNode;
 
 public class rpal20 {
     public static void main(String[] args) throws Exception {
-        // eg: java rpal20 rpal_test_programs/rpal_01 > output.01 -> filename = rpal_test_programs/rpal_01
-        //File file = new File(args[0]); // for makefile
-        //File file = new File ("rpal20\\test progs\\towers");
-         File file = new File ("rpal20\\src\\tests_v2\\recurs.1"); // if makefile doesn't work, use this
+        // to run from command line simply type: make check
+        // check the makefile for more details
+
+        // Step 1: Lexical Analysis
+        File file = new File(args[0]); // for makefile
+        //  File file = new File ("rpal20\\src\\rpal_test_programs\\rpal_01"); // for debugging
 
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(file);
         ArrayList<Token> tokenList = lexicalAnalyzer.getTokenList();
-        System.out.println("#######################Token List:");
-        for (Token token : tokenList) {
-            System.out.println(token);
-        }
+        // System.out.println("------------------Token List---------------------");
+        // for (Token token : tokenList) {
+        //     System.out.println(token);
+        // }
 
-        // New line fix
-        // if there is no token called <IDENTIFIER: Print> in the tokenList, then print a newline to match the rpal interpreter output
-        boolean found = false;
-        for (Token token : tokenList) {
-            if (token.getType().equals("IDENTIFIER") && token.getValue().equals("Print")) {
-                found = true;
-                // System.out.println(token.getType() + token.getValue());
-                break;
-            }
-        }
+        // Step 2: Parsing
         ParseTree parser = new ParseTree(tokenList);
+
+        // Step 3: Abstract Syntax Tree(AST)
         AST tree = parser.buildAst();
-        System.out.println("-----------------AST----------------------");
-        tree.print();
+        // System.out.println("-----------------AST----------------------");
+        // tree.print();
+        
+        // Step 4: Standardize Tree
         tree.standardize();
-        System.out.println("-------------------ST----------------------");
-        tree.print();
-
+        // System.out.println("-------------------ST----------------------");
+        // tree.print();
+        
+        // Step 5: Control Structures
         ControlStructures ctrlstruct = new ControlStructures();
-
         ctrlstruct.genControlStructures(tree.getRoot());
-
         List<List<CSNode>> deltc_struct = ctrlstruct.getCS();
 
+        // Step 6: CSE
         CSE cse_m = new CSE(deltc_struct);
-
         cse_m.runCSE();
-
-        // New line fix
-        // if there is no token called <IDENTIFIER: Print> in the tokenList, then print a newline to match the rpal interpreter output
-        // if (!found) {
-            // System.out.println("did not find print" );
         System.out.println();
-        // }
     }
 }
