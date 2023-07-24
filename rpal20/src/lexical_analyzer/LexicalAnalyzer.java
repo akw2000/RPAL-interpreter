@@ -18,7 +18,7 @@ public class LexicalAnalyzer {
 
     private String letter = "[A-Za-z]";
     private String digit = "[0-9]";
-    private String operator_symbol = "['+'|'\\-'|'*'|'<'|'>'|'&'|'.'|'@'|'/'|':'|'='|'~'|\\||'$'|'!'|'#'|'%'|'`'|'_'|'\\['|'\\]'|'{'|'}'|'\\\"'|'`'|'?']";
+    private String operator_symbol = "[+|\\-|*|<|>|&|.|@|/|:|=|~|\\||$|!|#|%|`|_|\\[|\\]|{|}|\\\"|?]";
     private boolean readerClosed = false;
 
     public LexicalAnalyzer(File file) {

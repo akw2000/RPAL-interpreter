@@ -47,9 +47,8 @@
 	java -cp bin rpal20 tests_v2/if1 > output.15
 	fc output.15 tests_v2/if1_out
 	
-	## true  but outputs false
-	# java -cp bin rpal20 tests_v2/if2 > output.16
-	# fc output.16 tests_v2/if2_out
+	java -cp bin rpal20 tests_v2/if2 > output.16
+	fc output.16 tests_v2/if2_out
 
 	java -cp bin rpal20 tests_v2/infix > output.17
 	fc output.17 tests_v2/infix_out
@@ -57,21 +56,11 @@
 	java -cp bin rpal20 tests_v2/infix2 > output.18
 	fc output.18 tests_v2/infix2_out
 
-	# # ***** output.19
-	# # (Args not both tuples, Args not both tuples, Args not both tuples, Args not both tuples)
-	# # ***** TESTS_V2/INNERPROD_OUT
-	# # (0, 32, Args of unequal length, Args not both tuples)
-	# # *****
-	# java -cp bin rpal20 tests_v2/Innerprod > output.19
-	# fc output.19 tests_v2/Innerprod_out
+	java -cp bin rpal20 tests_v2/Innerprod > output.19
+	fc output.19 tests_v2/Innerprod_out
 
-	# # ***** output.20
-	# # (Args not both tuples, Args not both tuples, Args not both tuples, Args not both tuples)
-	# # ***** TESTS_V2/INNERPROD2_OUT
-	# # (0, 32, Args of unequal length, Args not both tuples)
-	# # *****
-	# java -cp bin rpal20 tests_v2/Innerprod2 > output.20
-	# fc output.20 tests_v2/Innerprod2_out
+	java -cp bin rpal20 tests_v2/Innerprod2 > output.20
+	fc output.20 tests_v2/Innerprod2_out
 
 	java -cp bin rpal20 tests_v2/pairs1 > output.21
 	fc output.21 tests_v2/pairs1_out
@@ -85,30 +74,8 @@
 	java -cp bin rpal20 tests_v2/pf > output.24
 	fc output.24 tests_v2/pf_out
 
-	# # ***** output.25
-	# # T
-	# # ***** TESTS_V2/PICTURE_OUT
-	# # 4
-	# # .   3
-	# # .   .   T
-	# # .   .   3
-	# # .   .   .   T
-	# # .   .   .   T
-	# # .   .   .   T
-	# # .   .   T
-	# # .   2
-	# # .   .   T
-	# # .   .   T
-	# # .   3
-	# # .   .   T
-	# # .   .   T
-	# # .   .   0
-	# # .   .   .   
-	# # .   1
-	# # .   .   T
-	# # *****
-	# java -cp bin rpal20 tests_v2/picture > output.25
-	# fc output.25 tests_v2/picture_out
+	java -cp bin rpal20 tests_v2/picture > output.25
+	fc output.25 tests_v2/picture_out
 
 	java -cp bin rpal20 tests_v2/print1 > output.26
 	fc output.26 tests_v2/print1_out
@@ -166,27 +133,23 @@
 	java -cp bin rpal20 tests_v2/t3.1 > output.44
 	fc output.44 tests_v2/t3.1_out
 
-	# # parser exception
-	# java -cp bin rpal20 tests_v2/t9 > output.45
-	# fc output.45 tests_v2/t9_out
+	java -cp bin rpal20 tests_v2/t9 > output.45
+	fc output.45 tests_v2/t9_out
 
 	java -cp bin rpal20 tests_v2/test1 > output.46
 	fc output.46 tests_v2/test1_out
 	
-	# # parser exception
-	# java -cp bin rpal20 tests_v2/tiny > output.47
-	# fc output.47 tests_v2/tiny_out
+	java -cp bin rpal20 tests_v2/tiny > output.47
+	fc output.47 tests_v2/tiny_out
 
-	# # parser exception
-	# java -cp bin rpal20 tests_v2/tiny.1 > output.48
-	# fc output.48 tests_v2/tiny.1_out
+	java -cp bin rpal20 tests_v2/tiny.1 > output.48
+	fc output.48 tests_v2/tiny.1_out
 
 	java -cp bin rpal20 tests_v2/towers > output.49
 	fc output.49 tests_v2/towers_out
 
-	# # cse_machine err env null
-	# java -cp bin rpal20 tests_v2/Treepicture > output.50
-	# fc output.50 tests_v2/Treepicture_out
+	java -cp bin rpal20 tests_v2/Treepicture > output.50
+	fc output.50 tests_v2/Treepicture_out
 
 	java -cp bin rpal20 tests_v2/trees > output.51
 	fc output.51 tests_v2/trees_out
@@ -197,9 +160,8 @@
 	java -cp bin rpal20 tests_v2/vectorsum > output.53
 	fc output.53 tests_v2/vectorsum_out
 
-	# # error output instead of 10
-	# java -cp bin rpal20 tests_v2/wsum1 > output.54
-	# fc output.54 tests_v2/wsum1_out
+	java -cp bin rpal20 tests_v2/wsum1 > output.54
+	fc output.54 tests_v2/wsum1_out
 
 	java -cp bin rpal20 tests_v2/wsum2 > output.55
 	fc output.55 tests_v2/wsum2_out
