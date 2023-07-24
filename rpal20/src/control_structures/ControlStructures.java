@@ -75,13 +75,6 @@ public class ControlStructures {
     		CSNode betaObject = new CSNode("beta", delta_count + 1, delta_count + 2);
     		currentdelta.add(betaObject);
     		pendingdelta.add(root.getLeft().getRight());
-    		// Node temp = new Node(root.getLeft().getRight().getRight().getType());
-    		// //System.arraycopy(root.getLeft().getRight().getRight(), 0, temp, 0, sizeof(Node));
-                
-			// 	temp.setType(root.getLeft().getRight().getRight().getType());
-			// 	temp.setLeft(root.getLeft().getRight().getRight().getLeft());
-			// 	temp.setRight(root.getLeft().getRight().getRight().getRight());
-    		// pendingdelta.add(temp);
 			pendingdelta.add(root.getLeft().getRight().getRight());
 
 			root.getLeft().getRight().setRight(null);
@@ -152,14 +145,17 @@ public class ControlStructures {
     		} else if (root.getType().equals("DUMMY")) {
         		type = "DUMMY";
         		name = "dummy";
-    		// } else if(root.getType().equals("let") || root.getType().equals("in") || root.getType().equals("fn") || root.getType().equals("where") || root.getType().equals("aug") || root.getType().equals("nil") || root.getType().equals("dummy") || root.getType().equals("within") || root.getType().equals("and") || root.getType().equals("rec") || root.getType().equals("list")) {
-    		// 	type = "KEYWORD";
-    		// 	name = root.getType();
+
 		} else {
     			type = "OPERATOR";
     			name = root.getType();
 		}
 		CSNode t = new CSNode(type, name);
+		
+		// the created node is NIL it should be marked as a Tuple Type as well 
+		if (t.getType().equals("NIL")) {
+			t.setIsTuple(true);
+		}
 		currentdelta.add(t);
 		if(root.getLeft() != null)
     			preorder(root.getLeft(), currentdelta);
