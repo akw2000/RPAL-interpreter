@@ -24,10 +24,17 @@ public class rpal20 {
         for (Token token : tokenList) {
             System.out.println(token);
         }
-        
-        //System.out.println(tokenList);
-        
 
+        // New line fix
+        // if there is no token called <IDENTIFIER: Print> in the tokenList, then print a newline to match the rpal interpreter output
+        boolean found = false;
+        for (Token token : tokenList) {
+            if (token.getType().equals("IDENTIFIER") && token.getValue().equals("Print")) {
+                found = true;
+                // System.out.println(token.getType() + token.getValue());
+                break;
+            }
+        }
         ParseTree parser = new ParseTree(tokenList);
         AST tree = parser.buildAst();
         System.out.println("-----------------AST----------------------");
@@ -45,5 +52,12 @@ public class rpal20 {
         CSE cse_m = new CSE(deltc_struct);
 
         cse_m.runCSE();
+
+        // New line fix
+        // if there is no token called <IDENTIFIER: Print> in the tokenList, then print a newline to match the rpal interpreter output
+        if (!found) {
+            // System.out.println("did not find print" );
+            System.out.println();
+        }
     }
 }
