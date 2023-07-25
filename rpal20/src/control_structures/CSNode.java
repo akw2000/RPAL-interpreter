@@ -23,7 +23,6 @@ public class CSNode {
     private String name;                // contains the value of the node for Integer, String, Truthvalue
     private List<String> lambdavar;     // stores the list of nodes enclosed by the lambda node
     private int lambdano;               // indicates the delta control structure it connects to
-    private int lambdaenv;              // 
     private int envno;                  // indicates the environment number the node celongs too
                                                 // used in lambda and env nodes
     private int thenno;                 // indicates the control structure to load if condition is true
@@ -38,7 +37,7 @@ public class CSNode {
         tuple = new ArrayList<CSNode>();
         lambdavar = new ArrayList<String>();
         type = name = "";
-        lambdano = lambdaenv = envno = thenno = elseno = tauno = -1;
+        lambdano = envno = thenno = elseno = tauno = -1;
     }
 
     // used for tau node and identifier type variables
@@ -50,7 +49,7 @@ public class CSNode {
         isTuple = false;
         tuple = new ArrayList<CSNode>();
         lambdavar = new ArrayList<String>();
-        lambdano = lambdaenv = envno = thenno = elseno = tauno = -1;
+        lambdano = envno = thenno = elseno = tauno = -1;
     }
 
     // used for lambda variables
@@ -64,7 +63,7 @@ public class CSNode {
         isTuple = false;
         tuple = new ArrayList<CSNode>();
         name = "";
-        lambdaenv = envno = thenno = elseno = tauno = -1;
+        envno = thenno = elseno = tauno = -1;
     }
 
     // used for environment variables 
@@ -76,7 +75,7 @@ public class CSNode {
         tuple = new ArrayList<CSNode>();
         name = "";
         lambdavar = new ArrayList<String>();
-        lambdano = lambdaenv = thenno = elseno = tauno = -1;
+        lambdano = thenno = elseno = tauno = -1;
     }
 
     // used for conditional statements 
@@ -90,7 +89,7 @@ public class CSNode {
         tuple = new ArrayList<CSNode>();
         name = "";
         lambdavar =new ArrayList<String>();
-        lambdano = lambdaenv = envno = tauno = -1;
+        lambdano = envno = tauno = -1;
     }
 
     // used to create an object for inserting a delta structure into the control stack 
@@ -102,7 +101,7 @@ public class CSNode {
         isTuple = false;
         name =  "";
         lambdavar = new ArrayList<String>();
-        lambdano = lambdaenv = thenno = elseno = tauno = -1;
+        lambdano = thenno = elseno = tauno = -1;
     }
 
     public boolean getIsTuple() {
@@ -127,10 +126,6 @@ public class CSNode {
 
     public int getLambdano() {
         return lambdano;
-    }
-
-    public int getLambdaenv() {
-        return lambdaenv;
     }
 
     public int getEnvno() {
@@ -173,10 +168,6 @@ public class CSNode {
         this.lambdano = lambdano;
     }
 
-    public void setLambdaenv(int lambdaenv) {
-        this.lambdaenv = lambdaenv;
-    }
-
     public void setEnvno(int envno) {
         this.envno = envno;
     }
@@ -204,7 +195,6 @@ public class CSNode {
         dupNode.setName(this.getName());
         dupNode.setLambdavar(this.getLambdavar());
         dupNode.setLambdano(this.getLambdano());
-        dupNode.setLambdaenv(this.getLambdaenv());
         dupNode.setEnvno(this.getEnvno());
         dupNode.setThenno(this.getThenno());
         dupNode.setElseno(this.getElseno());

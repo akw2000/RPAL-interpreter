@@ -214,10 +214,10 @@ public class ControlStructures {
 		for (int j = 0; j < delta.get(i).size(); ++j) {
                 
 			System.out.println("\n" + delta.get(i).get(j).getName() + "," + delta.get(i).get(j).getType() + "," 
-				+ delta.get(i).get(j).getLambdaenv() + "," + delta.get(i).get(j).getLambdano() + "," 
-				+ delta.get(i).get(j).getLambdavar() + "," + delta.get(i).get(j).getEnvno() + "," 
-				+ delta.get(i).get(j).getThenno() + "," + delta.get(i).get(j).getElseno() + "," 
-				+ delta.get(i).get(j).getTauno() + "," + delta.get(i).get(j).getIsTuple()
+				+ delta.get(i).get(j).getLambdano() + "," + delta.get(i).get(j).getLambdavar() + "," 
+				+ delta.get(i).get(j).getEnvno() + "," + delta.get(i).get(j).getThenno() + "," 
+				+ delta.get(i).get(j).getElseno() + "," + delta.get(i).get(j).getTauno() + "," 
+				+ delta.get(i).get(j).getIsTuple()
 				);
 		}
 
