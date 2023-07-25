@@ -57,54 +57,51 @@ test:
 	java rpal20 rpal_test_programs/rpal_01 > output.01
 	diff output.01 rpal_test_programs/output01.test
 
-	java rpal20 tests_v2/add > output.01
-	diff output.01 tests_v2/add_out
+	java rpal20 rpal_test_programs/add > output.01
+	diff output.01 rpal_test_programs/add_out
 	
-	java rpal20 tests_v2/conc.1 > output.03
-	diff output.03 tests_v2/conc.1_out
-
-	java rpal20 tests_v2/conc1 > output.04
-	diff output.04 tests_v2/conc1_out
+	java rpal20 rpal_test_programs/conc.1 > output.03
+	diff output.03 rpal_test_programs/conc.1_out
 
 	## lambda closure
-	java rpal20 tests_v2/defns.1 > output.06
-	diff output.06 tests_v2/defns.1_out
+	java rpal20 rpal_test_programs/defns.1 > output.04
+	diff output.04 rpal_test_programs/defns.1_out
 
-	java rpal20 tests_v2/fn1 > output.11
-	diff output.11 tests_v2/fn1_out
+	java rpal20 rpal_test_programs/fn1 > output.05
+	diff output.05 rpal_test_programs/fn1_out
 
-	java rpal20 tests_v2/fn2 > output.12
-	diff output.12 tests_v2/fn2_out
+	java rpal20 rpal_test_programs/fn2 > output.06
+	diff output.06 rpal_test_programs/fn2_out
 
-	java rpal20 tests_v2/fn3 > output.13
-	diff output.13 tests_v2/fn3_out
+	java rpal20 rpal_test_programs/fn3 > output.07
+	diff output.07 rpal_test_programs/fn3_out
 
-	java rpal20 tests_v2/ftst > output.14
-	diff output.14 tests_v2/ftst_out
+	java rpal20 rpal_test_programs/ftst > output.08
+	diff output.08 rpal_test_programs/ftst_out
 
-	java rpal20 tests_v2/infix > output.17
-	diff output.17 tests_v2/infix_out
+	java rpal20 rpal_test_programs/infix > output.09
+	diff output.09 rpal_test_programs/infix_out
 
-	java rpal20 tests_v2/infix2 > output.18
-	diff output.18 tests_v2/infix2_out
+	java rpal20 rpal_test_programs/infix2 > output.10
+	diff output.10 rpal_test_programs/infix2_out
 
-	java rpal20 tests_v2/pairs1 > output.21
-	diff output.21 tests_v2/pairs1_out
+	java rpal20 rpal_test_programs/pairs1 > output.11
+	diff output.11 rpal_test_programs/pairs1_out
 
-	java rpal20 tests_v2/pairs2 > output.22
-	diff output.22 tests_v2/pairs2_out
+	java rpal20 rpal_test_programs/pairs2 > output.12
+	diff output.12 rpal_test_programs/pairs2_out
 
-	java rpal20 tests_v2/pairs3 > output.23
-	diff output.23 tests_v2/pairs3_out
+	java rpal20 rpal_test_programs/pairs3 > output.13
+	diff output.13 rpal_test_programs/pairs3_out
 
-	java rpal20 tests_v2/picture > output.25
-	diff output.25 tests_v2/picture_out
+	java rpal20 rpal_test_programs/picture > output.14
+	diff output.14 rpal_test_programs/picture_out
 
-	java rpal20 tests_v2/towers > output.49
-	diff output.49 tests_v2/towers_out
+	java rpal20 rpal_test_programs/towers > output.15
+	diff output.15 rpal_test_programs/towers_out
 
-	java rpal20 tests_v2/vectorsum > output.53
-	diff output.53 tests_v2/vectorsum_out
+	java rpal20 rpal_test_programs/vectorsum > output.16
+	diff output.16 rpal_test_programs/vectorsum_out
 
 # original test: according to the project description
 test2: 
