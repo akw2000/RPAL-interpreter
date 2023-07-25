@@ -1,3 +1,6 @@
+# this code is assumed to be tested on a linux machine with expected outputs are from code that is executed on a linux machine
+# (Since there might be mismatches in printing new line characters on windows eventhough the output is correct(like carriage return))
+
 To build the program you must run "make" in the same directory as the makefile
 
 ## IMPORTANT
