@@ -266,8 +266,8 @@ public class CSE {
                             }
                             break;
 
-                        // CSE Rule 4
-                        // Apply Lambda
+                        // CSE Rule 4 & 11
+                        // Apply Lambda (to single and multivariable)
                         case "lambdaClosure":
                             // Obtaining Random Value
                             topStackNode2 = this.getStackList().pop();
