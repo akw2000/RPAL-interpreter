@@ -1,0 +1,3 @@
+let rec f(a)= a eq 1 -> 1 
+		      | a le 0 -> 0
+		      | f(a-1) + f(a-2) in Print( f(2))

@@ -1,0 +1,11 @@
+let wsum t = pws t 1 0
+   where rec pws t n l =
+     Isinteger t -> t * l
+   | not Istuple t -> 'error'
+   | n gr Order t -> 0
+   | Add (pws t (n+1) l, pws (t n) 1 (l+1) )
+       where Add (x,y) =
+	  Isstring x or Isstring y -> 'error'
+	  | x + y
+
+in Print (wsum (1,(1,'2'),3) )

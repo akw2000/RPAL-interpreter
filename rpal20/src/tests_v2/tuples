@@ -1,0 +1,5 @@
+let tup1	= (10,11,12,13,14,15) and 
+	tup2	= (4,5,6) and
+		index	= 2 in
+
+		Print (tup1 (tup2 index))

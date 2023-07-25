@@ -1,0 +1,5 @@
+let Plus x y = x + y 
+in
+let Plus3 = Plus 3
+in
+Print(Plus3 4)

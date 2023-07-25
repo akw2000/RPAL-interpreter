@@ -1,0 +1,19 @@
+let Innerproduct (S1, S2) =
+     not (Istuple S1 & Istuple S2)
+	 -> 'Args not both tuples'
+	 |   Order S1 ne Order S2
+	     -> 'Args of unequal length'
+	     |  Partial_sum (S1,S2,Order S1)
+		   where rec Partial_sum(A,B,N)=
+		       N eq 0
+			 -> 0
+			 |  A N * B N +
+			    Partial_sum(A,B,N-1)
+
+in 
+Print ( Innerproduct (nil,        nil         ),
+	Innerproduct ((1,2,3),    (4,5,6)     ),
+	Innerproduct ((1,2),      (3,4,5)     ),
+	Innerproduct ( 1,         (2,3,4)     )
+      )
+

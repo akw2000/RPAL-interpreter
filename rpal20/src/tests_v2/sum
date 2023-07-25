@@ -1,0 +1,3 @@
+let Sum N = S 0 N where rec S Cum N = N eq 0 -> Cum | S (N+Cum)
+in   //     comments forever
+    Print (Sum 1 2 3 4 5 0)
