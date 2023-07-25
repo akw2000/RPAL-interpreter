@@ -81,10 +81,6 @@ public class RPALFunc {
             default:
                 System.out.println(); // check this
                 break;
-            /*
-             * Need to implement the rest of the Printing here
-             * Make sure no other cases are missed as well
-             */
         }        
     }
 
@@ -92,50 +88,76 @@ public class RPALFunc {
      * RPAL Function to return first character of String
      */
     public static CSNode Stem(CSNode node) {
-        CSNode newNode = node.duplicate();
-        newNode.setName(newNode.getName().substring(0,1));
-        return newNode;
+        if (node.getType().equals("STRING")) {
+            CSNode newNode = node.duplicate();
+            newNode.setName(newNode.getName().substring(0,1));
+            return newNode;
+        } else {
+            // throw exception if argument not string
+            throw new EvaluationException("Argument is not a string");
+        }
     }
 
     /*
      * RPAL Function to return substring without the first character 
      */
     public static CSNode Stern(CSNode node) {
-        CSNode newNode = node.duplicate();
-        newNode.setName(newNode.getName().substring(1));
-        return newNode;
+        if (node.getType().equals("STRING")) {
+            CSNode newNode = node.duplicate();
+            newNode.setName(newNode.getName().substring(1));
+            return newNode;
+        } else {
+            // throw exception if argument not string
+            throw new EvaluationException("Argument is not a string");
+        }
     }
 
     /*
      * RPAL Function to conduct the first step in Concatenating
      */
     public static CSNode ConcOne(CSNode node1) {
-        CSNode concOne = new CSNode("IDENTIFIER","ConcOne");
-        concOne.getTuple().add(node1);
-        return concOne;
+        if (node1.getType().equals("STRING")) {
+            CSNode concOne = new CSNode("IDENTIFIER","ConcOne");
+            concOne.getTuple().add(node1);
+            return concOne;
+        } else {
+            // throw exception if argument not string
+            throw new EvaluationException("Argument is not a string");
+        }
     }
 
     /*
      * RPAL Function to conduct the second the step in Concatenating
      */
     public static CSNode Conc(CSNode node1, CSNode node2) {
-        String conc = node1.getName().concat(node2.getName());
-        return new CSNode("STRING", conc);
+        // node1 was already checked for a string type in previous ConcOne method
+        if (node2.getType().equals("STRING")) {
+            String conc = node1.getName().concat(node2.getName());
+            return new CSNode("STRING", conc);
+        } else {
+            // throw exception if argument not string
+            throw new EvaluationException("Argument is not a string");
+        }
     }
 
     /*
      * RPAL function to obtain the number of elements in the tuple
      */
     public static CSNode Order(CSNode tupleNode) {
-        int num = tupleNode.getTuple().size();
-        return new CSNode("INTEGER", String.valueOf(num));
+        if (tupleNode.getIsTuple()) {
+            int num = tupleNode.getTuple().size();
+            return new CSNode("INTEGER", String.valueOf(num));
+        } else {
+            // throw exception if argument not tuple type
+            throw new EvaluationException("Attempt to find the order of a non-tuple");
+        }
     }
 
     /*
      * RPAL Function to check if the Tuple is NIL
      */
     public static CSNode Null(CSNode tupleNode) {
-        if (tupleNode.getTuple().size() == 0) {
+        if (tupleNode.getTuple().size() == 0 && tupleNode.getIsTuple()) {
             return new CSNode("TRUTHVALUE", "true");
         } else {
             return new CSNode("TRUTHVALUE", "false");
