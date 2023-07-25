@@ -16,7 +16,6 @@ CLASSES = \
 	control_structures/ControlStructures.java \
 	control_structures/CSNode.java \
 	cse_machine/CSE.java \
-	cse_machine/CSNodeType.java \
 	cse_machine/EnvironmentTree.java \
 	cse_machine/EnvNode.java \
 	cse_machine/EvaluationException.java \
