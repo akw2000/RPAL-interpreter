@@ -22,7 +22,7 @@ public class EnvironmentTree {
     }
 
     /*
-     * Adding a new Env node to the CSE Machine
+     * Adding a new Env node to the Environment Tree
      *      provided the environment number, the variable stored and its parent environment
      */
     public void addEnv(int env_no, CSNode variable, EnvNode parentEnv) {

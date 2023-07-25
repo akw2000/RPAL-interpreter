@@ -7,95 +7,124 @@ import java.util.Stack;
 
 import control_structures.CSNode;
 
+/**
+ * 
+ * @author navindu-ds
+ */
+
+/*
+ * Class to handle the operations of the CSE Machine
+ */
 public class CSE {
-    private List<List<CSNode>> deltaLists;
-    private Stack<CSNode> ControlList;
-    private Stack<CSNode> StackList;
-    private int curr_env;
-    private int env_counter = 0;
-    private EnvironmentTree envtree = new EnvironmentTree();
-    private List<Integer> activeEnvNum = new ArrayList<Integer>(); 
+    private List<List<CSNode>> deltaLists;                          // control structures
+    private Stack<CSNode> ControlList = new Stack<CSNode>();        // *C*ontrol
+    private Stack<CSNode> StackList = new Stack<CSNode>();          // *S*tack
+    private EnvironmentTree envtree = new EnvironmentTree();        // *E*nvironment Tree
+    private int curr_env = 0;                                       // current environment number
+    private int env_counter = 0;                                    // counter to indicate last created environment number
+    private List<Integer> activeEnvNum = new ArrayList<Integer>();  // list of environments currently open
     
+    // provide the delta lists when initiaiting a new CSE machine
     public CSE(List<List<CSNode>> deltaLists) {
         this.deltaLists = deltaLists;
-        this.ControlList = new Stack<CSNode>();
-        this.StackList = new Stack<CSNode>();
-        this.curr_env = 0;
     }
 
     public int getEnvCounter() {
         return env_counter;
     } 
 
+    /*
+     * Method to insert a control structure into the Control given the delta number
+     */
     public void insertToControl(int delta_num) {
         List<CSNode> delta_i = deltaLists.get(delta_num);
         CSNode delta_cs = new CSNode("delta", delta_num, delta_i);
         this.getControlList().push(delta_cs);
     }
 
+    /*
+     * Method to open the control structure into its constituent nodes
+     */
     public void expandDelta() {
         CSNode delta_cs = this.getControlList().pop();
 
+        // if its a control structure
         if (delta_cs.getType().equals("delta")) {
+            // loop through control structure and push each node into the stack
             List<CSNode> ctrl_struct = delta_cs.getTuple();
             for (int i=0; i< ctrl_struct.size(); i++) {
                 this.getControlList().push(ctrl_struct.get(i)); 
             }
         } else {
-            this.getControlList().push(delta_cs);
+            // if not a control structure
+            throw new EvaluationException("Not a Control Structure - cannot be expanded");
         }
     }
 
+    /*
+     * Method to Start up the CSE machine
+     */
     private void setupCSE() {
-        CSNode parent_env = new CSNode("env", curr_env);
+        CSNode parent_env = new CSNode("env", curr_env);              // create env node 0
 
-        this.ControlList.push(parent_env);
-        this.StackList.push(parent_env);
-        this.envtree.addEnv(curr_env, null, null);
-        this.activeEnvNum.add(curr_env);
+        this.ControlList.push(parent_env);                              // insert env node to Control
+        this.StackList.push(parent_env);                                // insert env node to Stack
+        this.envtree.addEnv(curr_env, null, null);   // add the Env node 0 to the Tree (with no parent)
+        this.activeEnvNum.add(curr_env);                                // include the 0 into the active env list
 
-        this.insertToControl(0);
-        this.expandDelta();
+        this.insertToControl(0);                              // insert the 0th control structure
+        this.expandDelta();                                                 // and expand it
     }
 
+    /*
+     * Method to lookup the environment nodes to search for the value of a given variable name 
+     */
     public CSNode lookUpEnv(EnvironmentTree envtree, int env_no, String variable) {
         CSNode envVar = envtree.getEnvNode(env_no).getVariable();
+        
+        // list of variables stored in env node considered 
         List<String> varList = envVar.getLambdavar();
+
+        // if required variable is found
         if (varList.contains(variable)) {
             int idx = varList.indexOf(variable);
+            
+            // return the corresponding variable stored inside the tuple 
             return envVar.getTuple().get(idx);
         } else {
+
+            // if not found visit parent node and repeat
             int parent_no = envtree.getEnvNode(env_no).getParentEnv().getEnv_no();
             return lookUpEnv(envtree, parent_no, variable);
         }
 
-        // CSNode envVar = envNode.getVariable();
-        // List<String> varList = envVar.getLambdavar();
-        // if (varList.contains(variable)) {
-        //     int idx = varList.indexOf(variable);
-        //     return envVar.getTuple().get(idx);
-        // }
-        // else {
-        //     return lookUpEnv(envNode.getParentEnv(), variable);
-        // }
     }
 
+    /*
+     * Main Driver Function of CSE to implement logic
+     */
     public void runCSE() {
-        setupCSE();
+        setupCSE();                                             // setup CSE
 
+        // while Control is not empty
         while(!this.getControlList().empty()) {
             
-            CSNode topCtrlNode = this.getControlList().pop();
-            CSNode topStackNode1;
-            CSNode topStackNode2;
+            CSNode topCtrlNode = this.getControlList().pop();   // topmost node in control  
+            CSNode topStackNode1;                               // topmost node in stack
+            CSNode topStackNode2;                               // 2nd topmost node in stack
 
             CSNode newGammaNode;
             CSNode newlambdaNode;
 
             CSNode valueItem = topCtrlNode.duplicate();
+            
+            /* First cheking the topmost Control Node to help decide on the CSE rule to implement */
             switch (topCtrlNode.getType()) {
                 
-                // CSE Rules 1
+                // CSE Rule 1
+                // Stacking Name Variables
+
+                // Integers, Strings, TruthValues, Nil, Dummy, Y* nodes can be pushed to stack directly
                 case "INTEGER":
                     this.getStackList().push(valueItem);
                     break;
@@ -122,8 +151,10 @@ public class CSE {
 
                 case "IDENTIFIER":
 
+                    // identifier belongs to an inbuilt function name directly insert
                     if (RPALFunc.checkInBuilt(topCtrlNode.getName())) {
                         this.getStackList().push(valueItem);
+                        
                     } else {
                         // get the name of the indentifier variable
                         String varName = topCtrlNode.getName();
@@ -135,24 +166,29 @@ public class CSE {
 
                     break;
 
-                // CSE Rules 2
+                // CSE Rule 2
                 // Stack Lambda into the Stack
                 case "lambdaClosure":
-                    topCtrlNode.setEnvno(curr_env);
+                    topCtrlNode.setEnvno(curr_env);                 // mark the current environment onto the lambda node
                     CSNode lambdaNode = topCtrlNode.duplicate();
-                    this.StackList.push(lambdaNode);
+                    this.StackList.push(lambdaNode);                // push the lambda node with env into stack
                     break;
   
-                // CSE Rules 3, 4, 10, 11, 12, 13
+                // CSE Rules 3, 4, 10, 11, 12, 13 (rules with Gamma application)
                 case "gamma":
                     topStackNode1 = this.getStackList().pop();
 
+                    // based on type of node on top of stack apply gamma
                     switch (topStackNode1.getType()) {
                         
                         // CSE Rule 3
                         // Apply Rator
                         case "IDENTIFIER":
                             topStackNode2 = this.getStackList().pop();
+
+                            /*
+                             * Applying inbuilt functions to the 2nd topmost node in the stack
+                             */
                             switch (topStackNode1.getName()) {
                                 case "Print":
                                     RPALFunc.Print(topStackNode2);
@@ -160,11 +196,6 @@ public class CSE {
                                     break;
 
                                 case "Conc":
-                                    // CSNode topStackNode3 = this.getStackList().pop();
-                                    // CSNode concatNode = RPALFunc.Conc(topStackNode2, topStackNode3);
-                                    // this.getControlList().pop();
-                                    // this.getStackList().push(concatNode);
-                                    // break;
                                     CSNode concOneNode = RPALFunc.ConcOne(topStackNode2);
                                     this.getStackList().push(concOneNode);
                                     break;
@@ -191,7 +222,7 @@ public class CSE {
                                     break;
 
                                 case "Null":
-                                    CSNode nullNode = RPALFunc.Order(topStackNode2);
+                                    CSNode nullNode = RPALFunc.Null(topStackNode2);
                                     this.getStackList().push(nullNode);
                                     break;
 
@@ -231,10 +262,8 @@ public class CSE {
                                     break;
                                 
                                 default:
-
                                     break;
                             }
-
                             break;
 
                         // CSE Rule 4
@@ -250,37 +279,39 @@ public class CSE {
                             // creating new environment variable to insert to control-stack
                             CSNode envCSNode = new CSNode("env", env_counter);
 
+                            // clear space in tuple parameter to insert the values of the parameters tracked by lambda
                             topStackNode1.setTuple(new ArrayList<CSNode>());
                             
+                            // if the lambda node tracks multiple parameters (formerly a comma node)
                             if (topStackNode1.getLambdavar().size() > 1) {
+
+                                // then insert each value into the tuple parameter of lambda node
                                 List<CSNode> tuple1 = topStackNode2.getTuple();
                                 for (int i = 0; i < tuple1.size(); i++) {
                                     topStackNode1.getTuple().add(tuple1.get(i));
                                 }
 
-
-                            // if (topStackNode2.getName().equals("tuple")) {
-                            //     List<CSNode> tuple1 = topStackNode2.getTuple();
-                            //     for (int i = 0; i < tuple1.size(); i++) {
-                            //         topStackNode1.getTuple().add(tuple1.get(i));
-                            //     }
-
                             } else {
+                                // else just save the value in the tuple parameter of the lambda node
                                 topStackNode1.getTuple().add(topStackNode2);
                             }
                             CSNode valueNode = topStackNode1.duplicate();
 
+                            // create a new Environment node with value saved 
                             this.envtree.addEnv(curr_env, valueNode, this.envtree.getEnvNode(topStackNode1.getEnvno()));
+                            
+                            // update environment numbers
                             this.activeEnvNum.add(curr_env);
-                            // EnvNode envNode = new EnvNode(curr_env, topStackNode1, this.envtree.getEnvNode(curr_env));
-
                             this.setCurr_env(curr_env);
 
+                            // push the new environment node
                             this.getControlList().push(envCSNode);
                             this.getStackList().push(envCSNode);
 
+                            // insert the next delta structure
                             int delta_no = topStackNode1.getLambdano();
                             this.insertToControl(delta_no);
+                            this.expandDelta();
 
                             break;
 
@@ -316,13 +347,14 @@ public class CSE {
                         case "eta":
                             // updating the control
                             newGammaNode = new CSNode("gamma", "gamma");
-                            this.getControlList().push(newGammaNode);       // pushing a gamma node into the control
-                            this.getControlList().push(newGammaNode);      // pushing a gamma node into the control
+                            // pushing 2 gamma nodes to the control
+                            this.getControlList().push(newGammaNode);      
+                            this.getControlList().push(newGammaNode);      
 
                             // updating the stack
-                            // ArrayList<String> varList = new ArrayList<String>();
-                            // varList.add(topStackNode1.getName());
                             List<String> varList = topStackNode1.getLambdavar();
+                            
+                            // creating a new lambda node with env stored
                             newlambdaNode = new CSNode("lambdaClosure", varList, topStackNode1.getLambdano());
                             newlambdaNode.setEnvno(topStackNode1.getEnvno());
                             this.getStackList().push(topStackNode1);        // pushing the eta node back into the stack
@@ -332,8 +364,8 @@ public class CSE {
                         default:
                             break;
                     }
-
                     break;
+                    /* End of Gamma based rules */
 
                 // CSE Rules 5
                 // Exit Environment
@@ -344,30 +376,20 @@ public class CSE {
                     // environment variable found in stack
                     topStackNode2 = this.getStackList().pop();
 
-                    /*
-                     * There is an error regarding when Lambda variables are found causing a loss of environment
-                     */
-
-                    // checking if the environment variables are correct
+                    // checking if the environment variables are matching
                     if (topCtrlNode.getType().equals(topStackNode2.getType()) & 
                                         topCtrlNode.getEnvno() == topStackNode2.getEnvno()){
                         this.getStackList().push(topStackNode1);
+                        
+                        // unless root environment
                         if (this.curr_env != 0) {
+                            // remove the env number from the list of active environments
                             this.activeEnvNum.remove((Integer) curr_env);
+                            // set the last unclosed environment in active list as current environment
                             this.curr_env = Collections.max(activeEnvNum);   
                         }
-
-                        /*
-                         * I think it is working 
-                         * 
-                         */
-                        // EnvNode parEnv = this.getEnvNode().getParentEnv();
-                        // parEnv.setDiscardedEnv(this.currEnvNode);
-                        // if (this.getEnvNode().getEnv_no() != 0) {
-                        //     this.setCurr_env(parEnv.getEnv_no());
-                        //     this.setEnvNode(parEnv);
-                        // }
                     } else {
+                        // if environments did not match put exception
                         throw new EvaluationException("Error in Environments");
                     }
                     break;
@@ -376,6 +398,7 @@ public class CSE {
                 // CSE Rules 6
                 // Binary Operators
                 case "OPERATOR":
+                    // obtain the two operands for the binary operation
                     topStackNode1 = this.getStackList().pop();
                     topStackNode2 = this.getStackList().pop();
                     switch (topCtrlNode.getName()) {
@@ -436,14 +459,12 @@ public class CSE {
                             this.getStackList().push(logicAND);
                             break;
                         case "aug":
-                            // CSNode augNode = RPALBinaryOps.augment(topStackNode1, topStackNode2);
                             CSNode augNode = RPALBinaryOps.augment(topStackNode1, topStackNode2);
                             this.getStackList().push(augNode);
                             break;
                         default:
                             break;
                     }
-                    
                     break;
 
                 // CSE Rules 7
@@ -461,11 +482,13 @@ public class CSE {
                 // Conditional
 
                 case "beta":
-                    topStackNode1 = this.getStackList().pop();
+                    topStackNode1 = this.getStackList().pop();              // topmost stack element indicating true/false
                     if (topStackNode1.getName().equals("true")) {
-                        this.insertToControl(topCtrlNode.getThenno());
+                        // insert delta-then
+                        this.insertToControl(topCtrlNode.getThenno());      
                         this.expandDelta();
                     } else if (topStackNode1.getName().equals("false")) {
+                        // insert delta-else
                         this.insertToControl(topCtrlNode.getElseno());
                         this.expandDelta();
                     }
@@ -493,21 +516,16 @@ public class CSE {
 
                     break;
             
-                case "delta":
-                    this.ControlList.push(topCtrlNode);
-                    this.expandDelta();
-                    break;
                 default:
                     break;
             }
-            /*
-             * Switch Case to be implemented
-             */
 
         }
 
-
     }
+    /*
+     * End of runCSE method
+     */
 
     public Stack<CSNode> getControlList() {
         return ControlList;
