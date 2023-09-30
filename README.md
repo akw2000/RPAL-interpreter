@@ -1,41 +1,38 @@
 RPAL Project Group 29
 =====================
-This is a lexical analyzer and a parser for the RPAL language built using java.
+This is an interpreter for the functional programming language, RPAL consisting of a scanner, parser and a CSE machine.
+## Table of Contents
 
-Todo List
----------
-[Kavindu]
-### Lexical Analyzer
-
-* RPAL prog file -> INPUT
-- [x] screen using lexicon pdf
-*  OUTPUT -> token list ( token object(type, value))
+- [About](#about)
+- [Features](#features)
+- [Contributors](#contributors)
 
 
-[Ravindi ]
-### Parser
+## About
 
-*   token list ( token object(type, value)) -> INPUT
-- [ ] AST using grammar pdf
+The interpreter consists of the following main components.
 
-* OUTPUT -> AST (with <id: fun>, let, ... nodes)
+### 1. Lexical Analyzer
+    - Scans the given RPAL program and prepares the token list for the parser. Tokens are categorized according to the RPAL lexical rules.
+    - INPUT: RPAL source file
+    - OUTPUT: token list (list of token objects(type,value)
 
-### ST(only required nodes)
-- [ ] done
+### 2. Parser
+    - Gets the token list from the lexical analyser and constructs the Abstract Syntax Tree(AST) and Standard Tree (ST). 
+    - INPUT: token list
+    - OUTPUT: Standard Tree
 
+### 3. CSE Machine
+    - Performs pre-order traversal through the standard tree and generates control structures. Then evaluate the source program using 13 CSE rules to produce the output of the source program.
 
-[Oshadi]
-### Control structers, pre order traversal
-- [ ] done
+## Features
+* Tokenizes a given RPAL program
+* Construct the AST and ST
+* Additional functions to print AST and ST
+* Execute the RPAL program and produce the output.
 
-[Navindu]
-### CSE 13 Rules
-- [ ] done
-
-### Submission
-- [ ] makefile - replace with linux version(temp.txt in /other)
-- [ ] src code
-[Oshadi]
-- [ ] REPORT
-
-Please update the todo list with specific tasks and mark 'X' as they are completed.
+## Contributors
+- Kavindu Warnakulasuriya
+- Navindu De Silva
+- Ravindi Weerasinghe
+- Oshadi Perera
