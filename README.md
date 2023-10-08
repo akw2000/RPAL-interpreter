@@ -29,7 +29,8 @@ The interpreter consists of the following main components.
 * Tokenizes a given RPAL program
 * Construct the AST and ST
 * Additional functions to print AST and ST
-* Execute the RPAL program and produce the output.
+* Generates Control Structures
+* Execute the RPAL program and produce the output
 
 ## Contributors
 - Kavindu Warnakulasuriya
